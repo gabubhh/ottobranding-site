@@ -32,6 +32,7 @@ const { class: className = '' } = Astro.props;
     position: absolute;
     inset: 0;
     overflow: hidden;
+    /* base = preto da marca; o vídeo entra por cima em baixa opacidade */
     background-color: var(--otto-ink);
   }
 
@@ -40,8 +41,9 @@ const { class: className = '' } = Astro.props;
     height: 100%;
     object-fit: cover;
     display: block;
-    /* mantém no clima da paleta: leve dessaturação e escurecido */
-    filter: grayscale(0.15) contrast(1.04) brightness(0.86);
+    /* puxa o vídeo pro preto da marca e o deixa como textura sutil (~20%) */
+    opacity: 0.2;
+    filter: grayscale(1) contrast(1.05) brightness(0.7);
   }
 </style>
 

@@ -267,7 +267,8 @@ const depoimentos = [0, 1, 2, 3, 4];
     <div class="cta-final__scrim" aria-hidden="true"></div>
     <div class="container cta-final__content">
       <h2 class="cta-final__headline reveal">
-        Sua marca está sendo <em>escolhida</em> ou apenas comparada?
+        <span class="cta-final__quiet">Sua marca está sendo</span>
+        <span class="cta-final__accent"><em>escolhida</em> ou apenas comparada?</span>
       </h2>
       <p class="cta-final__sub reveal">
         O diagnóstico mostra onde ela perde valor e o que precisa mudar.
@@ -328,16 +329,15 @@ const depoimentos = [0, 1, 2, 3, 4];
     position: absolute;
     inset: 0;
     z-index: 1;
-    /* texto centralizado: escurece o miolo para legibilidade, deixa a textura
-       respirar nas bordas, e funde no fundo embaixo */
-    background:
-      radial-gradient(
-        72% 78% at 50% 44%,
-        rgb(var(--otto-ink-rgb) / 0.82),
-        rgb(var(--otto-ink-rgb) / 0.42) 58%,
-        rgb(var(--otto-ink-rgb) / 0.12) 100%
-      ),
-      linear-gradient(to bottom, rgb(var(--otto-ink-rgb) / 0.5), transparent 24%, transparent 68%, rgb(var(--otto-ink-rgb) / 0.92));
+    /* vídeo já está a ~20% sobre o preto da marca, então o scrim é leve:
+       só um respiro no topo (sob o header) e a fusão com a seção seguinte */
+    background: linear-gradient(
+      to bottom,
+      rgb(var(--otto-ink-rgb) / 0.35),
+      transparent 18%,
+      transparent 72%,
+      rgb(var(--otto-ink-rgb) / 0.85)
+    );
   }
 
   .hero__container {
@@ -861,13 +861,27 @@ const depoimentos = [0, 1, 2, 3, 4];
   .cta-final__headline {
     font-size: var(--text-2xl);
     letter-spacing: var(--tracking-tighter);
-    line-height: var(--leading-tight);
+    line-height: 1.06;
     text-wrap: balance;
   }
 
-  .cta-final__headline em {
-    font-style: normal;
+  /* mesma diagramação do hero: linha leve/apagada → linha Black com
+     a palavra-chave em vermelho */
+  .cta-final__quiet {
+    display: block;
+    font-weight: 400;
+    color: rgb(var(--otto-offwhite-rgb) / 0.72);
+  }
+
+  .cta-final__accent {
+    display: block;
+    margin-top: 0.12em;
     font-weight: 900;
+    color: var(--otto-offwhite);
+  }
+
+  .cta-final__accent em {
+    font-style: normal;
     color: var(--otto-red);
   }
 
