@@ -1,26 +1,44 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import SignatureFlux from '../components/SignatureFlux.astro';
+import HeroVideo from '../components/HeroVideo.astro';
+import FluxBand from '../components/FluxBand.astro';
 import { WHATSAPP_URL, DIAGNOSTIC_URL } from '../config';
 
-// Soluções — formato da referência (Farda): nome + descrição. Títulos reais
-// do doc; descrições escritas na voz da Otto (direta, estratégica, "patamar").
+// Soluções — formato da referência (Farda): nome + descrição. Descrições
+// escritas na voz da Otto (direta, estratégica, "território", "patamar").
+// Ordem em funil: diagnóstico → estratégia → construção → ativação.
 const solucoes = [
   {
     title: 'Diagnóstico de marca',
     desc: 'O ponto de partida. Um raio-x do posicionamento que revela onde a marca perde valor e o que precisa mudar — antes de qualquer decisão visual.',
   },
   {
-    title: 'Posicionamento e plataforma de marca',
-    desc: 'O território que só a sua marca pode defender. Definimos o espaço que ela ocupa no mercado e a lógica que passa a guiar cada decisão.',
+    title: 'Estratégia de marca',
+    desc: 'Os fundamentos que orientam tudo: mercado, público, diferenciação e o território que a marca vai defender. A base de cada decisão.',
   },
   {
-    title: 'Identidade visual e verbal',
-    desc: 'Como a marca se mostra e como ela fala. Um sistema visual e de linguagem coeso, construído para sustentar o posicionamento em cada ponto de contato.',
+    title: 'Branding',
+    desc: 'A construção da marca do princípio — estratégia, narrativa e identidade conectadas num sistema coeso, pronto para crescer com direção.',
   },
   {
-    title: 'Presença visual contínua',
-    desc: 'Marca forte não se constrói uma vez só. Direção criativa contínua para manter consistência e presença enquanto o negócio cresce.',
+    title: 'Rebranding',
+    desc: 'Quando o negócio evolui, a percepção precisa acompanhar. Reposicionamos e reconstruímos a marca para refletir o que ela já é.',
+  },
+  {
+    title: 'Identidade visual',
+    desc: 'O rosto da marca. Logo, sistema gráfico e diretrizes que traduzem o posicionamento em algo reconhecível e consistente.',
+  },
+  {
+    title: 'Web design',
+    desc: 'O site como experiência de marca. Estrutura, narrativa e design que transformam posicionamento em percepção de valor e em oportunidade.',
+  },
+  {
+    title: 'Motion',
+    desc: 'Movimento a serviço da marca. Animação que amplia a percepção, apresenta conceitos e dá presença em cada canal.',
+  },
+  {
+    title: 'Gestão de redes sociais',
+    desc: 'Presença visual contínua. Direção criativa constante para manter a marca consistente e viva enquanto o negócio cresce.',
   },
 ];
 
@@ -47,15 +65,15 @@ const depoimentos = [0, 1, 2, 3, 4];
 <BaseLayout title="Otto Branding — Criamos marcas de Otto Patamar">
   <!-- ============================ HERO ============================ -->
   <section class="hero">
-    <SignatureFlux class="hero__flux" texture="otto-flux" />
+    <HeroVideo class="hero__flux" />
     <div class="hero__scrim" aria-hidden="true"></div>
 
     <div class="container hero__container">
       <div class="hero__content">
         <p class="eyebrow rise" style="--rise-delay: 60ms">Estratégia · Posicionamento · Identidade</p>
         <h1 class="hero__headline rise" style="--rise-delay: 140ms">
-          A maioria das marcas compete por preço.
-          <span class="hero__headline-accent">As fortes constroem preferência.</span>
+          <span class="hero__headline-quiet">A maioria das marcas compete por preço.</span>
+          <span class="hero__headline-accent">As fortes constroem <em>preferência</em>.</span>
         </h1>
         <p class="hero__descritor rise" style="--rise-delay: 240ms">
           A Otto une estratégia e design para tirar sua marca do lugar comum e
@@ -79,7 +97,7 @@ const depoimentos = [0, 1, 2, 3, 4];
       <div class="section-head">
         <p class="eyebrow reveal">Soluções</p>
         <h2 class="section-title reveal">
-          Tudo que sua marca precisa para sair do lugar comum.
+          Tudo que sua marca precisa para <span class="t-em">sair do lugar comum</span>.
         </h2>
       </div>
 
@@ -111,7 +129,7 @@ const depoimentos = [0, 1, 2, 3, 4];
       <div class="section-head">
         <p class="eyebrow reveal">Método Otto</p>
         <h2 class="section-title reveal">
-          Sem achismo. Um caminho claro, do diagnóstico ao patamar.
+          Sem achismo. Um caminho claro, do diagnóstico ao <span class="t-em">patamar</span>.
         </h2>
         <p class="section-lead reveal">
           O Método Otto organiza a construção de marca em três patamares. Cada um
@@ -143,7 +161,7 @@ const depoimentos = [0, 1, 2, 3, 4];
       </figure>
       <div class="sobre__text">
         <p class="eyebrow reveal">Sobre</p>
-        <h2 class="section-title reveal">Nascemos para tirar marcas do lugar comum.</h2>
+        <h2 class="section-title reveal">Nascemos para tirar marcas do <span class="t-em">lugar comum</span>.</h2>
         <div class="sobre__body reveal">
           <p>
             A Otto é dirigida por <strong>Gabriel Araújo</strong>, diretor de arte e
@@ -165,7 +183,7 @@ const depoimentos = [0, 1, 2, 3, 4];
       <div class="cases__head">
         <div class="section-head cases__head-text">
           <p class="eyebrow reveal">Cases</p>
-          <h2 class="section-title reveal">Marcas de Otto Patamar.</h2>
+          <h2 class="section-title reveal">Marcas de <span class="t-em">Otto Patamar</span>.</h2>
         </div>
         <div class="cases__controls reveal" aria-hidden="true">
           <button class="cases__arrow-btn" data-cases-prev type="button" aria-label="Case anterior">
@@ -224,7 +242,7 @@ const depoimentos = [0, 1, 2, 3, 4];
     <div class="container">
       <div class="section-head">
         <p class="eyebrow reveal">Depoimentos</p>
-        <h2 class="section-title reveal">Histórias reais, com resultado real.</h2>
+        <h2 class="section-title reveal">Histórias reais, com <span class="t-em">resultado real</span>.</h2>
       </div>
     </div>
 
@@ -245,11 +263,11 @@ const depoimentos = [0, 1, 2, 3, 4];
 
   <!-- ========================= CTA FINAL ========================== -->
   <section class="section cta-final">
-    <SignatureFlux class="cta-final__flux" texture="otto-band" />
+    <FluxBand class="cta-final__flux" texture="otto-band" />
     <div class="cta-final__scrim" aria-hidden="true"></div>
     <div class="container cta-final__content">
       <h2 class="cta-final__headline reveal">
-        Sua marca está sendo escolhida ou apenas comparada?
+        Sua marca está sendo <em>escolhida</em> ou apenas comparada?
       </h2>
       <p class="cta-final__sub reveal">
         O diagnóstico mostra onde ela perde valor e o que precisa mudar.
@@ -338,13 +356,29 @@ const depoimentos = [0, 1, 2, 3, 4];
     margin-top: var(--space-4);
     font-size: clamp(2.25rem, 4.2vw + 0.9rem, 3.5rem);
     letter-spacing: var(--tracking-tight);
-    line-height: 1.08;
+    line-height: 1.06;
     text-wrap: balance;
   }
 
-  .hero__headline-accent {
-    color: var(--otto-offwhite);
+  /* diagramação: o "problema" em peso leve e tom apagado; a "resposta" em
+     Pogonia Black, com a palavra-chave em vermelho. Contraste de peso e cor. */
+  .hero__headline-quiet {
     display: block;
+    font-weight: 400;
+    color: rgb(var(--otto-offwhite-rgb) / 0.72);
+  }
+
+  .hero__headline-accent {
+    display: block;
+    margin-top: 0.12em;
+    font-weight: 900;
+    color: var(--otto-offwhite);
+    letter-spacing: var(--tracking-tighter);
+  }
+
+  .hero__headline-accent em {
+    font-style: normal;
+    color: var(--otto-red);
   }
 
   .hero__descritor {
@@ -829,6 +863,12 @@ const depoimentos = [0, 1, 2, 3, 4];
     letter-spacing: var(--tracking-tighter);
     line-height: var(--leading-tight);
     text-wrap: balance;
+  }
+
+  .cta-final__headline em {
+    font-style: normal;
+    font-weight: 900;
+    color: var(--otto-red);
   }
 
   .cta-final__sub {

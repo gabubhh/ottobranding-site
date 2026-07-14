@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import SignatureFlux from '../components/SignatureFlux.astro';
+import HeroVideo from '../components/HeroVideo.astro';
 import { DIAGNOSTIC_URL } from '../config';
 
 /*
@@ -54,7 +54,7 @@ const chapters = [
 >
   <!-- ===================== HERO DO CASE ===================== -->
   <section class="case-hero">
-    <SignatureFlux class="case-hero__flux" texture="otto-flux" />
+    <HeroVideo class="case-hero__flux" />
     <div class="case-hero__scrim" aria-hidden="true"></div>
     <div class="container case-hero__content">
       <a class="case-hero__back link-arrow" href="/#cases">
@@ -63,7 +63,7 @@ const chapters = [
       </a>
       <p class="eyebrow rise" style="--rise-delay: 60ms">Case modelo · Exemplo de layout</p>
       <h1 class="case-hero__title rise" style="--rise-delay: 140ms">
-        [Nome do cliente] <span>saiu do lugar comum e passou a ser escolhido.</span>
+        [Nome do cliente] <span>saiu do lugar comum e passou a ser</span> <em>escolhido</em>.
       </h1>
       <p class="case-hero__lead rise" style="--rise-delay: 240ms">
         [Uma linha: quem é o cliente e o salto de percepção que a marca entregou.
@@ -225,6 +225,12 @@ const chapters = [
 
   .case-hero__title span {
     color: rgb(var(--otto-offwhite-rgb) / 0.6);
+  }
+
+  .case-hero__title em {
+    font-style: normal;
+    font-weight: 900;
+    color: var(--otto-red);
   }
 
   .case-hero__lead {

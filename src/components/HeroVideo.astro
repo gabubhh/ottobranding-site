@@ -1,0 +1,65 @@
+---
+/*
+  Fundo de vídeo do hero — textura de metal líquido em looping.
+  - Poster (webp) aparece no primeiro paint; o vídeo (.mp4) só é baixado e
+    tocado depois do load, para não competir com o conteúdo principal.
+  - Muted + loop + playsinline: autoplay permitido em qualquer navegador.
+  - prefers-reduced-motion: o vídeo NÃO toca; fica o poster estático.
+*/
+interface Props {
+  class?: string;
+}
+const { class: className = '' } = Astro.props;
+---
+
+<div class:list={['hero-video', className]}>
+  <video
+    class="hero-video__el"
+    data-hero-video
+    muted
+    loop
+    playsinline
+    preload="none"
+    poster="/video/otto-hero-poster.webp"
+    aria-hidden="true"
+  >
+    <source src="/video/otto-hero.mp4" type="video/mp4" />
+  </video>
+</div>
+
+<style>
+  .hero-video {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background-color: var(--otto-ink);
+  }
+
+  .hero-video__el {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    /* mantém no clima da paleta: leve dessaturação e escurecido */
+    filter: grayscale(0.15) contrast(1.04) brightness(0.86);
+  }
+</style>
+
+<script>
+  const v = document.querySelector<HTMLVideoElement>('[data-hero-video]');
+  if (v) {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // respeita economia de dados / conexão lenta: mantém só o poster
+    const conn = (navigator as unknown as { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+    const saveData = !!conn && (conn.saveData === true || /(^|-)2g$/.test(conn.effectiveType || ''));
+
+    if (!reduce && !saveData) {
+      const start = () => {
+        v.load();
+        v.play().catch(() => {/* fica o poster se o autoplay for bloqueado */});
+      };
+      if (document.readyState === 'complete') requestAnimationFrame(start);
+      else window.addEventListener('load', start, { once: true });
+    }
+  }
+</script>

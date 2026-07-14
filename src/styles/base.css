@@ -47,6 +47,12 @@ h1, h2, h3, h4 {
   letter-spacing: var(--tracking-tight);
 }
 
+/* Ênfase tipográfica dentro de títulos — palavra-chave em vermelho.
+   Usado para dar cor e hierarquia à diagramação dos títulos. */
+.t-em {
+  color: var(--otto-red);
+}
+
 p {
   margin: 0;
 }
