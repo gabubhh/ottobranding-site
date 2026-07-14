@@ -1,0 +1,33 @@
+/*
+  Movimento a serviço da leitura, não enfeite.
+  - Entrada de seção: fade + leve deslize, disparado por IntersectionObserver
+    (ver BaseLayout.astro). Nunca aplicado ao hero, que já está visível
+    no primeiro paint — não atrasa o conteúdo principal.
+  - Hover: definido junto de cada componente (base.css, Header, cards).
+  - prefers-reduced-motion: reduce anula qualquer transform/transição e
+    entrega o conteúdo estático e já visível.
+*/
+
+.reveal {
+  opacity: 0;
+  transform: translateY(var(--reveal-distance));
+  transition: opacity var(--duration-slow) var(--ease-out),
+    transform var(--duration-slow) var(--ease-out);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.reveal-group > * {
+  transition-delay: calc(var(--reveal-index, 0) * 60ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

@@ -1,17 +1,214 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
 
+const offers = [
+  { title: '[PLACEHOLDER: nome da entrega 1]', copy: '[PLACEHOLDER: descrição curta da entrega 1]' },
+  { title: '[PLACEHOLDER: nome da entrega 2]', copy: '[PLACEHOLDER: descrição curta da entrega 2]' },
+  { title: '[PLACEHOLDER: nome da entrega 3]', copy: '[PLACEHOLDER: descrição curta da entrega 3]' },
+];
+
+const cases = [
+  { name: '[PLACEHOLDER: cliente 1]', result: '[PLACEHOLDER: resultado/métrica 1]' },
+  { name: '[PLACEHOLDER: cliente 2]', result: '[PLACEHOLDER: resultado/métrica 2]' },
+  { name: '[PLACEHOLDER: cliente 3]', result: '[PLACEHOLDER: resultado/métrica 3]' },
+];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title="Otto Branding">
+  <section class="hero">
+    <div class="container hero__inner">
+      <p class="eyebrow">[PLACEHOLDER: eyebrow de posicionamento]</p>
+      <h1 class="hero__headline">
+        [PLACEHOLDER: headline de posicionamento com <em>uma palavra de destaque</em>]
+      </h1>
+      <p class="hero__subhead">
+        [PLACEHOLDER: subheadline de uma a duas linhas explicando a proposta de valor]
+      </p>
+      <div class="hero__actions">
+        <a class="btn btn-primary" href="#contato">[PLACEHOLDER: CTA primário]</a>
+        <a class="btn btn-ghost" href="#prova">[PLACEHOLDER: CTA secundário]</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="oferta" class="section offer" data-surface="light">
+    <div class="container">
+      <p class="eyebrow reveal">[PLACEHOLDER: eyebrow da oferta]</p>
+      <h2 class="offer__title reveal">[PLACEHOLDER: título da oferta]</h2>
+      <p class="offer__lead reveal">[PLACEHOLDER: parágrafo de apoio da oferta]</p>
+
+      <div class="offer__grid reveal-group">
+        {offers.map((item, i) => (
+          <article class="offer__item reveal" style={`--reveal-index: ${i}`}>
+            <h3>{item.title}</h3>
+            <p>{item.copy}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="prova" class="section proof">
+    <div class="container">
+      <p class="eyebrow reveal">[PLACEHOLDER: eyebrow da prova]</p>
+      <h2 class="proof__title reveal">[PLACEHOLDER: título da seção de prova]</h2>
+
+      <div class="proof__grid reveal-group">
+        {cases.map((item, i) => (
+          <article class="case-card reveal" style={`--reveal-index: ${i}`}>
+            <div class="case-card__thumb" aria-hidden="true"></div>
+            <h3>{item.name}</h3>
+            <p>{item.result}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section final-cta" data-surface="light">
+    <div class="container final-cta__inner">
+      <h2 class="reveal">[PLACEHOLDER: título da chamada final]</h2>
+      <p class="reveal">[PLACEHOLDER: linha de apoio da chamada final]</p>
+      <a class="btn btn-primary reveal" href="#contato">[PLACEHOLDER: CTA final]</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    min-height: 88vh;
+    display: flex;
+    align-items: center;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+  }
+
+  .hero__inner {
+    max-width: 46rem;
+    padding-block: var(--space-8);
+  }
+
+  .hero__headline {
+    margin-top: var(--space-5);
+    font-size: var(--text-2xl);
+  }
+
+  .hero__headline em {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-style: normal;
+    color: var(--color-action-text);
+  }
+
+  .hero__subhead {
+    margin-top: var(--space-5);
+    max-width: 34rem;
+    font-size: var(--text-md);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    margin-top: var(--space-7);
+  }
+
+  .offer__title,
+  .proof__title {
+    margin-top: var(--space-4);
+    font-size: var(--text-xl);
+  }
+
+  .offer__lead {
+    margin-top: var(--space-4);
+    max-width: 40rem;
+    color: var(--color-text-secondary);
+  }
+
+  .offer__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: var(--space-6);
+    margin-top: var(--space-8);
+  }
+
+  .offer__item {
+    padding: var(--space-6);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+  }
+
+  .offer__item h3 {
+    font-size: var(--text-lg);
+  }
+
+  .offer__item p {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+  }
+
+  .proof__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: var(--space-6);
+    margin-top: var(--space-8);
+  }
+
+  .case-card {
+    padding: var(--space-5);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    transition: transform var(--duration-base) var(--ease-standard),
+      border-color var(--duration-base) var(--ease-standard);
+  }
+
+  .case-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-action);
+  }
+
+  .case-card__thumb {
+    aspect-ratio: 16 / 10;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-border);
+    margin-bottom: var(--space-4);
+  }
+
+  .case-card h3 {
+    font-size: var(--text-md);
+    font-family: var(--font-body);
+    font-weight: 700;
+  }
+
+  .case-card p {
+    margin-top: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .final-cta__inner {
+    max-width: 34rem;
+    text-align: left;
+  }
+
+  .final-cta__inner h2 {
+    font-size: var(--text-xl);
+  }
+
+  .final-cta__inner p {
+    margin-top: var(--space-4);
+    color: var(--color-text-secondary);
+  }
+
+  .final-cta__inner .btn {
+    margin-top: var(--space-6);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .case-card:hover {
+      transform: none;
+    }
+  }
+</style>

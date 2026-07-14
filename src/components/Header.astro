@@ -1,0 +1,90 @@
+---
+import logoCream from '../assets/brand/otto-logo-cream.svg?raw';
+---
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="#top" class="site-header__logo" aria-label="Otto Branding — início">
+      <Fragment set:html={logoCream} />
+    </a>
+
+    <nav class="site-header__nav" aria-label="Navegação principal">
+      <a href="#oferta">Oferta</a>
+      <a href="#prova">Cases</a>
+      <a href="#contato">Contato</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: relative;
+    z-index: 10;
+    background-color: var(--color-bg);
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-5);
+    padding-block: var(--space-5);
+  }
+
+  .site-header__logo {
+    display: inline-flex;
+    width: 6.5rem;
+  }
+
+  .site-header__logo :global(svg) {
+    width: 100%;
+    height: auto;
+  }
+
+  .site-header__nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    font-size: var(--text-sm);
+    font-weight: 500;
+  }
+
+  .site-header__nav a {
+    color: var(--color-text);
+    text-decoration: none;
+    position: relative;
+    padding-block: var(--space-1);
+  }
+
+  .site-header__nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 100%;
+    bottom: 0;
+    height: 2px;
+    background-color: var(--color-action);
+    transition: right var(--duration-base) var(--ease-standard);
+  }
+
+  .site-header__nav a:hover {
+    color: var(--color-text);
+  }
+
+  .site-header__nav a:hover::after {
+    right: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-header__nav a::after {
+      transition: none;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .site-header__nav {
+      gap: var(--space-4);
+      font-size: var(--text-xs);
+    }
+  }
+</style>
