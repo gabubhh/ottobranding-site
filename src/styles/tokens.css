@@ -12,6 +12,15 @@
   --otto-red: #ea151a;
   --otto-gray: #828282;
 
+  /* Triplos RGB para overlays/gradientes e uniforms do WebGL */
+  --otto-offwhite-rgb: 240 227 210;
+  --otto-charcoal-rgb: 36 36 36;
+  --otto-red-rgb: 234 21 26;
+
+  /* Tom mais fundo que o chumbo, para o "breu" do hero WebGL e vinhetas */
+  --otto-ink: #161616;
+  --otto-ink-rgb: 22 22 22;
+
   /*
     Tons ajustados de contraste (WCAG AA, 4.5:1) para uso como TEXTO.
     O hex puro da marca falha 4.5:1 quando usado como texto de corpo/link
@@ -33,26 +42,34 @@
   --color-border: rgb(240 227 210 / 14%);
 
   /* ---- Tipografia: famílias ---- */
+  /* Display = Pogonia (redonda, geométrica, ecoa o wordmark).
+     Corpo = Neue Haas Grotesk Display Pro (grotesca suíça, licença web). */
   --font-display: 'Pogonia', Arial, Helvetica, sans-serif;
-  --font-body: 'Inter', Arial, Helvetica, sans-serif;
+  --font-body: 'Neue Haas Grotesk', Arial, Helvetica, sans-serif;
 
-  /* ---- Tipografia: escala (fluida nos tamanhos de destaque) ---- */
-  --text-xs: 0.8125rem;   /* 13px — eyebrow, meta, legendas */
+  /* ---- Tipografia: escala (editorial; fluida nos tamanhos de destaque) ----
+     A referência (Farda) trabalha com headlines de display muito grandes e
+     respiro largo. A escala abaixo abre bastante o topo para sustentar isso,
+     mantendo corpo confortável (17px) e uma razão consistente. */
+  --text-xs: 0.8125rem;   /* 13px — eyebrow, meta, rótulos */
   --text-sm: 0.9375rem;   /* 15px — texto secundário, rodapé */
   --text-base: 1.0625rem; /* 17px — corpo de texto */
-  --text-md: 1.25rem;     /* 20px — lead, nav, subtítulos pequenos */
-  --text-lg: clamp(1.375rem, 1vw + 1.15rem, 1.75rem);   /* 22–28px — títulos de card/case */
-  --text-xl: clamp(1.75rem, 2.2vw + 1.25rem, 2.75rem);  /* 28–44px — títulos de seção */
-  --text-2xl: clamp(2.5rem, 5vw + 1.5rem, 4.5rem);      /* 40–72px — headline do hero */
+  --text-md: clamp(1.15rem, 0.6vw + 1rem, 1.375rem);      /* 18–22px — lead, sublinhas */
+  --text-lg: clamp(1.375rem, 1.2vw + 1.05rem, 1.9rem);    /* 22–30px — títulos de card/case */
+  --text-xl: clamp(1.9rem, 3vw + 1rem, 3.25rem);          /* 30–52px — títulos de seção */
+  --text-2xl: clamp(2.6rem, 6vw + 1rem, 5.25rem);         /* 42–84px — headline do hero */
+  --text-3xl: clamp(3rem, 8vw + 1rem, 7rem);              /* 48–112px — um único momento (CTA final) */
 
-  --leading-tight: 1.08;
-  --leading-snug: 1.25;
-  --leading-normal: 1.55;
-  --leading-relaxed: 1.7;
+  --leading-none: 1;
+  --leading-tight: 1.05;    /* display grande */
+  --leading-snug: 1.2;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.65;
 
-  --tracking-tight: -0.02em;  /* display em tamanho grande */
+  --tracking-tighter: -0.035em; /* display muito grande (hero/CTA) */
+  --tracking-tight: -0.02em;    /* display médio */
   --tracking-normal: 0;
-  --tracking-wide: 0.08em;    /* eyebrows/labels em versalete */
+  --tracking-wide: 0.14em;      /* eyebrows/rótulos em versalete */
 
   /* ---- Espaçamento: escala base 8px com meio-passo em 4px ---- */
   --space-1: 0.25rem;  /* 4px */
@@ -65,9 +82,11 @@
   --space-8: 4rem;     /* 64px */
   --space-9: 6rem;     /* 96px */
   --space-10: 8rem;    /* 128px */
+  --space-11: 10rem;   /* 160px */
 
-  /* Ritmo vertical entre seções — escala com a viewport */
-  --space-section: clamp(4rem, 8vw + 2rem, 8rem);
+  /* Ritmo vertical entre seções — escala com a viewport.
+     Aberto de propósito: o respiro largo é parte da leitura da referência. */
+  --space-section: clamp(5rem, 10vw + 2rem, 10rem);
 
   /* ---- Forma ---- */
   --radius-sm: 0.375rem; /* 6px — chips, inputs */

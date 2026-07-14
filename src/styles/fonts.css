@@ -2,19 +2,20 @@
   Webfonts self-hosted.
 
   Pogonia — display, apenas títulos e destaques. Duas variações trazidas
-  de propósito (não as 9 disponíveis no pacote): Regular para títulos de
-  seção e Black reservado para o headline do hero / palavra de destaque,
-  para concentrar o peso mais forte em um único momento.
+  de propósito (não as 9 do pacote): Regular para títulos de seção e Black
+  reservado para o headline do hero / palavra de destaque, concentrando o
+  peso mais forte num único momento.
 
-  Inter — corpo de texto, regular/medium/bold. Subset "latin" (U+0000-00FF)
-  cobre integralmente os acentos do português (á é í ó ú ã õ â ê ô ç);
-  o subset "latin-ext" do pacote original foi descartado por ser desnecessário.
+  Neue Haas Grotesk Display Pro — corpo, nav, UI. Pesos 55 Roman (400),
+  65 Medium (500) e 75 Bold (700), convertidos dos TTF para woff2 e
+  subsetados para latim + pontuação (cobre todos os acentos do português).
+  Uso web autorizado por licença web adquirida pelo cliente (2026-07).
 
-  Neue Haas Grotesk (pasta IDV) NÃO é usada aqui — licença é desktop,
-  não cobre distribuição web. SF Pro também não é referenciada em
-  nenhuma hipótese, nem como fallback do sistema.
+  SF Pro NÃO é referenciada em nenhuma hipótese, nem como fallback.
+  Fallback de sistema é Arial/Helvetica (grotescas neutras), nunca -apple-system.
 */
 
+/* ---- Display: Pogonia ---- */
 @font-face {
   font-family: 'Pogonia';
   src: url('/fonts/pogonia/Pogonia-Regular.woff2') format('woff2');
@@ -22,7 +23,6 @@
   font-style: normal;
   font-display: swap;
 }
-
 @font-face {
   font-family: 'Pogonia';
   src: url('/fonts/pogonia/Pogonia-Black.woff2') format('woff2');
@@ -31,25 +31,24 @@
   font-display: swap;
 }
 
+/* ---- Corpo: Neue Haas Grotesk Display Pro ---- */
 @font-face {
-  font-family: 'Inter';
-  src: url('/fonts/inter/inter-latin-400-normal.woff2') format('woff2');
+  font-family: 'Neue Haas Grotesk';
+  src: url('/fonts/nhg/nhg-400.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
-
 @font-face {
-  font-family: 'Inter';
-  src: url('/fonts/inter/inter-latin-500-normal.woff2') format('woff2');
+  font-family: 'Neue Haas Grotesk';
+  src: url('/fonts/nhg/nhg-500.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
-
 @font-face {
-  font-family: 'Inter';
-  src: url('/fonts/inter/inter-latin-700-normal.woff2') format('woff2');
+  font-family: 'Neue Haas Grotesk';
+  src: url('/fonts/nhg/nhg-700.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;

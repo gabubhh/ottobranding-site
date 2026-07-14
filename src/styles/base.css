@@ -19,8 +19,16 @@ body {
   font-size: var(--text-base);
   font-weight: 400;
   line-height: var(--leading-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
   transition: background-color var(--duration-slow) var(--ease-standard),
     color var(--duration-slow) var(--ease-standard);
+}
+
+::selection {
+  background-color: var(--otto-red);
+  color: var(--otto-offwhite);
 }
 
 h1, h2, h3, h4 {
@@ -142,9 +150,47 @@ button {
   color: var(--color-action);
 }
 
+/* Link com seta — CTA de baixa fricção (herdado da leitura da referência).
+   A seta desliza um passo no hover; a palavra ganha sublinhado que cresce. */
+.link-arrow {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: var(--text-md);
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+.link-arrow__icon {
+  color: var(--color-action);
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.link-arrow__label {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  padding-bottom: 2px;
+  transition: background-size var(--duration-base) var(--ease-out);
+}
+
+.link-arrow:hover .link-arrow__icon {
+  transform: translateX(4px);
+}
+
+.link-arrow:hover .link-arrow__label {
+  background-size: 100% 1px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .btn-primary:hover,
   .btn-ghost:hover {
+    transform: none;
+  }
+  .link-arrow:hover .link-arrow__icon {
     transform: none;
   }
 }

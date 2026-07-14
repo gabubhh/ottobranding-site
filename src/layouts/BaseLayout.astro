@@ -8,7 +8,10 @@ interface Props {
   description?: string;
 }
 
-const { title, description = 'Otto Branding.' } = Astro.props;
+const {
+  title,
+  description = 'Otto Branding — estúdio de estratégia e design de marca. Criamos marcas de Otto Patamar.',
+} = Astro.props;
 ---
 
 <html lang="pt-BR">
@@ -18,6 +21,16 @@ const { title, description = 'Otto Branding.' } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#242424" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+
+    <!-- Preload das fontes above-the-fold: corpo (NHG 400) e display (Pogonia).
+         As demais (500/700, Black) carregam sob demanda via font-display: swap. -->
+    <link rel="preload" href="/fonts/nhg/nhg-400.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/pogonia/Pogonia-Black.woff2" as="font" type="font/woff2" crossorigin />
+
     <title>{title}</title>
   </head>
   <body>
@@ -29,9 +42,13 @@ const { title, description = 'Otto Branding.' } = Astro.props;
     <Footer />
 
     <script>
+      // Reveal de seções: fade + slide ao entrar na viewport.
+      // Se não houver IntersectionObserver ou houver redução de movimento,
+      // tudo já aparece visível (o CSS de reduced-motion também garante isso).
       const targets = document.querySelectorAll<HTMLElement>('.reveal');
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      if (!('IntersectionObserver' in window) || targets.length === 0) {
+      if (reduced || !('IntersectionObserver' in window) || targets.length === 0) {
         targets.forEach((el) => el.classList.add('is-visible'));
       } else {
         const observer = new IntersectionObserver(
@@ -43,9 +60,8 @@ const { title, description = 'Otto Branding.' } = Astro.props;
               }
             }
           },
-          { threshold: 0.15, rootMargin: '0px 0px -10% 0px' }
+          { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
         );
-
         targets.forEach((el) => observer.observe(el));
       }
     </script>

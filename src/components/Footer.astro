@@ -1,9 +1,8 @@
 ---
 import logoCream from '../assets/brand/otto-logo-cream.svg?raw';
+import { NAV_LINKS, WHATSAPP_URL, INSTAGRAM_URL, EMAIL } from '../config';
 
 const year = new Date().getFullYear();
-/* TODO: substituir pelo número real antes de publicar. */
-const whatsappHref = 'https://wa.me/5500000000000';
 ---
 
 <footer class="site-footer" id="contato">
@@ -12,40 +11,64 @@ const whatsappHref = 'https://wa.me/5500000000000';
       <span class="site-footer__logo">
         <Fragment set:html={logoCream} />
       </span>
-      <p class="site-footer__copy">© {year} Otto Branding. Todos os direitos reservados.</p>
+      <p class="site-footer__tagline">Criamos marcas de Otto Patamar.</p>
     </div>
 
-    <a class="btn btn-primary" href={whatsappHref} target="_blank" rel="noopener noreferrer">
-      Fale no WhatsApp
-    </a>
+    <nav class="site-footer__nav" aria-label="Navegação do rodapé">
+      {NAV_LINKS.map((link) => (
+        <a href={link.href}>{link.label}</a>
+      ))}
+    </nav>
+
+    <div class="site-footer__contact">
+      <a class="link-arrow" href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+        <span class="link-arrow__icon" aria-hidden="true">→</span>
+        <span class="link-arrow__label">WhatsApp</span>
+      </a>
+      <a class="link-arrow" href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
+        <span class="link-arrow__icon" aria-hidden="true">→</span>
+        <span class="link-arrow__label">Instagram</span>
+      </a>
+      <a class="link-arrow" href={`mailto:${EMAIL}`}>
+        <span class="link-arrow__icon" aria-hidden="true">→</span>
+        <span class="link-arrow__label">{EMAIL}</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="container site-footer__legal">
+    <p>© {year} Otto Branding. Todos os direitos reservados.</p>
+    <div class="site-footer__legal-links">
+      <a href="#privacidade">Privacidade</a>
+      <a href="#termos">Termos</a>
+    </div>
   </div>
 </footer>
 
 <style>
   .site-footer {
-    background-color: var(--color-bg);
-    border-top: 1px solid var(--color-border);
+    background-color: var(--otto-ink);
+    color: var(--otto-offwhite);
+    border-top: 1px solid rgb(var(--otto-offwhite-rgb) / 0.1);
   }
 
   .site-footer__inner {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-6);
-    padding-block: var(--space-8);
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: var(--space-8);
+    padding-block: var(--space-9) var(--space-7);
   }
 
   .site-footer__brand {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: var(--space-4);
+    align-items: flex-start;
   }
 
   .site-footer__logo {
     display: inline-flex;
-    width: 3rem;
-    flex-shrink: 0;
+    width: 4.5rem;
   }
 
   .site-footer__logo :global(svg) {
@@ -53,8 +76,61 @@ const whatsappHref = 'https://wa.me/5500000000000';
     height: auto;
   }
 
-  .site-footer__copy {
-    color: var(--color-text-secondary);
+  .site-footer__tagline {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    line-height: var(--leading-snug);
+    max-width: 18ch;
+  }
+
+  .site-footer__nav,
+  .site-footer__contact {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .site-footer__nav a {
+    color: rgb(var(--otto-offwhite-rgb) / 0.7);
+    text-decoration: none;
+    width: fit-content;
+    transition: color var(--duration-fast) var(--ease-standard);
+  }
+
+  .site-footer__nav a:hover {
+    color: var(--otto-offwhite);
+  }
+
+  .site-footer__legal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding-block: var(--space-5);
+    border-top: 1px solid rgb(var(--otto-offwhite-rgb) / 0.08);
     font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .site-footer__legal-links {
+    display: flex;
+    gap: var(--space-5);
+  }
+
+  .site-footer__legal-links a {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+  }
+
+  .site-footer__legal-links a:hover {
+    color: var(--otto-offwhite);
+  }
+
+  @media (max-width: 52rem) {
+    .site-footer__inner {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+      padding-block: var(--space-8) var(--space-6);
+    }
   }
 </style>

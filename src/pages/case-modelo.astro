@@ -1,0 +1,405 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SignatureFlux from '../components/SignatureFlux.astro';
+import { DIAGNOSTIC_URL } from '../config';
+
+/*
+  Página MODELO de case. Layout completo e definitivo; o CONTEÚDO é molde.
+  Cada seção traz:
+   - um rótulo do que ela é,
+   - uma nota curta [O que entra aqui] explicando o que escrever,
+   - um texto de EXEMPLO claramente marcado.
+  Serve para aprovar o layout e para guiar a escrita dos cases reais.
+*/
+
+const meta = [
+  { k: 'Cliente', v: '[Nome do cliente]' },
+  { k: 'Setor', v: '[Segmento]' },
+  { k: 'Entregas', v: '[Posicionamento, identidade…]' },
+  { k: 'Ano', v: '[2026]' },
+];
+---
+
+<BaseLayout
+  title="Case modelo — Otto Branding"
+  description="Página modelo de case: molde de layout e roteiro de escrita."
+>
+  <!-- ===================== HERO DO CASE ===================== -->
+  <section class="case-hero">
+    <SignatureFlux class="case-hero__flux" texture="otto-flux" />
+    <div class="case-hero__scrim" aria-hidden="true"></div>
+    <div class="container case-hero__content">
+      <a class="case-hero__back link-arrow" href="/#cases">
+        <span class="link-arrow__icon" aria-hidden="true">←</span>
+        <span class="link-arrow__label">Voltar aos cases</span>
+      </a>
+      <p class="eyebrow rise" style="--rise-delay: 60ms">Case modelo · Exemplo de layout</p>
+      <h1 class="case-hero__title rise" style="--rise-delay: 140ms">
+        [Nome do cliente] <span>saiu do lugar comum e passou a ser escolhido.</span>
+      </h1>
+      <p class="case-hero__lead rise" style="--rise-delay: 240ms">
+        [Uma linha: quem é o cliente e o salto de percepção que a marca entregou.
+        Escreva depois que o resultado existir.]
+      </p>
+      <dl class="case-hero__meta rise" style="--rise-delay: 320ms">
+        {meta.map((m) => (
+          <div>
+            <dt>{m.k}</dt>
+            <dd>{m.v}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <!-- ===================== O PROBLEMA ===================== -->
+  <section class="section case-block" data-surface="light">
+    <div class="container case-grid">
+      <div class="case-grid__label reveal">
+        <span class="case-num">01</span>
+        <h2>O problema</h2>
+        <p class="tpl-note">
+          [O que entra aqui: a tensão real do cliente. O que travava a marca no
+          mercado — comparada por preço, confundida com concorrentes, sem
+          espaço próprio. Concreto, não genérico.]
+        </p>
+      </div>
+      <div class="case-grid__body reveal">
+        <p class="tpl-eg">
+          <span class="tpl-eg__flag">Exemplo</span>
+          A marca disputava atenção num setor saturado onde todos prometiam a
+          mesma coisa. Sem um território próprio, a decisão de compra caía sempre
+          para o menor preço.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================ O QUE ESTAVA EM JOGO ================ -->
+  <section class="section case-block" data-surface="light">
+    <div class="container case-grid">
+      <div class="case-grid__label reveal">
+        <span class="case-num">02</span>
+        <h2>O que estava em jogo</h2>
+        <p class="tpl-note">
+          [O que entra aqui: o risco de negócio. Margem corroída, dependência de
+          desconto, crescimento travado. Traduza o problema de marca em
+          consequência financeira — é o que faz o leitor levar a sério.]
+        </p>
+      </div>
+      <div class="case-grid__body reveal">
+        <p class="tpl-eg">
+          <span class="tpl-eg__flag">Exemplo</span>
+          Cada negociação começava pelo desconto. A marca crescia em volume, mas
+          a margem encolhia — e o dono trabalhava mais para faturar o mesmo.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== A DECISÃO ==================== -->
+  <section class="section case-block case-block--dark">
+    <div class="container case-grid">
+      <div class="case-grid__label reveal">
+        <span class="case-num">03</span>
+        <h2>A decisão</h2>
+        <p class="tpl-note">
+          [O que entra aqui: a decisão estratégica e o porquê. Qual espaço a
+          marca passou a ocupar, o que ela deixou de tentar ser, e a lógica por
+          trás disso. É o coração do case — mostra critério, não só estética.]
+        </p>
+      </div>
+      <div class="case-grid__body reveal">
+        <p class="tpl-eg">
+          <span class="tpl-eg__flag">Exemplo</span>
+          Em vez de competir como “mais um”, reposicionamos a marca em torno de
+          um único território defensável e reconstruímos a identidade para
+          sustentá-lo em cada ponto de contato. Preço deixou de ser o argumento.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== O RESULTADO ==================== -->
+  <section class="section case-result" data-surface="light">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="case-num">04</span>
+        <h2 class="section-title">O resultado</h2>
+        <p class="tpl-note">
+          [O que entra aqui: o resultado com NÚMERO. Sem número, esta seção não
+          existe — é ela que transforma vitrine em prova. Peça o dado ao cliente.]
+        </p>
+      </div>
+
+      <div class="case-stats reveal-group">
+        {[
+          { n: '+38%', l: '[métrica de exemplo — ex.: ticket médio]' },
+          { n: '2,4×', l: '[métrica de exemplo — ex.: propostas fechadas]' },
+          { n: '−0', l: '[métrica de exemplo — ex.: pedidos de desconto]' },
+        ].map((s, i) => (
+          <div class="case-stat reveal" style={`--reveal-index: ${i}`}>
+            <span class="case-stat__n">{s.n}</span>
+            <span class="case-stat__l">{s.l}</span>
+          </div>
+        ))}
+      </div>
+      <p class="case-result__flag">Números de exemplo — substituir pelos reais do cliente.</p>
+    </div>
+  </section>
+
+  <!-- ================ APLICAÇÕES / GALERIA ================ -->
+  <section class="section case-block" data-surface="light">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="case-num">05</span>
+        <h2 class="section-title">Aplicações</h2>
+        <p class="tpl-note">
+          [O que entra aqui: 3 a 6 imagens do sistema aplicado — logo, papelaria,
+          embalagem, digital. Mostrar consistência, não só o logo.]
+        </p>
+      </div>
+      <div class="case-gallery reveal-group">
+        {[0, 1, 2, 3].map((i) => (
+          <div class="case-gallery__item reveal" style={`--reveal-index: ${i}`} aria-hidden="true">
+            <span>[Imagem {i + 1}]</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CTA ==================== -->
+  <section class="section case-cta">
+    <div class="container case-cta__content">
+      <h2 class="case-cta__headline reveal">Quer um resultado assim para a sua marca?</h2>
+      <a class="btn btn-primary reveal" href={DIAGNOSTIC_URL}>Começar pelo diagnóstico</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* ===================== HERO DO CASE ===================== */
+  .case-hero {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--otto-ink);
+    color: var(--otto-offwhite);
+    padding-block: var(--space-9) var(--space-8);
+    min-height: 70vh;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .case-hero__scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+      to top,
+      rgb(var(--otto-ink-rgb) / 0.95) 10%,
+      rgb(var(--otto-ink-rgb) / 0.55) 55%,
+      rgb(var(--otto-ink-rgb) / 0.2) 100%
+    );
+  }
+
+  .case-hero__content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+  }
+
+  .case-hero__back {
+    display: flex;
+    width: fit-content;
+    color: rgb(var(--otto-offwhite-rgb) / 0.8);
+    margin-bottom: var(--space-6);
+    font-size: var(--text-sm);
+  }
+
+  .case-hero__title {
+    margin-top: var(--space-4);
+    max-width: 20ch;
+    font-size: var(--text-2xl);
+    letter-spacing: var(--tracking-tighter);
+    line-height: var(--leading-tight);
+  }
+
+  .case-hero__title span {
+    color: rgb(var(--otto-offwhite-rgb) / 0.6);
+  }
+
+  .case-hero__lead {
+    margin-top: var(--space-5);
+    max-width: 42rem;
+    font-size: var(--text-md);
+    color: rgb(var(--otto-offwhite-rgb) / 0.75);
+  }
+
+  .case-hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-6);
+    margin: var(--space-7) 0 0;
+  }
+
+  .case-hero__meta dt {
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: rgb(var(--otto-offwhite-rgb) / 0.55);
+  }
+
+  .case-hero__meta dd {
+    margin: var(--space-1) 0 0;
+    font-weight: 500;
+  }
+
+  /* ===================== BLOCOS ===================== */
+  .case-grid {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: var(--space-8);
+    align-items: start;
+  }
+
+  .case-block--dark {
+    background-color: var(--otto-charcoal);
+    color: var(--otto-offwhite);
+  }
+
+  .case-num {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: var(--text-md);
+    color: var(--otto-red);
+    margin-bottom: var(--space-3);
+  }
+
+  .case-grid__label h2 {
+    font-size: var(--text-xl);
+    letter-spacing: var(--tracking-tight);
+    line-height: var(--leading-snug);
+  }
+
+  .case-grid__body p {
+    font-size: var(--text-md);
+    line-height: var(--leading-relaxed);
+  }
+
+  /* Notas de molde e exemplos ------------------------------------ */
+  .tpl-note {
+    margin-top: var(--space-4);
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+    color: var(--color-text-secondary);
+    border-left: 2px dashed color-mix(in srgb, var(--color-text-secondary) 60%, transparent);
+    padding-left: var(--space-4);
+  }
+
+  .tpl-eg {
+    position: relative;
+  }
+
+  .tpl-eg__flag {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--otto-red);
+    margin-right: var(--space-3);
+    vertical-align: 0.15em;
+  }
+
+  /* ===================== RESULTADO ===================== */
+  .case-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+    margin-top: var(--space-6);
+  }
+
+  .case-stat {
+    padding-top: var(--space-5);
+    border-top: 2px solid var(--otto-red);
+  }
+
+  .case-stat__n {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: var(--text-3xl);
+    line-height: 1;
+    letter-spacing: var(--tracking-tighter);
+  }
+
+  .case-stat__l {
+    display: block;
+    margin-top: var(--space-3);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .case-result__flag {
+    margin-top: var(--space-6);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--otto-red);
+  }
+
+  /* ===================== GALERIA ===================== */
+  .case-gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-5);
+  }
+
+  .case-gallery__item {
+    aspect-ratio: 4 / 3;
+    display: grid;
+    place-items: center;
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+    background: linear-gradient(160deg, rgb(36 36 36 / 0.03), transparent);
+  }
+
+  /* ===================== CTA ===================== */
+  .case-cta {
+    background-color: var(--otto-ink);
+    color: var(--otto-offwhite);
+    text-align: center;
+  }
+
+  .case-cta__content {
+    max-width: 34rem;
+    margin-inline: auto;
+  }
+
+  .case-cta__headline {
+    font-size: var(--text-xl);
+    letter-spacing: var(--tracking-tight);
+    margin-bottom: var(--space-6);
+    text-wrap: balance;
+  }
+
+  /* ===================== RESPONSIVO ===================== */
+  @media (max-width: 52rem) {
+    .case-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-5);
+    }
+    .case-stats {
+      grid-template-columns: 1fr;
+      gap: var(--space-5);
+    }
+    .case-gallery {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

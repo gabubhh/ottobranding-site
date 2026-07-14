@@ -31,3 +31,29 @@
     transition: none;
   }
 }
+
+/*
+  .rise — entrada CSS-only para conteúdo que já está no viewport no load
+  (hero, hero do case). Não depende de JS: por padrão o elemento é VISÍVEL
+  (à prova de JS desligado e de reduced-motion). A animação de entrada só é
+  aplicada quando há movimento permitido, e como é @keyframes, toca sozinha
+  no primeiro paint sem esperar observer — não atrasa o LCP.
+*/
+@media (prefers-reduced-motion: no-preference) {
+  .rise {
+    opacity: 0;
+    animation: rise-in var(--duration-slow) var(--ease-out) forwards;
+    animation-delay: var(--rise-delay, 0ms);
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--reveal-distance));
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
