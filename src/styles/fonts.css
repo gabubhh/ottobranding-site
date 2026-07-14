@@ -3,16 +3,13 @@
 
   Pogonia — display, apenas títulos e destaques. Duas variações trazidas
   de propósito (não as 9 do pacote): Regular para títulos de seção e Black
-  reservado para o headline do hero / palavra de destaque, concentrando o
-  peso mais forte num único momento.
+  reservado para o headline do hero / palavra de destaque.
 
-  Neue Haas Grotesk Display Pro — corpo, nav, UI. Pesos 55 Roman (400),
-  65 Medium (500) e 75 Bold (700), convertidos dos TTF para woff2 e
-  subsetados para latim + pontuação (cobre todos os acentos do português).
-  Uso web autorizado por licença web adquirida pelo cliente (2026-07).
+  Inter — corpo, nav, UI. Pesos 400/500/700, subset latino (cobre todos os
+  acentos do português). Self-hosted a partir do pacote @fontsource.
 
   SF Pro NÃO é referenciada em nenhuma hipótese, nem como fallback.
-  Fallback de sistema é Arial/Helvetica (grotescas neutras), nunca -apple-system.
+  Neue Haas Grotesk (licença desktop na pasta) também não é usada na web.
 */
 
 /* ---- Display: Pogonia ---- */
@@ -31,24 +28,24 @@
   font-display: swap;
 }
 
-/* ---- Corpo: Neue Haas Grotesk Display Pro ---- */
+/* ---- Corpo: Inter ---- */
 @font-face {
-  font-family: 'Neue Haas Grotesk';
-  src: url('/fonts/nhg/nhg-400.woff2') format('woff2');
+  font-family: 'Inter';
+  src: url('/fonts/inter/inter-latin-400-normal.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: 'Neue Haas Grotesk';
-  src: url('/fonts/nhg/nhg-500.woff2') format('woff2');
+  font-family: 'Inter';
+  src: url('/fonts/inter/inter-latin-500-normal.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: 'Neue Haas Grotesk';
-  src: url('/fonts/nhg/nhg-700.woff2') format('woff2');
+  font-family: 'Inter';
+  src: url('/fonts/inter/inter-latin-700-normal.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;

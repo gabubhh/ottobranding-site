@@ -3,34 +3,45 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SignatureFlux from '../components/SignatureFlux.astro';
 import { WHATSAPP_URL, DIAGNOSTIC_URL } from '../config';
 
-// Soluções — títulos reais do documento de copy. Sem descritores inventados:
-// o parêntese ("entrada paga") é o único que o doc fornece.
+// Soluções — formato da referência (Farda): nome + descrição. Títulos reais
+// do doc; descrições escritas na voz da Otto (direta, estratégica, "patamar").
 const solucoes = [
-  { title: 'Diagnóstico de marca', tag: 'entrada paga' },
-  { title: 'Posicionamento e plataforma de marca', tag: '' },
-  { title: 'Identidade visual e verbal', tag: '' },
-  { title: 'Presença visual contínua', tag: '' },
+  {
+    title: 'Diagnóstico de marca',
+    desc: 'O ponto de partida. Um raio-x do posicionamento que revela onde a marca perde valor e o que precisa mudar — antes de qualquer decisão visual.',
+  },
+  {
+    title: 'Posicionamento e plataforma de marca',
+    desc: 'O território que só a sua marca pode defender. Definimos o espaço que ela ocupa no mercado e a lógica que passa a guiar cada decisão.',
+  },
+  {
+    title: 'Identidade visual e verbal',
+    desc: 'Como a marca se mostra e como ela fala. Um sistema visual e de linguagem coeso, construído para sustentar o posicionamento em cada ponto de contato.',
+  },
+  {
+    title: 'Presença visual contínua',
+    desc: 'Marca forte não se constrói uma vez só. Direção criativa contínua para manter consistência e presença enquanto o negócio cresce.',
+  },
 ];
 
 // Método Otto — três patamares (copy real do doc). A numeração aqui É
 // informação: patamar = degrau, e cada um precede o próximo.
 const patamares = [
-  {
-    n: '01',
-    name: 'Clareza',
-    text: 'Quem a marca é, para quem existe, que espaço ela ocupa. Diagnóstico e posicionamento.',
-  },
-  {
-    n: '02',
-    name: 'Direção',
-    text: 'As decisões que guiam tudo: plataforma de marca, estratégia verbal e visual.',
-  },
-  {
-    n: '03',
-    name: 'Sistema',
-    text: 'A marca construída e consistente: identidade e aplicação.',
-  },
+  { n: '01', name: 'Clareza', text: 'Quem a marca é, para quem existe, que espaço ela ocupa. Diagnóstico e posicionamento.' },
+  { n: '02', name: 'Direção', text: 'As decisões que guiam tudo: plataforma de marca, estratégia verbal e visual.' },
+  { n: '03', name: 'Sistema', text: 'A marca construída e consistente: identidade e aplicação.' },
 ];
+
+// Cases — 1 modelo real (leva à página) + candidatos do doc como slots.
+const cases = [
+  { name: 'Página de case modelo', cat: 'Modelo', href: '/case-modelo', model: true },
+  { name: 'Therapy and Beauty', cat: 'Estética · Bem-estar', model: false },
+  { name: 'Astros Barbearia', cat: 'Barbearia', model: false },
+  { name: 'Barreto Tour', cat: 'Turismo', model: false },
+];
+
+// Depoimentos — não existem ainda. Slots claramente marcados, em carrossel.
+const depoimentos = [0, 1, 2, 3, 4];
 ---
 
 <BaseLayout title="Otto Branding — Criamos marcas de Otto Patamar">
@@ -40,25 +51,25 @@ const patamares = [
     <div class="hero__scrim" aria-hidden="true"></div>
 
     <div class="container hero__container">
-     <div class="hero__content">
-      <p class="eyebrow rise" style="--rise-delay: 60ms">Estratégia · Posicionamento · Identidade</p>
-      <h1 class="hero__headline rise" style="--rise-delay: 140ms">
-        A maioria das marcas compete por preço.
-        <span class="hero__headline-accent">As fortes constroem preferência.</span>
-      </h1>
-      <p class="hero__descritor rise" style="--rise-delay: 240ms">
-        A Otto une estratégia e design para tirar sua marca do lugar comum e
-        colocá-la em outro patamar de percepção de valor.
-      </p>
-      <p class="hero__signature rise" style="--rise-delay: 320ms">Criamos marcas de <em>Otto Patamar</em>.</p>
-      <div class="hero__actions rise" style="--rise-delay: 400ms">
-        <a class="btn btn-primary" href={DIAGNOSTIC_URL}>Começar pelo diagnóstico</a>
-        <a class="link-arrow hero__whats" href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-          <span class="link-arrow__icon" aria-hidden="true">→</span>
-          <span class="link-arrow__label">Falar no WhatsApp</span>
-        </a>
+      <div class="hero__content">
+        <p class="eyebrow rise" style="--rise-delay: 60ms">Estratégia · Posicionamento · Identidade</p>
+        <h1 class="hero__headline rise" style="--rise-delay: 140ms">
+          A maioria das marcas compete por preço.
+          <span class="hero__headline-accent">As fortes constroem preferência.</span>
+        </h1>
+        <p class="hero__descritor rise" style="--rise-delay: 240ms">
+          A Otto une estratégia e design para tirar sua marca do lugar comum e
+          colocá-la em outro patamar de percepção de valor.
+        </p>
+        <p class="hero__signature rise" style="--rise-delay: 320ms">Criamos marcas de <em>Otto Patamar</em>.</p>
+        <div class="hero__actions rise" style="--rise-delay: 400ms">
+          <a class="btn btn-primary" href={DIAGNOSTIC_URL}>Começar pelo diagnóstico</a>
+          <a class="link-arrow hero__whats" href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+            <span class="link-arrow__icon" aria-hidden="true">→</span>
+            <span class="link-arrow__label">Falar no WhatsApp</span>
+          </a>
+        </div>
       </div>
-     </div>
     </div>
   </section>
 
@@ -74,10 +85,12 @@ const patamares = [
 
       <ul class="solucoes__list reveal-group">
         {solucoes.map((item, i) => (
-          <li class="solucoes__row reveal" style={`--reveal-index: ${i}`}>
-            <span class="solucoes__title">{item.title}</span>
-            {item.tag && <span class="solucoes__tag">{item.tag}</span>}
-            <span class="solucoes__arrow" aria-hidden="true">→</span>
+          <li class="solucao reveal" style={`--reveal-index: ${i}`}>
+            <div class="solucao__head">
+              <span class="solucao__arrow" aria-hidden="true">→</span>
+              <h3 class="solucao__name">{item.title}</h3>
+            </div>
+            <p class="solucao__desc">{item.desc}</p>
           </li>
         ))}
       </ul>
@@ -125,20 +138,23 @@ const patamares = [
   <!-- =========================== SOBRE ============================ -->
   <section id="sobre" class="section sobre" data-surface="light">
     <div class="container sobre__grid">
-      <div class="sobre__head">
+      <figure class="sobre__photo reveal" aria-label="Foto de Gabriel Araújo (a inserir)">
+        <span class="sobre__photo-note">[Sua foto aqui]</span>
+      </figure>
+      <div class="sobre__text">
         <p class="eyebrow reveal">Sobre</p>
         <h2 class="section-title reveal">Nascemos para tirar marcas do lugar comum.</h2>
-      </div>
-      <div class="sobre__body reveal">
-        <p>
-          A Otto é dirigida por <strong>Gabriel Araújo</strong>, diretor de arte e
-          estrategista de marca. Cinco anos construindo marcas que precisam sustentar
-          mais valor do que o mercado espera delas.
-        </p>
-        <blockquote class="sobre__quote">
-          Marca forte não é a mais criativa. É a que ocupa um espaço que nenhum
-          concorrente consegue defender.
-        </blockquote>
+        <div class="sobre__body reveal">
+          <p>
+            A Otto é dirigida por <strong>Gabriel Araújo</strong>, diretor de arte e
+            estrategista de marca. Cinco anos construindo marcas que precisam sustentar
+            mais valor do que o mercado espera delas.
+          </p>
+          <blockquote class="sobre__quote">
+            Marca forte não é a mais criativa. É a que ocupa um espaço que nenhum
+            concorrente consegue defender.
+          </blockquote>
+        </div>
       </div>
     </div>
   </section>
@@ -146,33 +162,55 @@ const patamares = [
   <!-- =========================== CASES ============================ -->
   <section id="cases" class="section cases">
     <div class="container">
-      <div class="section-head">
-        <p class="eyebrow reveal">Cases</p>
-        <h2 class="section-title reveal">Marcas de Otto Patamar.</h2>
-      </div>
-
-      <div class="cases__grid reveal-group">
-        <!-- Card real: leva à página modelo, marcado como exemplo de layout -->
-        <a class="case-card case-card--model reveal" href="/case-modelo" style="--reveal-index: 0">
-          <span class="case-card__badge">Exemplo de layout</span>
-          <span class="case-card__thumb" aria-hidden="true"></span>
-          <span class="case-card__name">Página de case modelo</span>
-          <span class="case-card__meta">Veja como um case aparece →</span>
-        </a>
-
-        <!-- Slots de case a publicar (candidatos do doc), claramente marcados -->
-        <div class="case-card case-card--empty reveal" style="--reveal-index: 1" aria-hidden="true">
-          <span class="case-card__thumb"></span>
-          <span class="case-card__name">Therapy and Beauty</span>
-          <span class="case-card__meta">[Case a publicar]</span>
+      <div class="cases__head">
+        <div class="section-head cases__head-text">
+          <p class="eyebrow reveal">Cases</p>
+          <h2 class="section-title reveal">Marcas de Otto Patamar.</h2>
         </div>
-        <div class="case-card case-card--empty reveal" style="--reveal-index: 2" aria-hidden="true">
-          <span class="case-card__thumb"></span>
-          <span class="case-card__name">Astros Barbearia</span>
-          <span class="case-card__meta">[Case a publicar]</span>
+        <div class="cases__controls reveal" aria-hidden="true">
+          <button class="cases__arrow-btn" data-cases-prev type="button" aria-label="Case anterior">
+            <span aria-hidden="true">←</span>
+          </button>
+          <button class="cases__arrow-btn" data-cases-next type="button" aria-label="Próximo case">
+            <span aria-hidden="true">→</span>
+          </button>
         </div>
       </div>
+    </div>
 
+    <div class="cases__viewport">
+      <div class="container">
+        <ul class="cases__track" data-cases-track>
+          {cases.map((c, i) => (
+            <li class="case-slide">
+              {c.model ? (
+                <a class="case-card case-card--model" href={c.href}>
+                  <div class="case-card__media">
+                    <span class="case-card__badge">Exemplo de layout</span>
+                  </div>
+                  <div class="case-card__info">
+                    <span class="case-card__cat">{c.cat}</span>
+                    <h3 class="case-card__name">{c.name}</h3>
+                    <span class="case-card__cta">Veja como um case aparece →</span>
+                  </div>
+                </a>
+              ) : (
+                <div class="case-card case-card--empty">
+                  <div class="case-card__media"></div>
+                  <div class="case-card__info">
+                    <span class="case-card__cat">{c.cat}</span>
+                    <h3 class="case-card__name">{c.name}</h3>
+                    <span class="case-card__cta case-card__cta--muted">[Case a publicar]</span>
+                  </div>
+                </div>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div class="container">
       <p class="cases__note reveal">
         <strong>Nota (conteúdo, não layout):</strong> os cases reais entram quando
         houver resultado com número. Até lá, a estrutura está pronta — veja a
@@ -188,14 +226,16 @@ const patamares = [
         <p class="eyebrow reveal">Depoimentos</p>
         <h2 class="section-title reveal">Histórias reais, com resultado real.</h2>
       </div>
+    </div>
 
-      <div class="depoimentos__grid reveal-group">
-        {[0, 1, 2].map((i) => (
-          <figure class="depoimento depoimento--empty reveal" style={`--reveal-index: ${i}`}>
-            <blockquote>[Depoimento a coletar]</blockquote>
+    <div class="marquee reveal" data-marquee>
+      <div class="marquee__track">
+        {[...depoimentos, ...depoimentos].map((_, i) => (
+          <figure class="depoimento" aria-hidden={i >= depoimentos.length ? 'true' : undefined}>
+            <blockquote>“[Depoimento a coletar]”</blockquote>
             <figcaption>
-              Peça na entrega do próximo projeto — citando o <em>resultado</em>
-              (“aumentou X”, “fechou Y”), não o processo.
+              <span class="depoimento__name">[Nome · Empresa]</span>
+              <span class="depoimento__hint">peça citando o resultado, não o processo</span>
             </figcaption>
           </figure>
         ))}
@@ -221,6 +261,38 @@ const patamares = [
   </section>
 </BaseLayout>
 
+<script>
+  // Carrossel de cases: setas rolam a trilha por um card. Sem biblioteca.
+  const track = document.querySelector<HTMLElement>('[data-cases-track]');
+  const prev = document.querySelector<HTMLButtonElement>('[data-cases-prev]');
+  const next = document.querySelector<HTMLButtonElement>('[data-cases-next]');
+
+  if (track && prev && next) {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const stepSize = () => {
+      const slide = track.querySelector<HTMLElement>('.case-slide');
+      if (!slide) return 320;
+      const gap = parseFloat(getComputedStyle(track).columnGap || '24') || 24;
+      return slide.getBoundingClientRect().width + gap;
+    };
+    const go = (dir: number) =>
+      track.scrollBy({ left: dir * stepSize(), behavior: reduce ? 'auto' : 'smooth' });
+
+    prev.addEventListener('click', () => go(-1));
+    next.addEventListener('click', () => go(1));
+
+    // desabilita a seta quando não há para onde ir
+    const sync = () => {
+      const max = track.scrollWidth - track.clientWidth - 2;
+      prev.disabled = track.scrollLeft <= 2;
+      next.disabled = track.scrollLeft >= max;
+    };
+    track.addEventListener('scroll', sync, { passive: true });
+    window.addEventListener('resize', sync);
+    sync();
+  }
+</script>
+
 <style>
   /* ============================ HERO ============================ */
   .hero {
@@ -238,15 +310,16 @@ const patamares = [
     position: absolute;
     inset: 0;
     z-index: 1;
+    /* texto centralizado: escurece o miolo para legibilidade, deixa a textura
+       respirar nas bordas, e funde no fundo embaixo */
     background:
-      linear-gradient(
-        100deg,
-        rgb(var(--otto-ink-rgb) / 0.95) 0%,
-        rgb(var(--otto-ink-rgb) / 0.7) 34%,
-        rgb(var(--otto-ink-rgb) / 0.15) 62%,
-        transparent 100%
+      radial-gradient(
+        72% 78% at 50% 44%,
+        rgb(var(--otto-ink-rgb) / 0.82),
+        rgb(var(--otto-ink-rgb) / 0.42) 58%,
+        rgb(var(--otto-ink-rgb) / 0.12) 100%
       ),
-      linear-gradient(to top, rgb(var(--otto-ink-rgb) / 0.9), transparent 40%);
+      linear-gradient(to bottom, rgb(var(--otto-ink-rgb) / 0.5), transparent 24%, transparent 68%, rgb(var(--otto-ink-rgb) / 0.92));
   }
 
   .hero__container {
@@ -256,13 +329,13 @@ const patamares = [
   }
 
   .hero__content {
-    max-width: 42rem;
+    max-width: 46rem;
+    margin-inline: auto;
+    text-align: center;
   }
 
   .hero__headline {
     margin-top: var(--space-4);
-    /* headline longa: cap menor que o --text-2xl para caber com o CTA acima
-       da dobra em telas de notebook */
     font-size: clamp(2.25rem, 4.2vw + 0.9rem, 3.5rem);
     letter-spacing: var(--tracking-tight);
     line-height: 1.08;
@@ -275,11 +348,11 @@ const patamares = [
   }
 
   .hero__descritor {
-    margin-top: var(--space-5);
-    max-width: 34rem;
+    margin: var(--space-5) auto 0;
+    max-width: 36rem;
     font-size: var(--text-md);
     line-height: var(--leading-relaxed);
-    color: rgb(var(--otto-offwhite-rgb) / 0.78);
+    color: rgb(var(--otto-offwhite-rgb) / 0.8);
   }
 
   .hero__signature {
@@ -299,6 +372,7 @@ const patamares = [
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    justify-content: center;
     gap: var(--space-5);
     margin-top: var(--space-6);
   }
@@ -337,51 +411,43 @@ const patamares = [
     border-top: 1px solid var(--color-border);
   }
 
-  .solucoes__row {
-    display: flex;
-    align-items: baseline;
-    gap: var(--space-4);
-    padding-block: var(--space-5);
+  .solucao {
+    display: grid;
+    grid-template-columns: minmax(14rem, 1fr) 1.5fr;
+    gap: var(--space-5) var(--space-8);
+    padding-block: var(--space-6);
     border-bottom: 1px solid var(--color-border);
+    transition: background-color var(--duration-base) var(--ease-out);
   }
 
-  .solucoes__title {
-    font-family: var(--font-display);
-    font-size: var(--text-lg);
-    letter-spacing: var(--tracking-tight);
+  .solucao__head {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+  }
+
+  .solucao__arrow {
+    color: var(--otto-red);
+    font-size: var(--text-md);
     transition: transform var(--duration-base) var(--ease-out);
   }
 
-  .solucoes__tag {
-    font-size: var(--text-xs);
-    font-weight: 500;
-    letter-spacing: var(--tracking-wide);
-    text-transform: uppercase;
-    color: var(--otto-red);
-    border: 1px solid color-mix(in srgb, var(--otto-red) 40%, transparent);
-    padding: 0.15em 0.6em;
-    border-radius: var(--radius-full);
-    white-space: nowrap;
+  .solucao__name {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    letter-spacing: var(--tracking-tight);
+    line-height: var(--leading-snug);
   }
 
-  .solucoes__arrow {
-    margin-left: auto;
+  .solucao__desc {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
     color: var(--color-text-secondary);
-    opacity: 0;
-    transform: translateX(-8px);
-    transition: opacity var(--duration-base) var(--ease-out),
-      transform var(--duration-base) var(--ease-out),
-      color var(--duration-base) var(--ease-out);
+    max-width: 46ch;
   }
 
-  .solucoes__row:hover .solucoes__title {
-    transform: translateX(8px);
-  }
-
-  .solucoes__row:hover .solucoes__arrow {
-    opacity: 1;
-    transform: translateX(0);
-    color: var(--otto-red);
+  .solucao:hover .solucao__arrow {
+    transform: translateX(6px);
   }
 
   .solucoes__cta {
@@ -412,18 +478,13 @@ const patamares = [
     display: flex;
     gap: var(--space-5);
     padding: var(--space-6);
-    /* deslocamento ascendente: cada patamar sobe um degrau (a numeração é
-       informação — são degraus que se sucedem) */
     margin-left: calc(var(--step) * clamp(0rem, 4vw, 3rem));
     border: 1px solid rgb(var(--otto-offwhite-rgb) / 0.12);
     border-radius: var(--radius-md);
-    background: linear-gradient(
-      135deg,
-      rgb(var(--otto-offwhite-rgb) / 0.04),
-      transparent 60%
-    );
+    background: linear-gradient(135deg, rgb(var(--otto-offwhite-rgb) / 0.04), transparent 60%);
     transition: border-color var(--duration-base) var(--ease-out),
       transform var(--duration-base) var(--ease-out);
+    will-change: transform;
   }
 
   .patamar:hover {
@@ -454,9 +515,32 @@ const patamares = [
   /* =========================== SOBRE =========================== */
   .sobre__grid {
     display: grid;
-    grid-template-columns: 1fr 1.2fr;
+    grid-template-columns: 0.85fr 1.15fr;
     gap: var(--space-8);
-    align-items: start;
+    align-items: center;
+  }
+
+  .sobre__photo {
+    margin: 0;
+    aspect-ratio: 4 / 5;
+    display: grid;
+    place-items: center;
+    border-radius: var(--radius-md);
+    border: 1px dashed color-mix(in srgb, var(--color-text-secondary) 55%, transparent);
+    background:
+      radial-gradient(90% 70% at 50% 15%, rgb(var(--otto-red-rgb) / 0.06), transparent 60%),
+      linear-gradient(160deg, rgb(36 36 36 / 0.05), rgb(36 36 36 / 0.02));
+    color: var(--color-text-secondary);
+  }
+
+  .sobre__photo-note {
+    font-size: var(--text-sm);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+  }
+
+  .sobre__body {
+    margin-top: var(--space-5);
   }
 
   .sobre__body p {
@@ -478,41 +562,107 @@ const patamares = [
   .cases {
     background-color: var(--otto-charcoal);
     color: var(--otto-offwhite);
+    overflow: hidden;
   }
 
-  .cases__grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+  .cases__head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
     gap: var(--space-5);
+    margin-bottom: var(--space-7);
+  }
+
+  .cases__head-text {
+    margin-bottom: 0;
+  }
+
+  .cases__controls {
+    display: flex;
+    gap: var(--space-3);
+    flex-shrink: 0;
+  }
+
+  .cases__arrow-btn {
+    width: 3rem;
+    height: 3rem;
+    border-radius: var(--radius-full);
+    border: 1px solid rgb(var(--otto-offwhite-rgb) / 0.22);
+    background: transparent;
+    color: var(--otto-offwhite);
+    font-size: var(--text-md);
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    transition: background-color var(--duration-fast) var(--ease-standard),
+      border-color var(--duration-fast) var(--ease-standard),
+      opacity var(--duration-fast) var(--ease-standard);
+  }
+
+  .cases__arrow-btn:hover {
+    background-color: var(--otto-red);
+    border-color: var(--otto-red);
+  }
+
+  .cases__arrow-btn:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+
+  /* viewport ocupa a largura total; a trilha usa o gutter do container para
+     alinhar o primeiro card, e rola horizontalmente com snap */
+  .cases__viewport {
+    margin-bottom: var(--space-7);
+  }
+
+  .cases__track {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: var(--space-5);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 0;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    /* sangra o overflow para as laterais sem cortar sombras */
+    padding-bottom: var(--space-2);
+  }
+
+  .cases__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .case-slide {
+    scroll-snap-align: start;
+    flex: 0 0 clamp(17rem, 32vw, 22rem);
   }
 
   .case-card {
     display: flex;
     flex-direction: column;
-    padding: var(--space-4);
-    border: 1px solid rgb(var(--otto-offwhite-rgb) / 0.12);
+    height: 100%;
     border-radius: var(--radius-md);
+    overflow: hidden;
     text-decoration: none;
     color: inherit;
-    position: relative;
-    isolation: isolate;
+    border: 1px solid rgb(var(--otto-offwhite-rgb) / 0.12);
+    background-color: rgb(var(--otto-offwhite-rgb) / 0.02);
   }
 
-  .case-card__thumb {
-    display: block;
+  .case-card__media {
+    position: relative;
     aspect-ratio: 4 / 3;
-    border-radius: var(--radius-sm);
     background:
-      radial-gradient(120% 120% at 70% 20%, rgb(var(--otto-red-rgb) / 0.18), transparent 60%),
-      linear-gradient(160deg, #2f2f2f, var(--otto-ink));
-    margin-bottom: var(--space-4);
+      radial-gradient(120% 120% at 72% 18%, rgb(var(--otto-red-rgb) / 0.22), transparent 58%),
+      linear-gradient(155deg, #313131, var(--otto-ink));
   }
 
   .case-card__badge {
     position: absolute;
     top: var(--space-4);
     left: var(--space-4);
-    z-index: 1;
     font-size: var(--text-xs);
     font-weight: 500;
     letter-spacing: var(--tracking-wide);
@@ -523,35 +673,59 @@ const patamares = [
     border-radius: var(--radius-full);
   }
 
+  .case-card__info {
+    padding: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    flex-grow: 1;
+  }
+
+  .case-card__cat {
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+  }
+
   .case-card__name {
     font-family: var(--font-display);
     font-size: var(--text-lg);
     letter-spacing: var(--tracking-tight);
   }
 
-  .case-card__meta {
-    margin-top: var(--space-2);
+  .case-card__cta {
+    margin-top: auto;
+    padding-top: var(--space-3);
     font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--otto-red-text-on-dark, #f0575a);
+  }
+
+  .case-card__cta--muted {
     color: var(--color-text-secondary);
   }
 
   .case-card--model {
     transition: transform var(--duration-base) var(--ease-out),
       border-color var(--duration-base) var(--ease-out);
+    will-change: transform;
   }
 
   .case-card--model:hover {
-    transform: translateY(-4px);
+    transform: translateY(-6px);
     border-color: var(--otto-red);
   }
 
   .case-card--empty {
     border-style: dashed;
+  }
+
+  .case-card--empty .case-card__media {
     opacity: 0.5;
   }
 
   .cases__note {
-    margin-top: var(--space-7);
     max-width: 46rem;
     font-size: var(--text-sm);
     color: rgb(var(--otto-offwhite-rgb) / 0.7);
@@ -562,17 +736,39 @@ const patamares = [
   }
 
   /* ======================== DEPOIMENTOS ======================== */
-  .depoimentos__grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+  .marquee {
+    margin-top: var(--space-4);
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+
+  .marquee__track {
+    display: flex;
     gap: var(--space-5);
+    width: max-content;
+    animation: marquee 48s linear infinite;
+  }
+
+  .marquee:hover .marquee__track {
+    animation-play-state: paused;
+  }
+
+  @keyframes marquee {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(-50%, 0, 0); }
   }
 
   .depoimento {
+    flex: 0 0 clamp(18rem, 30vw, 24rem);
     margin: 0;
     padding: var(--space-6);
     border: 1px dashed var(--color-border);
     border-radius: var(--radius-md);
+    background-color: rgb(var(--otto-charcoal-rgb) / 0.02);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
   }
 
   .depoimento blockquote {
@@ -580,13 +776,24 @@ const patamares = [
     font-family: var(--font-display);
     font-size: var(--text-lg);
     letter-spacing: var(--tracking-tight);
+    line-height: var(--leading-snug);
     color: var(--color-text-secondary);
   }
 
   .depoimento figcaption {
-    margin-top: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
     font-size: var(--text-sm);
-    line-height: var(--leading-normal);
+  }
+
+  .depoimento__name {
+    font-weight: 500;
+    color: var(--color-text);
+  }
+
+  .depoimento__hint {
+    font-size: var(--text-xs);
     color: var(--color-text-secondary);
   }
 
@@ -638,25 +845,40 @@ const patamares = [
   @media (max-width: 60rem) {
     .sobre__grid {
       grid-template-columns: 1fr;
-      gap: var(--space-5);
+      gap: var(--space-6);
     }
-    .cases__grid,
-    .depoimentos__grid {
-      grid-template-columns: 1fr 1fr;
+    .sobre__photo {
+      aspect-ratio: 3 / 2;
+      max-height: 22rem;
+    }
+  }
+
+  @media (max-width: 48rem) {
+    .solucao {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+      padding-block: var(--space-5);
     }
   }
 
   @media (max-width: 40rem) {
-    .cases__grid,
-    .depoimentos__grid {
-      grid-template-columns: 1fr;
-    }
     .patamar {
       margin-left: 0;
       padding: var(--space-5);
     }
-    .solucoes__arrow {
-      display: none;
+    .cases__head {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  /* Movimento reduzido: para a esteira e deixa rolar manualmente */
+  @media (prefers-reduced-motion: reduce) {
+    .marquee__track {
+      animation: none;
+    }
+    .marquee {
+      overflow-x: auto;
     }
   }
 </style>

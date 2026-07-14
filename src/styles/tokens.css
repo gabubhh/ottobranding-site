@@ -43,9 +43,9 @@
 
   /* ---- Tipografia: famílias ---- */
   /* Display = Pogonia (redonda, geométrica, ecoa o wordmark).
-     Corpo = Neue Haas Grotesk Display Pro (grotesca suíça, licença web). */
+     Corpo = Inter (grotesca humanista, self-hosted). */
   --font-display: 'Pogonia', Arial, Helvetica, sans-serif;
-  --font-body: 'Neue Haas Grotesk', Arial, Helvetica, sans-serif;
+  --font-body: 'Inter', Arial, Helvetica, sans-serif;
 
   /* ---- Tipografia: escala (editorial; fluida nos tamanhos de destaque) ----
      A referência (Farda) trabalha com headlines de display muito grandes e

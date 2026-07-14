@@ -250,7 +250,9 @@ const { class: className = '', texture = 'otto-flux', label = '' } = Astro.props
       canvas,
       alpha: false,
       antialias: false,
-      dpr: Math.min(window.devicePixelRatio || 1, 2),
+      // DPR limitado a 1.5: a textura é suave, então o ganho visual de 2x
+      // não compensa o custo (4M+ px por frame). Menos jank no scroll.
+      dpr: Math.min(window.devicePixelRatio || 1, 1.5),
       powerPreference: 'high-performance',
     });
     const gl = renderer.gl;
