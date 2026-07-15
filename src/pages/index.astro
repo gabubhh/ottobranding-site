@@ -58,8 +58,26 @@ const cases = [
   { name: 'Barreto Tour', cat: 'Turismo', model: false },
 ];
 
-// Depoimentos — não existem ainda. Slots claramente marcados, em carrossel.
-const depoimentos = [0, 1, 2, 3, 4];
+// Depoimentos — slider central (referência Ashley adaptada). Conteúdo é
+// EXEMPLO na voz da Otto (foco em resultado/percepção). Atribuição fica em
+// placeholder até coletar os reais — flag abaixo deixa isso explícito.
+const reviews = [
+  {
+    quote: 'Paramos de ser cobrados só pelo preço. Hoje a conversa começa pelo valor — e a margem acompanhou.',
+    name: '[Nome do cliente]',
+    role: '[Empresa · Segmento]',
+  },
+  {
+    quote: 'A marca finalmente parece do tamanho da ambição do negócio. Passamos a receber propostas que antes nem chegavam até nós.',
+    name: '[Nome do cliente]',
+    role: '[Empresa · Segmento]',
+  },
+  {
+    quote: 'O reposicionamento deu clareza para a equipe inteira. Todo mundo passou a defender a mesma história.',
+    name: '[Nome do cliente]',
+    role: '[Empresa · Segmento]',
+  },
+];
 ---
 
 <BaseLayout title="Otto Branding — Criamos marcas de Otto Patamar">
@@ -236,26 +254,46 @@ const depoimentos = [0, 1, 2, 3, 4];
   </section>
 
   <!-- ========================= DEPOIMENTOS ======================== -->
-  <section id="depoimentos" class="section depoimentos" data-surface="light">
+  <section id="depoimentos" class="section reviews" data-surface="light">
     <div class="container">
-      <div class="section-head">
+      <div class="section-head reviews__head">
         <p class="eyebrow reveal">Depoimentos</p>
-        <h2 class="section-title reveal">Histórias reais, com <span class="t-em">resultado real</span>.</h2>
+        <h2 class="section-title reveal">
+          O que muda quando a marca <span class="t-em">sai do lugar comum</span>.
+        </h2>
       </div>
-    </div>
 
-    <div class="marquee reveal" data-marquee>
-      <div class="marquee__track">
-        {[...depoimentos, ...depoimentos].map((_, i) => (
-          <figure class="depoimento" aria-hidden={i >= depoimentos.length ? 'true' : undefined}>
-            <blockquote>“[Depoimento a coletar]”</blockquote>
-            <figcaption>
-              <span class="depoimento__name">[Nome · Empresa]</span>
-              <span class="depoimento__hint">peça citando o resultado, não o processo</span>
-            </figcaption>
-          </figure>
-        ))}
+      <div class="reviews__stage reveal" data-reviews>
+        <svg class="reviews__quote-icon" viewBox="0 0 48 48" aria-hidden="true">
+          <path d="M 13.5 10 A 8.5 8.5 0 0 0 13.5 27 A 8.5 8.5 0 0 0 18.291016 25.519531 C 17.422273 29.222843 15.877848 31.803343 14.357422 33.589844 C 12.068414 36.279429 9.9433594 37.107422 9.9433594 37.107422 A 1.50015 1.50015 0 1 0 11.056641 39.892578 C 11.056641 39.892578 13.931586 38.720571 16.642578 35.535156 C 19.35357 32.349741 22 27.072581 22 19 A 1.50015 1.50015 0 0 0 21.984375 18.78125 A 8.5 8.5 0 0 0 13.5 10 z M 34.5 10 A 8.5 8.5 0 0 0 34.5 27 A 8.5 8.5 0 0 0 39.291016 25.519531 C 38.422273 29.222843 36.877848 31.803343 35.357422 33.589844 C 33.068414 36.279429 30.943359 37.107422 30.943359 37.107422 A 1.50015 1.50015 0 1 0 32.056641 39.892578 C 32.056641 39.892578 34.931586 38.720571 37.642578 35.535156 C 40.35357 32.349741 43 27.072581 43 19 A 1.50015 1.50015 0 0 0 42.984375 18.78125 A 8.5 8.5 0 0 0 34.5 10 z" />
+        </svg>
+
+        <div class="reviews__viewport" data-reviews-viewport>
+          {reviews.map((r, i) => (
+            <figure class:list={['review', i === 0 && 'is-active']} data-review>
+              <blockquote class="review__quote">{r.quote}</blockquote>
+              <figcaption class="review__by">
+                <span class="review__name">{r.name}</span>
+                <span class="review__role">{r.role}</span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+
+        <div class="reviews__nav">
+          <button class="reviews__arrow" data-reviews-prev type="button" aria-label="Depoimento anterior">
+            <span aria-hidden="true">←</span>
+          </button>
+          <div class="reviews__dots" data-reviews-dots aria-hidden="true"></div>
+          <button class="reviews__arrow" data-reviews-next type="button" aria-label="Próximo depoimento">
+            <span aria-hidden="true">→</span>
+          </button>
+        </div>
       </div>
+
+      <p class="reviews__flag reveal">
+        Exemplos — substituir pelos depoimentos reais dos clientes.
+      </p>
     </div>
   </section>
 
@@ -308,6 +346,63 @@ const depoimentos = [0, 1, 2, 3, 4];
     track.addEventListener('scroll', sync, { passive: true });
     window.addEventListener('resize', sync);
     sync();
+  }
+</script>
+
+<script>
+  // Slider de depoimentos: um por vez, fade. Setas + dots + autoplay que pausa
+  // no hover/foco. Sob prefers-reduced-motion não há autoplay (só manual).
+  const stage = document.querySelector<HTMLElement>('[data-reviews]');
+  const viewport = stage?.querySelector<HTMLElement>('[data-reviews-viewport]');
+  const slides = viewport ? Array.from(viewport.querySelectorAll<HTMLElement>('[data-review]')) : [];
+  const dotsWrap = stage?.querySelector<HTMLElement>('[data-reviews-dots]');
+  const prevBtn = stage?.querySelector<HTMLButtonElement>('[data-reviews-prev]');
+  const nextBtn = stage?.querySelector<HTMLButtonElement>('[data-reviews-next]');
+
+  if (stage && slides.length > 1) {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let index = 0;
+    let timer: number | undefined;
+
+    // dots
+    const dots = slides.map((_, i) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'reviews__dot' + (i === 0 ? ' is-active' : '');
+      b.setAttribute('aria-label', `Depoimento ${i + 1}`);
+      b.addEventListener('click', () => { show(i); restart(); });
+      dotsWrap?.appendChild(b);
+      return b;
+    });
+
+    const show = (n: number) => {
+      index = (n + slides.length) % slides.length;
+      slides.forEach((s, i) => {
+        s.classList.toggle('is-active', i === index);
+        s.setAttribute('aria-hidden', i === index ? 'false' : 'true');
+      });
+      dots.forEach((d, i) => d.classList.toggle('is-active', i === index));
+    };
+
+    // estado inicial de acessibilidade coerente com o slide ativo
+    slides.forEach((s, i) => s.setAttribute('aria-hidden', i === 0 ? 'false' : 'true'));
+
+    const restart = () => {
+      if (reduce) return;
+      window.clearInterval(timer);
+      timer = window.setInterval(() => show(index + 1), 6000);
+    };
+
+    prevBtn?.addEventListener('click', () => { show(index - 1); restart(); });
+    nextBtn?.addEventListener('click', () => { show(index + 1); restart(); });
+
+    // pausa autoplay quando o cursor/foco está na área
+    stage.addEventListener('mouseenter', () => window.clearInterval(timer));
+    stage.addEventListener('mouseleave', restart);
+    stage.addEventListener('focusin', () => window.clearInterval(timer));
+    stage.addEventListener('focusout', restart);
+
+    restart();
   }
 </script>
 
@@ -437,18 +532,21 @@ const depoimentos = [0, 1, 2, 3, 4];
   }
 
   /* ========================== SOLUÇÕES ========================= */
+  /* duas colunas para encurtar a lista; cada item empilha nome + descrição.
+     O grid deixa as duas células de uma linha com a mesma altura, então as
+     bordas inferiores alinham. */
   .solucoes__list {
     list-style: none;
     margin: 0;
     padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: var(--space-8);
     border-top: 1px solid var(--color-border);
   }
 
   .solucao {
-    display: grid;
-    grid-template-columns: minmax(14rem, 1fr) 1.5fr;
-    gap: var(--space-5) var(--space-8);
-    padding-block: var(--space-6);
+    padding-block: var(--space-5);
     border-bottom: 1px solid var(--color-border);
     transition: background-color var(--duration-base) var(--ease-out);
   }
@@ -473,10 +571,12 @@ const depoimentos = [0, 1, 2, 3, 4];
   }
 
   .solucao__desc {
+    margin-top: var(--space-3);
+    padding-left: calc(var(--text-md) + var(--space-3));
     font-size: var(--text-base);
     line-height: var(--leading-relaxed);
     color: var(--color-text-secondary);
-    max-width: 46ch;
+    max-width: 44ch;
   }
 
   .solucao:hover .solucao__arrow {
@@ -817,65 +917,153 @@ const depoimentos = [0, 1, 2, 3, 4];
   }
 
   /* ======================== DEPOIMENTOS ======================== */
-  .marquee {
-    margin-top: var(--space-4);
-    overflow: hidden;
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  /* Slider central (referência Ashley): um depoimento por vez, ícone de aspas,
+     grandes aspas em Pogonia, navegação com setas + dots. Fade entre slides. */
+  .reviews__head {
+    text-align: center;
+    margin-inline: auto;
   }
 
-  .marquee__track {
-    display: flex;
-    gap: var(--space-5);
-    width: max-content;
-    animation: marquee 48s linear infinite;
+  .reviews__stage {
+    position: relative;
+    max-width: 44rem;
+    margin: var(--space-7) auto 0;
+    text-align: center;
   }
 
-  .marquee:hover .marquee__track {
-    animation-play-state: paused;
+  .reviews__quote-icon {
+    width: 2.75rem;
+    height: 2.75rem;
+    fill: var(--otto-red);
+    opacity: 0.9;
+    margin-bottom: var(--space-5);
   }
 
-  @keyframes marquee {
-    from { transform: translate3d(0, 0, 0); }
-    to { transform: translate3d(-50%, 0, 0); }
+  /* todos os slides na mesma célula de grid → altura = maior slide, sem pulo */
+  .reviews__viewport {
+    display: grid;
   }
 
-  .depoimento {
-    flex: 0 0 clamp(18rem, 30vw, 24rem);
+  .review {
+    grid-area: 1 / 1;
     margin: 0;
-    padding: var(--space-6);
-    border: 1px dashed var(--color-border);
-    border-radius: var(--radius-md);
-    background-color: rgb(var(--otto-charcoal-rgb) / 0.02);
     display: flex;
     flex-direction: column;
-    gap: var(--space-4);
+    gap: var(--space-5);
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+    /* saída rápida, sem espera */
+    transition: opacity 0.32s var(--ease-out), transform 0.32s var(--ease-out);
   }
 
-  .depoimento blockquote {
+  /* fade-through: o slide que entra espera o que sai desaparecer, para os dois
+     textos (de tamanhos diferentes) não se sobreporem no mesmo lugar */
+  .review.is-active {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+    transition: opacity 0.4s var(--ease-out) 0.3s, transform 0.5s var(--ease-out) 0.3s;
+  }
+
+  .review__quote {
     margin: 0;
     font-family: var(--font-display);
-    font-size: var(--text-lg);
-    letter-spacing: var(--tracking-tight);
+    font-size: var(--text-xl);
     line-height: var(--leading-snug);
-    color: var(--color-text-secondary);
+    letter-spacing: var(--tracking-tight);
+    text-wrap: balance;
   }
 
-  .depoimento figcaption {
+  .review__quote::before { content: '“'; }
+  .review__quote::after { content: '”'; }
+
+  .review__by {
     display: flex;
     flex-direction: column;
     gap: var(--space-1);
-    font-size: var(--text-sm);
   }
 
-  .depoimento__name {
-    font-weight: 500;
+  .review__name {
+    font-family: var(--font-display);
+    font-size: var(--text-md);
     color: var(--color-text);
   }
 
-  .depoimento__hint {
+  .review__role {
     font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
     color: var(--color-text-secondary);
+  }
+
+  .reviews__nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-5);
+    margin-top: var(--space-8);
+  }
+
+  .reviews__arrow {
+    width: 3rem;
+    height: 3rem;
+    border-radius: var(--radius-full);
+    border: 1px solid color-mix(in srgb, var(--color-text-secondary) 45%, transparent);
+    background: transparent;
+    color: var(--color-text);
+    font-size: var(--text-md);
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    transition: background-color var(--duration-fast) var(--ease-standard),
+      border-color var(--duration-fast) var(--ease-standard),
+      color var(--duration-fast) var(--ease-standard);
+  }
+
+  .reviews__arrow:hover {
+    background-color: var(--otto-red);
+    border-color: var(--otto-red);
+    color: var(--otto-offwhite);
+  }
+
+  .reviews__dots {
+    display: flex;
+    gap: var(--space-3);
+  }
+
+  .reviews__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: none;
+    padding: 0;
+    background-color: color-mix(in srgb, var(--color-text-secondary) 45%, transparent);
+    cursor: pointer;
+    transition: background-color var(--duration-fast) var(--ease-standard),
+      transform var(--duration-fast) var(--ease-standard);
+  }
+
+  .reviews__dot.is-active {
+    background-color: var(--otto-red);
+    transform: scale(1.25);
+  }
+
+  .reviews__flag {
+    margin-top: var(--space-7);
+    text-align: center;
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--otto-red);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .review,
+    .review.is-active {
+      transition: opacity var(--duration-base) linear;
+      transform: none;
+    }
   }
 
   /* ========================= CTA FINAL ========================= */
@@ -956,10 +1144,11 @@ const depoimentos = [0, 1, 2, 3, 4];
   }
 
   @media (max-width: 48rem) {
-    .solucao {
+    .solucoes__list {
       grid-template-columns: 1fr;
-      gap: var(--space-3);
-      padding-block: var(--space-5);
+    }
+    .solucao__desc {
+      padding-left: 0;
     }
   }
 

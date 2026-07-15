@@ -3,6 +3,10 @@ import logoCream from '../assets/brand/otto-logo-cream.svg?raw';
 import { NAV_LINKS, WHATSAPP_URL, INSTAGRAM_URL, EMAIL } from '../config';
 
 const year = new Date().getFullYear();
+
+// Mesma lógica do header: âncoras de seção só existem na home.
+const isHome = Astro.url.pathname === '/';
+const navHref = (href: string) => (isHome ? href : `/${href}`);
 ---
 
 <footer class="site-footer" id="contato">
@@ -16,7 +20,7 @@ const year = new Date().getFullYear();
 
     <nav class="site-footer__nav" aria-label="Navegação do rodapé">
       {NAV_LINKS.map((link) => (
-        <a href={link.href}>{link.label}</a>
+        <a href={navHref(link.href)}>{link.label}</a>
       ))}
     </nav>
 

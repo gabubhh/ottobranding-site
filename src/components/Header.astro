@@ -1,11 +1,18 @@
 ---
 import logoCream from '../assets/brand/otto-logo-cream.svg?raw';
 import { NAV_LINKS, WHATSAPP_URL, STATUS_BADGE } from '../config';
+
+// Links de seção (#âncora) só existem na home. Fora dela (ex.: página de case),
+// prefixa com "/" para voltar à home e então rolar até a seção. Na home, mantém
+// o "#âncora" puro para rolagem suave sem recarregar.
+const isHome = Astro.url.pathname === '/';
+const navHref = (href: string) => (isHome ? href : `/${href}`);
+const logoHref = isHome ? '#top' : '/';
 ---
 
 <header class="site-header">
   <div class="container site-header__inner">
-    <a href="#top" class="site-header__logo" aria-label="Otto Branding — início">
+    <a href={logoHref} class="site-header__logo" aria-label="Otto Branding — início">
       <Fragment set:html={logoCream} />
     </a>
 
@@ -20,7 +27,7 @@ import { NAV_LINKS, WHATSAPP_URL, STATUS_BADGE } from '../config';
 
     <nav class="site-header__nav" aria-label="Navegação principal">
       {NAV_LINKS.map((link) => (
-        <a href={link.href} class="site-header__link">{link.label}</a>
+        <a href={navHref(link.href)} class="site-header__link">{link.label}</a>
       ))}
       <a class="btn btn-whatsapp" href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
         Falar no WhatsApp

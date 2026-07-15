@@ -1,6 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import Preloader from '../components/Preloader.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -22,6 +23,19 @@ const {
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#242424" />
+
+    <!-- Preloader: mostra só na 1ª visita da sessão. Marca html.is-loaded antes
+         do paint para não piscar a camada nas navegações internas. -->
+    <script is:inline>
+      try {
+        if (sessionStorage.getItem('ottoSeen')) {
+          document.documentElement.classList.add('is-loaded');
+        } else {
+          sessionStorage.setItem('ottoSeen', '1');
+        }
+      } catch (e) {}
+    </script>
+
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
@@ -34,6 +48,7 @@ const {
     <title>{title}</title>
   </head>
   <body>
+    <Preloader />
     <div id="top"></div>
     <Header />
     <main>
