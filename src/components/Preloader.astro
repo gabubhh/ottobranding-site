@@ -37,7 +37,8 @@ import logoCream from '../assets/brand/otto-logo-cream.svg?raw';
     display: grid;
     place-items: center;
     background-color: var(--otto-ink);
-    animation: pl-out 0.6s var(--ease-out) 2.2s forwards;
+    /* +1s no wordmark antes de sair (era 2.2s) */
+    animation: pl-out 0.6s var(--ease-out) 3.2s forwards;
   }
 
   @keyframes pl-out {

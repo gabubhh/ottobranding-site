@@ -61,21 +61,26 @@ const cases = [
 // Depoimentos — slider central (referência Ashley adaptada). Conteúdo é
 // EXEMPLO na voz da Otto (foco em resultado/percepção). Atribuição fica em
 // placeholder até coletar os reais — flag abaixo deixa isso explícito.
+// photo: caminho da foto do cliente (ex.: '/depoimentos/fulano.jpg'). Vazio =
+// mostra o avatar placeholder (silhueta). Trocar pelas fotos reais depois.
 const reviews = [
   {
     quote: 'Paramos de ser cobrados só pelo preço. Hoje a conversa começa pelo valor — e a margem acompanhou.',
     name: '[Nome do cliente]',
     role: '[Empresa · Segmento]',
+    photo: '',
   },
   {
     quote: 'A marca finalmente parece do tamanho da ambição do negócio. Passamos a receber propostas que antes nem chegavam até nós.',
     name: '[Nome do cliente]',
     role: '[Empresa · Segmento]',
+    photo: '',
   },
   {
     quote: 'O reposicionamento deu clareza para a equipe inteira. Todo mundo passou a defender a mesma história.',
     name: '[Nome do cliente]',
     role: '[Empresa · Segmento]',
+    photo: '',
   },
 ];
 ---
@@ -264,6 +269,28 @@ const reviews = [
       </div>
 
       <div class="reviews__stage reveal" data-reviews>
+        <!-- fotos dos clientes: clicar troca o depoimento; o ativo ganha anel -->
+        <div class="reviews__people" data-reviews-people>
+          {reviews.map((r, i) => (
+            <button
+              class:list={['reviews__person', i === 0 && 'is-active']}
+              type="button"
+              data-review-avatar
+              aria-label={`Ver depoimento de ${r.name}`}
+            >
+              <span class="reviews__person-img">
+                {r.photo ? (
+                  <img src={r.photo} alt="" loading="lazy" decoding="async" />
+                ) : (
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 12.6a4.3 4.3 0 1 0 0-8.6 4.3 4.3 0 0 0 0 8.6Zm0 1.8c-3.6 0-8 1.9-8 5.2V21h16v-1.4c0-3.3-4.4-5.2-8-5.2Z" />
+                  </svg>
+                )}
+              </span>
+            </button>
+          ))}
+        </div>
+
         <svg class="reviews__quote-icon" viewBox="0 0 48 48" aria-hidden="true">
           <path d="M 13.5 10 A 8.5 8.5 0 0 0 13.5 27 A 8.5 8.5 0 0 0 18.291016 25.519531 C 17.422273 29.222843 15.877848 31.803343 14.357422 33.589844 C 12.068414 36.279429 9.9433594 37.107422 9.9433594 37.107422 A 1.50015 1.50015 0 1 0 11.056641 39.892578 C 11.056641 39.892578 13.931586 38.720571 16.642578 35.535156 C 19.35357 32.349741 22 27.072581 22 19 A 1.50015 1.50015 0 0 0 21.984375 18.78125 A 8.5 8.5 0 0 0 13.5 10 z M 34.5 10 A 8.5 8.5 0 0 0 34.5 27 A 8.5 8.5 0 0 0 39.291016 25.519531 C 38.422273 29.222843 36.877848 31.803343 35.357422 33.589844 C 33.068414 36.279429 30.943359 37.107422 30.943359 37.107422 A 1.50015 1.50015 0 1 0 32.056641 39.892578 C 32.056641 39.892578 34.931586 38.720571 37.642578 35.535156 C 40.35357 32.349741 43 27.072581 43 19 A 1.50015 1.50015 0 0 0 42.984375 18.78125 A 8.5 8.5 0 0 0 34.5 10 z" />
         </svg>
@@ -271,28 +298,18 @@ const reviews = [
         <div class="reviews__viewport" data-reviews-viewport>
           {reviews.map((r, i) => (
             <figure class:list={['review', i === 0 && 'is-active']} data-review>
-              <blockquote class="review__quote">{r.quote}</blockquote>
               <figcaption class="review__by">
                 <span class="review__name">{r.name}</span>
                 <span class="review__role">{r.role}</span>
               </figcaption>
+              <blockquote class="review__quote">{r.quote}</blockquote>
             </figure>
           ))}
-        </div>
-
-        <div class="reviews__nav">
-          <button class="reviews__arrow" data-reviews-prev type="button" aria-label="Depoimento anterior">
-            <span aria-hidden="true">←</span>
-          </button>
-          <div class="reviews__dots" data-reviews-dots aria-hidden="true"></div>
-          <button class="reviews__arrow" data-reviews-next type="button" aria-label="Próximo depoimento">
-            <span aria-hidden="true">→</span>
-          </button>
         </div>
       </div>
 
       <p class="reviews__flag reveal">
-        Exemplos — substituir pelos depoimentos reais dos clientes.
+        Exemplos — substituir pelos depoimentos e fotos reais dos clientes.
       </p>
     </div>
   </section>
@@ -350,30 +367,20 @@ const reviews = [
 </script>
 
 <script>
-  // Slider de depoimentos: um por vez, fade. Setas + dots + autoplay que pausa
-  // no hover/foco. Sob prefers-reduced-motion não há autoplay (só manual).
+  // Depoimentos: fila de fotos; clicar numa foto troca a fala (fade-through).
+  // A foto ativa ganha o anel. Autoplay avança e pausa no hover/foco; sob
+  // prefers-reduced-motion não há autoplay (só clique manual).
   const stage = document.querySelector<HTMLElement>('[data-reviews]');
   const viewport = stage?.querySelector<HTMLElement>('[data-reviews-viewport]');
   const slides = viewport ? Array.from(viewport.querySelectorAll<HTMLElement>('[data-review]')) : [];
-  const dotsWrap = stage?.querySelector<HTMLElement>('[data-reviews-dots]');
-  const prevBtn = stage?.querySelector<HTMLButtonElement>('[data-reviews-prev]');
-  const nextBtn = stage?.querySelector<HTMLButtonElement>('[data-reviews-next]');
+  const avatars = stage
+    ? Array.from(stage.querySelectorAll<HTMLButtonElement>('[data-review-avatar]'))
+    : [];
 
   if (stage && slides.length > 1) {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let index = 0;
     let timer: number | undefined;
-
-    // dots
-    const dots = slides.map((_, i) => {
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'reviews__dot' + (i === 0 ? ' is-active' : '');
-      b.setAttribute('aria-label', `Depoimento ${i + 1}`);
-      b.addEventListener('click', () => { show(i); restart(); });
-      dotsWrap?.appendChild(b);
-      return b;
-    });
 
     const show = (n: number) => {
       index = (n + slides.length) % slides.length;
@@ -381,11 +388,11 @@ const reviews = [
         s.classList.toggle('is-active', i === index);
         s.setAttribute('aria-hidden', i === index ? 'false' : 'true');
       });
-      dots.forEach((d, i) => d.classList.toggle('is-active', i === index));
+      avatars.forEach((a, i) => {
+        a.classList.toggle('is-active', i === index);
+        a.setAttribute('aria-pressed', i === index ? 'true' : 'false');
+      });
     };
-
-    // estado inicial de acessibilidade coerente com o slide ativo
-    slides.forEach((s, i) => s.setAttribute('aria-hidden', i === 0 ? 'false' : 'true'));
 
     const restart = () => {
       if (reduce) return;
@@ -393,8 +400,12 @@ const reviews = [
       timer = window.setInterval(() => show(index + 1), 6000);
     };
 
-    prevBtn?.addEventListener('click', () => { show(index - 1); restart(); });
-    nextBtn?.addEventListener('click', () => { show(index + 1); restart(); });
+    // estado inicial de acessibilidade
+    slides.forEach((s, i) => s.setAttribute('aria-hidden', i === 0 ? 'false' : 'true'));
+    avatars.forEach((a, i) => {
+      a.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
+      a.addEventListener('click', () => { show(i); restart(); });
+    });
 
     // pausa autoplay quando o cursor/foco está na área
     stage.addEventListener('mouseenter', () => window.clearInterval(timer));
@@ -917,8 +928,8 @@ const reviews = [
   }
 
   /* ======================== DEPOIMENTOS ======================== */
-  /* Slider central (referência Ashley): um depoimento por vez, ícone de aspas,
-     grandes aspas em Pogonia, navegação com setas + dots. Fade entre slides. */
+  /* Referência Ashley: fila de fotos dos clientes (a ativa com anel vermelho);
+     clicar numa foto troca o depoimento. Abaixo, aspas + nome + empresa + fala. */
   .reviews__head {
     text-align: center;
     margin-inline: auto;
@@ -926,17 +937,73 @@ const reviews = [
 
   .reviews__stage {
     position: relative;
-    max-width: 44rem;
+    max-width: 46rem;
     margin: var(--space-7) auto 0;
     text-align: center;
   }
 
+  /* fila de avatares */
+  .reviews__people {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    margin-bottom: var(--space-7);
+  }
+
+  .reviews__person {
+    width: 4.75rem;
+    height: 4.75rem;
+    flex: 0 0 auto;
+    padding: 4px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    background: transparent;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity var(--duration-fast) var(--ease-standard),
+      border-color var(--duration-fast) var(--ease-standard),
+      transform var(--duration-base) var(--ease-out);
+  }
+
+  .reviews__person:hover {
+    opacity: 1;
+  }
+
+  .reviews__person.is-active {
+    opacity: 1;
+    border-color: var(--otto-red);
+    transform: scale(1.06);
+  }
+
+  .reviews__person-img {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    background: color-mix(in srgb, var(--color-text-secondary) 16%, var(--color-bg));
+  }
+
+  .reviews__person-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .reviews__person-img svg {
+    width: 64%;
+    height: 64%;
+    fill: color-mix(in srgb, var(--color-text-secondary) 65%, transparent);
+  }
+
   .reviews__quote-icon {
-    width: 2.75rem;
-    height: 2.75rem;
+    display: block;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin: 0 auto var(--space-4);
     fill: var(--otto-red);
-    opacity: 0.9;
-    margin-bottom: var(--space-5);
   }
 
   /* todos os slides na mesma célula de grid → altura = maior slide, sem pulo */
@@ -949,34 +1016,21 @@ const reviews = [
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--space-5);
+    align-items: center;
+    gap: var(--space-4);
     opacity: 0;
     transform: translateY(10px);
     pointer-events: none;
-    /* saída rápida, sem espera */
     transition: opacity 0.32s var(--ease-out), transform 0.32s var(--ease-out);
   }
 
-  /* fade-through: o slide que entra espera o que sai desaparecer, para os dois
-     textos (de tamanhos diferentes) não se sobreporem no mesmo lugar */
+  /* fade-through: o slide que entra espera o que sai desaparecer */
   .review.is-active {
     opacity: 1;
     transform: none;
     pointer-events: auto;
     transition: opacity 0.4s var(--ease-out) 0.3s, transform 0.5s var(--ease-out) 0.3s;
   }
-
-  .review__quote {
-    margin: 0;
-    font-family: var(--font-display);
-    font-size: var(--text-xl);
-    line-height: var(--leading-snug);
-    letter-spacing: var(--tracking-tight);
-    text-wrap: balance;
-  }
-
-  .review__quote::before { content: '“'; }
-  .review__quote::after { content: '”'; }
 
   .review__by {
     display: flex;
@@ -986,7 +1040,8 @@ const reviews = [
 
   .review__name {
     font-family: var(--font-display);
-    font-size: var(--text-md);
+    font-size: var(--text-lg);
+    letter-spacing: var(--tracking-tight);
     color: var(--color-text);
   }
 
@@ -997,56 +1052,13 @@ const reviews = [
     color: var(--color-text-secondary);
   }
 
-  .reviews__nav {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-5);
-    margin-top: var(--space-8);
-  }
-
-  .reviews__arrow {
-    width: 3rem;
-    height: 3rem;
-    border-radius: var(--radius-full);
-    border: 1px solid color-mix(in srgb, var(--color-text-secondary) 45%, transparent);
-    background: transparent;
-    color: var(--color-text);
-    font-size: var(--text-md);
-    cursor: pointer;
-    display: grid;
-    place-items: center;
-    transition: background-color var(--duration-fast) var(--ease-standard),
-      border-color var(--duration-fast) var(--ease-standard),
-      color var(--duration-fast) var(--ease-standard);
-  }
-
-  .reviews__arrow:hover {
-    background-color: var(--otto-red);
-    border-color: var(--otto-red);
-    color: var(--otto-offwhite);
-  }
-
-  .reviews__dots {
-    display: flex;
-    gap: var(--space-3);
-  }
-
-  .reviews__dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    border: none;
-    padding: 0;
-    background-color: color-mix(in srgb, var(--color-text-secondary) 45%, transparent);
-    cursor: pointer;
-    transition: background-color var(--duration-fast) var(--ease-standard),
-      transform var(--duration-fast) var(--ease-standard);
-  }
-
-  .reviews__dot.is-active {
-    background-color: var(--otto-red);
-    transform: scale(1.25);
+  .review__quote {
+    margin: 0;
+    max-width: 40rem;
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-secondary);
+    text-wrap: pretty;
   }
 
   .reviews__flag {
@@ -1063,6 +1075,10 @@ const reviews = [
     .review.is-active {
       transition: opacity var(--duration-base) linear;
       transform: none;
+    }
+    .reviews__person {
+      transition: opacity var(--duration-fast) linear,
+        border-color var(--duration-fast) linear;
     }
   }
 
