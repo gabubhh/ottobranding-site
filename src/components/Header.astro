@@ -69,6 +69,8 @@ const logoHref = isHome ? '#top' : '/';
   .site-header__logo :global(svg) {
     width: 100%;
     height: auto;
+    /* o desenho encosta na borda do viewBox; sem isto o mobile corta a base */
+    overflow: visible;
   }
 
   /* Badge de status — ponto pulsante + rótulo em versalete */
