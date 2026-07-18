@@ -24,6 +24,17 @@ const {
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#242424" />
 
+    <!-- Google Analytics (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P21CXNHN1J"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-P21CXNHN1J');
+    </script>
+
     <!-- Preloader: mostra só na 1ª visita da sessão. Marca html.is-loaded antes
          do paint para não piscar a camada nas navegações internas. -->
     <script is:inline>
