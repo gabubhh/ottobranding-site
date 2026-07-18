@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { cases, type CaseStudy } from '../../data/cases';
-import { WHATSAPP_URL } from '../../config';
+import { WHATSAPP_URL, DIAGNOSTIC_URL } from '../../config';
 
 export function getStaticPaths() {
   return cases.map((c) => ({ params: { slug: c.slug }, props: { c } }));
@@ -94,13 +94,19 @@ const [lead, ...rest] = c.texto;
   <section class="section ccta">
     <div class="container ccta__content">
       <h2 class="ccta__headline reveal">Sua marca está no patamar do seu trabalho?</h2>
-      <a class="btn btn-primary reveal" href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-        Começar uma conversa
+      <a class="btn btn-primary reveal" href={DIAGNOSTIC_URL} target="_blank" rel="noopener noreferrer">
+        Começar pelo diagnóstico
       </a>
-      <a class="ccta__more link-arrow reveal" href="/#cases">
-        <span class="link-arrow__icon" aria-hidden="true">→</span>
-        <span class="link-arrow__label">Ver outros cases</span>
-      </a>
+      <div class="ccta__secondary reveal">
+        <a class="ccta__link link-arrow" href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+          <span class="link-arrow__icon" aria-hidden="true">→</span>
+          <span class="link-arrow__label">Falar no WhatsApp</span>
+        </a>
+        <a class="ccta__link link-arrow" href="/#cases">
+          <span class="link-arrow__icon" aria-hidden="true">→</span>
+          <span class="link-arrow__label">Ver outros cases</span>
+        </a>
+      </div>
     </div>
   </section>
 </BaseLayout>
@@ -353,9 +359,20 @@ const [lead, ...rest] = c.texto;
     text-wrap: balance;
   }
 
-  .ccta__more {
-    color: rgb(var(--otto-offwhite-rgb) / 0.8);
+  .ccta__secondary {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-4) var(--space-6);
+  }
+
+  .ccta__link {
+    color: rgb(var(--otto-offwhite-rgb) / 0.72);
     font-size: var(--text-sm);
+  }
+
+  .ccta__link:hover {
+    color: var(--otto-offwhite);
   }
 
   /* ===================== RESPONSIVO ===================== */

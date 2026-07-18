@@ -1,6 +1,6 @@
 ---
 import logoCream from '../assets/brand/otto-logo-cream.svg?raw';
-import { NAV_LINKS, WHATSAPP_URL, STATUS_BADGE } from '../config';
+import { NAV_LINKS, WHATSAPP_URL, DIAGNOSTIC_URL, STATUS_BADGE } from '../config';
 
 // Links de seção (#âncora) só existem na home. Fora dela (ex.: página de case),
 // prefixa com "/" para voltar à home e então rolar até a seção. Na home, mantém
@@ -29,8 +29,11 @@ const logoHref = isHome ? '#top' : '/';
       {NAV_LINKS.map((link) => (
         <a href={navHref(link.href)} class="site-header__link">{link.label}</a>
       ))}
-      <a class="btn btn-whatsapp" href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-        Falar no WhatsApp
+      <a class="site-header__whats" href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+        WhatsApp
+      </a>
+      <a class="btn btn-diag" href={DIAGNOSTIC_URL} target="_blank" rel="noopener noreferrer">
+        Fazer diagnóstico
       </a>
     </nav>
 
@@ -139,14 +142,27 @@ const logoHref = isHome ? '#top' : '/';
     right: 0;
   }
 
-  .btn-whatsapp {
+  /* WhatsApp = secundário (link discreto). Diagnóstico = primário (botão). */
+  .site-header__whats {
+    color: rgb(var(--otto-offwhite-rgb) / 0.82);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    transition: color var(--duration-fast) var(--ease-standard);
+  }
+
+  .site-header__whats:hover {
+    color: var(--otto-offwhite);
+  }
+
+  .btn-diag {
     padding: var(--space-2) var(--space-4);
     font-size: var(--text-sm);
     background-color: var(--otto-red);
     color: var(--otto-offwhite);
   }
 
-  .btn-whatsapp:hover {
+  .btn-diag:hover {
     transform: translateY(-1px);
     background-color: color-mix(in srgb, var(--otto-red) 88%, black);
   }
@@ -216,7 +232,13 @@ const logoHref = isHome ? '#top' : '/';
       font-size: var(--text-md);
     }
 
-    .btn-whatsapp {
+    .site-header__whats {
+      padding-block: var(--space-4);
+      border-bottom: 1px solid rgb(var(--otto-offwhite-rgb) / 0.08);
+      font-size: var(--text-md);
+    }
+
+    .btn-diag {
       margin-top: var(--space-4);
       align-self: flex-start;
     }
@@ -234,7 +256,8 @@ const logoHref = isHome ? '#top' : '/';
     .site-header__link::after,
     .site-header__nav,
     .nav-hamburger span,
-    .btn-whatsapp {
+    .site-header__whats,
+    .btn-diag {
       transition: none;
     }
     .status-badge__dot {

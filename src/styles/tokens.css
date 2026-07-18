@@ -102,7 +102,9 @@
   --duration-fast: 180ms;
   --duration-base: 280ms;
   --duration-slow: 400ms;
-  --reveal-distance: 16px;
+  /* entrada de elementos na tela: mais longa e suave que as microinterações */
+  --duration-reveal: 720ms;
+  --reveal-distance: 22px;
 }
 
 /*

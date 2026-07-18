@@ -11,17 +11,20 @@
 .reveal {
   opacity: 0;
   transform: translateY(var(--reveal-distance));
-  transition: opacity var(--duration-slow) var(--ease-out),
-    transform var(--duration-slow) var(--ease-out);
+  /* opacidade resolve um pouco antes do movimento → entrada mais macia */
+  transition: opacity calc(var(--duration-reveal) * 0.8) var(--ease-out),
+    transform var(--duration-reveal) var(--ease-out);
+  will-change: opacity, transform;
 }
 
 .reveal.is-visible {
   opacity: 1;
   transform: none;
+  will-change: auto;
 }
 
 .reveal-group > * {
-  transition-delay: calc(var(--reveal-index, 0) * 60ms);
+  transition-delay: calc(var(--reveal-index, 0) * 90ms);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -42,7 +45,7 @@
 @media (prefers-reduced-motion: no-preference) {
   .rise {
     opacity: 0;
-    animation: rise-in var(--duration-slow) var(--ease-out) forwards;
+    animation: rise-in var(--duration-reveal) var(--ease-out) forwards;
     animation-delay: var(--rise-delay, 0ms);
   }
 }
