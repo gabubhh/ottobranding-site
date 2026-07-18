@@ -4,13 +4,12 @@
   número/e-mail solto pelos componentes.
 */
 
-// TODO: número real da Otto (formato E.164, só dígitos). Placeholder abaixo.
-export const WHATSAPP_NUMBER = '5500000000000';
-export const WHATSAPP_MESSAGE = 'Olá! Vim pelo site e quero falar sobre minha marca.';
+export const WHATSAPP_NUMBER = '5581995299264';
+export const WHATSAPP_MESSAGE = 'Olá! Vim pelo site da Otto Branding.';
 export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
 
-// TODO: URL real do formulário de qualificação (Typeform ou similar).
-export const DIAGNOSTIC_URL = '#diagnostico';
+// Formulário de diagnóstico/qualificação.
+export const DIAGNOSTIC_URL = 'https://form.respondi.app/Bv58wGh2';
 
 // TODO: handle/e-mail reais.
 export const INSTAGRAM_URL = 'https://instagram.com/';
