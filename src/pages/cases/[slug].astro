@@ -38,11 +38,7 @@ const [lead, ...rest] = c.texto;
 
   <!-- ===================== CAPA (full-bleed) ===================== -->
   <figure class="ccover">
-    <picture>
-      <source srcset={`${base}/cover.avif`} type="image/avif" />
-      <source srcset={`${base}/cover.webp`} type="image/webp" />
-      <img src={`${base}/cover.webp`} alt={`Marca ${c.cliente}`} fetchpriority="high" />
-    </picture>
+    <img class="ccover__img" src={`${base}/cover.webp`} alt={`Marca ${c.cliente}`} fetchpriority="high" />
   </figure>
 
   <!-- ===================== ENTREGAS ===================== -->
@@ -142,9 +138,9 @@ const [lead, ...rest] = c.texto;
 
   .chero__title {
     margin-top: var(--space-3);
-    font-size: clamp(2.5rem, 6vw + 1rem, 5rem);
-    letter-spacing: var(--tracking-tighter);
-    line-height: 1.02;
+    font-size: clamp(2.1rem, 3.2vw + 1rem, 3.4rem);
+    letter-spacing: var(--tracking-tight);
+    line-height: 1.05;
     text-wrap: balance;
   }
 
@@ -261,7 +257,7 @@ const [lead, ...rest] = c.texto;
     display: block;
     font-family: var(--font-display);
     font-weight: 900;
-    font-size: clamp(4rem, 10vw, 7rem);
+    font-size: clamp(3rem, 6vw, 4.5rem);
     line-height: 0.6;
     color: var(--otto-red);
   }
@@ -269,8 +265,8 @@ const [lead, ...rest] = c.texto;
   .cquote__text {
     margin: var(--space-4) 0 0;
     font-family: var(--font-display);
-    font-size: var(--text-2xl);
-    line-height: 1.12;
+    font-size: var(--text-xl);
+    line-height: 1.18;
     letter-spacing: var(--tracking-tight);
     text-wrap: balance;
   }

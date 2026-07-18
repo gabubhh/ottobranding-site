@@ -13,8 +13,6 @@ const { class: className = '', texture = 'otto-band' } = Astro.props;
 
 <div class:list={['flux-band', className]} aria-hidden="true">
   <picture class="flux-band__img">
-    <source srcset={`/textures/${texture}.avif`} type="image/avif" />
-    <source srcset={`/textures/${texture}.webp`} type="image/webp" />
     <img src={`/textures/${texture}.webp`} alt="" width="1000" height="900" loading="lazy" decoding="async" />
   </picture>
 </div>
