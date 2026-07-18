@@ -11,8 +11,8 @@ export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURICo
 // Formulário de diagnóstico/qualificação.
 export const DIAGNOSTIC_URL = 'https://form.respondi.app/Bv58wGh2';
 
-// TODO: handle/e-mail reais.
-export const INSTAGRAM_URL = 'https://instagram.com/';
+export const INSTAGRAM_URL = 'https://instagram.com/otto.branding';
+// TODO: e-mail real de contato.
 export const EMAIL = 'contato@ottobranding.com';
 
 // Badge de status do header — só exiba se for verdade (cria escassez real).

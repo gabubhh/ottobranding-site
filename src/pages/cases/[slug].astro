@@ -69,11 +69,20 @@ const [lead, ...rest] = c.texto;
     )}
   </section>
 
+  <!-- ===================== A VIRADA (pull-quote) ===================== -->
+  <section class="cquote">
+    <div class="container cquote__inner">
+      <span class="cquote__mark" aria-hidden="true">“</span>
+      <blockquote class="cquote__text reveal">{c.frase}</blockquote>
+    </div>
+  </section>
+
   <!-- ===================== GALERIA ===================== -->
-  <section class="cgallery-sec" data-surface="light">
+  <section class="cgallery-sec">
+    <p class="container cgallery__label reveal">A marca, ponto a ponto</p>
     <div class="container cgallery">
       {c.imagens.map((img, i) => (
-        <figure class="cfig reveal">
+        <figure class:list={['cfig', 'reveal', img.col === 'half' && 'cfig--half']}>
           <img
             src={`${base}/${img.n}.webp`}
             alt={`${img.alt} — ${c.cliente}`}
@@ -236,29 +245,93 @@ const [lead, ...rest] = c.texto;
     margin-top: var(--space-5);
   }
 
-  /* ===================== GALERIA ===================== */
-  .cgallery-sec {
-    padding-bottom: var(--space-section);
+  /* ===================== A VIRADA (pull-quote) ===================== */
+  .cquote {
+    background-color: var(--otto-ink);
+    color: var(--otto-offwhite);
+    padding-block: var(--space-section);
   }
 
+  .cquote__inner {
+    position: relative;
+    max-width: 48rem;
+  }
+
+  .cquote__mark {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(4rem, 10vw, 7rem);
+    line-height: 0.6;
+    color: var(--otto-red);
+  }
+
+  .cquote__text {
+    margin: var(--space-4) 0 0;
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    line-height: 1.12;
+    letter-spacing: var(--tracking-tight);
+    text-wrap: balance;
+  }
+
+  /* ===================== GALERIA ===================== */
+  /* fundo escuro: a galeria vira "exposição", as peças da marca saltam.
+     Fecha o bloco escuro com o pull-quote e o CTA. */
+  .cgallery-sec {
+    background-color: var(--otto-charcoal);
+    color: var(--otto-offwhite);
+    padding-block: var(--space-section);
+  }
+
+  .cgallery__label {
+    margin: 0 auto var(--space-6);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: rgb(var(--otto-offwhite-rgb) / 0.55);
+  }
+
+  /* grade de 2 colunas: peças em par (half) e telas cheias (full) dão ritmo */
   .cgallery {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: var(--space-5);
   }
 
   .cfig {
+    grid-column: span 2;
     margin: 0;
     border-radius: var(--radius-md);
     overflow: hidden;
-    background-color: rgb(var(--otto-charcoal-rgb) / 0.04);
-    border: 1px solid var(--color-border);
+    background-color: rgb(var(--otto-offwhite-rgb) / 0.03);
+    border: 1px solid rgb(var(--otto-offwhite-rgb) / 0.1);
+  }
+
+  .cfig--half {
+    grid-column: span 1;
   }
 
   .cfig img {
     width: 100%;
     height: auto;
     display: block;
+    transition: transform var(--duration-slow) var(--ease-out);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .cfig:hover img {
+      transform: scale(1.02);
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .cgallery {
+      gap: var(--space-4);
+    }
+    .cfig--half {
+      grid-column: span 2;
+    }
   }
 
   /* ===================== CTA ===================== */

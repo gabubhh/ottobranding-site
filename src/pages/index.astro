@@ -174,8 +174,12 @@ const reviews = [
   <!-- =========================== SOBRE ============================ -->
   <section id="sobre" class="section sobre" data-surface="light">
     <div class="container sobre__grid">
-      <figure class="sobre__photo reveal" aria-label="Foto de Gabriel Araújo (a inserir)">
-        <span class="sobre__photo-note">[Sua foto aqui]</span>
+      <figure class="sobre__photo reveal">
+        <picture>
+          <source srcset="/sobre/gabriel.avif" type="image/avif" />
+          <source srcset="/sobre/gabriel.webp" type="image/webp" />
+          <img src="/sobre/gabriel.webp" alt="Gabriel Araújo, diretor da Otto Branding" width="1086" height="1448" loading="lazy" decoding="async" />
+        </picture>
       </figure>
       <div class="sobre__text">
         <p class="eyebrow reveal">Sobre</p>
@@ -198,109 +202,41 @@ const reviews = [
   <!-- =========================== CASES ============================ -->
   <section id="cases" class="section cases">
     <div class="container">
-      <div class="cases__head">
-        <div class="section-head cases__head-text">
-          <p class="eyebrow reveal">Cases</p>
-          <h2 class="section-title reveal">Marcas de <span class="t-em">Otto Patamar</span>.</h2>
-        </div>
-        <div class="cases__controls reveal" aria-hidden="true">
-          <button class="cases__arrow-btn" data-cases-prev type="button" aria-label="Case anterior">
-            <span aria-hidden="true">←</span>
-          </button>
-          <button class="cases__arrow-btn" data-cases-next type="button" aria-label="Próximo case">
-            <span aria-hidden="true">→</span>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div class="cases__viewport">
-      <div class="container">
-        <ul class="cases__track" data-cases-track>
-          {cases.map((c, i) => (
-            <li class="case-slide">
-              <a class="case-card case-card--model" href={`/cases/${c.slug}`}>
-                <span class="case-card__media">
-                  <img
-                    src={`/cases/${c.slug}/cover.webp`}
-                    alt={`Marca ${c.cliente}`}
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </span>
-                <span class="case-card__index" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-                <span class="case-card__overlay">
-                  <span class="case-card__cat">{c.setor}</span>
-                  <span class="case-card__name">{c.cliente}</span>
-                  <span class="case-card__cta">
-                    Ver case
-                    <span class="case-card__cta-arrow" aria-hidden="true">→</span>
-                  </span>
-                </span>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-
-  </section>
-
-  <!-- ========================= DEPOIMENTOS ======================== -->
-  <section id="depoimentos" class="section reviews" data-surface="light">
-    <div class="container">
-      <div class="section-head reviews__head">
-        <p class="eyebrow reveal">Depoimentos</p>
-        <h2 class="section-title reveal">
-          O que muda quando a marca <span class="t-em">sai do lugar comum</span>.
-        </h2>
+      <div class="section-head">
+        <p class="eyebrow reveal">Cases</p>
+        <h2 class="section-title reveal">Marcas de <span class="t-em">Otto Patamar</span>.</h2>
       </div>
 
-      <div class="reviews__stage reveal" data-reviews>
-        <!-- fotos dos clientes: clicar troca o depoimento; o ativo ganha anel -->
-        <div class="reviews__people" data-reviews-people>
-          {reviews.map((r, i) => (
-            <button
-              class:list={['reviews__person', i === 0 && 'is-active']}
-              type="button"
-              data-review-avatar
-              aria-label={`Ver depoimento de ${r.name}`}
-            >
-              <span class="reviews__person-img">
-                {r.photo ? (
-                  <img src={r.photo} alt="" loading="lazy" decoding="async" />
-                ) : (
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M12 12.6a4.3 4.3 0 1 0 0-8.6 4.3 4.3 0 0 0 0 8.6Zm0 1.8c-3.6 0-8 1.9-8 5.2V21h16v-1.4c0-3.3-4.4-5.2-8-5.2Z" />
-                  </svg>
-                )}
+      <ul class="cases__grid reveal-group">
+        {cases.map((c, i) => (
+          <li class="reveal" style={`--reveal-index: ${i}`}>
+            <a class="ccard" href={`/cases/${c.slug}`}>
+              <span class="ccard__media">
+                <img
+                  src={`/cases/${c.slug}/cover.webp`}
+                  alt={`Marca ${c.cliente}`}
+                  loading="lazy"
+                  decoding="async"
+                />
               </span>
-            </button>
-          ))}
-        </div>
-
-        <svg class="reviews__quote-icon" viewBox="0 0 48 48" aria-hidden="true">
-          <path d="M 13.5 10 A 8.5 8.5 0 0 0 13.5 27 A 8.5 8.5 0 0 0 18.291016 25.519531 C 17.422273 29.222843 15.877848 31.803343 14.357422 33.589844 C 12.068414 36.279429 9.9433594 37.107422 9.9433594 37.107422 A 1.50015 1.50015 0 1 0 11.056641 39.892578 C 11.056641 39.892578 13.931586 38.720571 16.642578 35.535156 C 19.35357 32.349741 22 27.072581 22 19 A 1.50015 1.50015 0 0 0 21.984375 18.78125 A 8.5 8.5 0 0 0 13.5 10 z M 34.5 10 A 8.5 8.5 0 0 0 34.5 27 A 8.5 8.5 0 0 0 39.291016 25.519531 C 38.422273 29.222843 36.877848 31.803343 35.357422 33.589844 C 33.068414 36.279429 30.943359 37.107422 30.943359 37.107422 A 1.50015 1.50015 0 1 0 32.056641 39.892578 C 32.056641 39.892578 34.931586 38.720571 37.642578 35.535156 C 40.35357 32.349741 43 27.072581 43 19 A 1.50015 1.50015 0 0 0 42.984375 18.78125 A 8.5 8.5 0 0 0 34.5 10 z" />
-        </svg>
-
-        <div class="reviews__viewport" data-reviews-viewport>
-          {reviews.map((r, i) => (
-            <figure class:list={['review', i === 0 && 'is-active']} data-review>
-              <figcaption class="review__by">
-                <span class="review__name">{r.name}</span>
-                <span class="review__role">{r.role}</span>
-              </figcaption>
-              <blockquote class="review__quote">{r.quote}</blockquote>
-            </figure>
-          ))}
-        </div>
-      </div>
-
-      <p class="reviews__flag reveal">
-        Exemplos — substituir pelos depoimentos e fotos reais dos clientes.
-      </p>
+              <span class="ccard__body">
+                <span class="ccard__cat">{c.setor}</span>
+                <span class="ccard__name">{c.cliente}</span>
+                <span class="ccard__cta">
+                  Ver case
+                  <span class="ccard__arrow" aria-hidden="true">→</span>
+                </span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
+
+  {/* DEPOIMENTOS — desativado até coletar os depoimentos reais dos clientes.
+     Reativar: descomentar este bloco + o <script> do slider (data-reviews) no
+     fim do arquivo. Markup, dados (reviews) e CSS (.reviews*) seguem no repo. */}
 
   <!-- ========================= CTA FINAL ========================== -->
   <section class="section cta-final">
@@ -321,89 +257,6 @@ const reviews = [
     </div>
   </section>
 </BaseLayout>
-
-<script>
-  // Carrossel de cases: setas rolam a trilha por um card. Sem biblioteca.
-  const track = document.querySelector<HTMLElement>('[data-cases-track]');
-  const prev = document.querySelector<HTMLButtonElement>('[data-cases-prev]');
-  const next = document.querySelector<HTMLButtonElement>('[data-cases-next]');
-
-  if (track && prev && next) {
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const stepSize = () => {
-      const slide = track.querySelector<HTMLElement>('.case-slide');
-      if (!slide) return 320;
-      const gap = parseFloat(getComputedStyle(track).columnGap || '24') || 24;
-      return slide.getBoundingClientRect().width + gap;
-    };
-    const go = (dir: number) =>
-      track.scrollBy({ left: dir * stepSize(), behavior: reduce ? 'auto' : 'smooth' });
-
-    prev.addEventListener('click', () => go(-1));
-    next.addEventListener('click', () => go(1));
-
-    // desabilita a seta quando não há para onde ir
-    const sync = () => {
-      const max = track.scrollWidth - track.clientWidth - 2;
-      prev.disabled = track.scrollLeft <= 2;
-      next.disabled = track.scrollLeft >= max;
-    };
-    track.addEventListener('scroll', sync, { passive: true });
-    window.addEventListener('resize', sync);
-    sync();
-  }
-</script>
-
-<script>
-  // Depoimentos: fila de fotos; clicar numa foto troca a fala (fade-through).
-  // A foto ativa ganha o anel. Autoplay avança e pausa no hover/foco; sob
-  // prefers-reduced-motion não há autoplay (só clique manual).
-  const stage = document.querySelector<HTMLElement>('[data-reviews]');
-  const viewport = stage?.querySelector<HTMLElement>('[data-reviews-viewport]');
-  const slides = viewport ? Array.from(viewport.querySelectorAll<HTMLElement>('[data-review]')) : [];
-  const avatars = stage
-    ? Array.from(stage.querySelectorAll<HTMLButtonElement>('[data-review-avatar]'))
-    : [];
-
-  if (stage && slides.length > 1) {
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let index = 0;
-    let timer: number | undefined;
-
-    const show = (n: number) => {
-      index = (n + slides.length) % slides.length;
-      slides.forEach((s, i) => {
-        s.classList.toggle('is-active', i === index);
-        s.setAttribute('aria-hidden', i === index ? 'false' : 'true');
-      });
-      avatars.forEach((a, i) => {
-        a.classList.toggle('is-active', i === index);
-        a.setAttribute('aria-pressed', i === index ? 'true' : 'false');
-      });
-    };
-
-    const restart = () => {
-      if (reduce) return;
-      window.clearInterval(timer);
-      timer = window.setInterval(() => show(index + 1), 6000);
-    };
-
-    // estado inicial de acessibilidade
-    slides.forEach((s, i) => s.setAttribute('aria-hidden', i === 0 ? 'false' : 'true'));
-    avatars.forEach((a, i) => {
-      a.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
-      a.addEventListener('click', () => { show(i); restart(); });
-    });
-
-    // pausa autoplay quando o cursor/foco está na área
-    stage.addEventListener('mouseenter', () => window.clearInterval(timer));
-    stage.addEventListener('mouseleave', restart);
-    stage.addEventListener('focusin', () => window.clearInterval(timer));
-    stage.addEventListener('focusout', restart);
-
-    restart();
-  }
-</script>
 
 <style>
   /* ============================ HERO ============================ */
@@ -655,20 +508,16 @@ const reviews = [
   .sobre__photo {
     margin: 0;
     aspect-ratio: 4 / 5;
-    display: grid;
-    place-items: center;
     border-radius: var(--radius-md);
-    border: 1px dashed color-mix(in srgb, var(--color-text-secondary) 55%, transparent);
-    background:
-      radial-gradient(90% 70% at 50% 15%, rgb(var(--otto-red-rgb) / 0.06), transparent 60%),
-      linear-gradient(160deg, rgb(36 36 36 / 0.05), rgb(36 36 36 / 0.02));
-    color: var(--color-text-secondary);
+    overflow: hidden;
+    background-color: rgb(36 36 36 / 0.05);
   }
 
-  .sobre__photo-note {
-    font-size: var(--text-sm);
-    letter-spacing: var(--tracking-wide);
-    text-transform: uppercase;
+  .sobre__photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
   .sobre__body {
@@ -694,218 +543,98 @@ const reviews = [
   .cases {
     background-color: var(--otto-charcoal);
     color: var(--otto-offwhite);
-    overflow: hidden;
   }
 
-  .cases__head {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: var(--space-5);
-    margin-bottom: var(--space-7);
-  }
-
-  .cases__head-text {
-    margin-bottom: 0;
-  }
-
-  .cases__controls {
-    display: flex;
-    gap: var(--space-3);
-    flex-shrink: 0;
-  }
-
-  .cases__arrow-btn {
-    width: 3rem;
-    height: 3rem;
-    border-radius: var(--radius-full);
-    border: 1px solid rgb(var(--otto-offwhite-rgb) / 0.22);
-    background: transparent;
-    color: var(--otto-offwhite);
-    font-size: var(--text-md);
-    cursor: pointer;
-    display: grid;
-    place-items: center;
-    transition: background-color var(--duration-fast) var(--ease-standard),
-      border-color var(--duration-fast) var(--ease-standard),
-      opacity var(--duration-fast) var(--ease-standard);
-  }
-
-  .cases__arrow-btn:hover {
-    background-color: var(--otto-red);
-    border-color: var(--otto-red);
-  }
-
-  .cases__arrow-btn:disabled {
-    opacity: 0.3;
-    cursor: default;
-  }
-
-  /* Carrossel: viewport full-width, trilha rola na horizontal com snap.
-     A trilha tem padding vertical para o lift do hover NÃO ser cortado
-     pelo clip do container de scroll (era o bug do "hover cortando"). */
-  .cases__viewport {
-    margin-bottom: var(--space-6);
-  }
-
-  .cases__track {
+  /* grade de 3 (só há 3 cases) — imagem em cima, texto embaixo, no estilo
+     editorial do resto do site. Sem números: cases não são uma sequência. */
+  .cases__grid {
     list-style: none;
-    margin: 0;
+    margin: var(--space-8) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6) var(--space-5);
+  }
+
+  .ccard {
     display: flex;
-    gap: var(--space-5);
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding: var(--space-5) 0 var(--space-7);
-  }
-
-  .cases__track::-webkit-scrollbar {
-    display: none;
-  }
-
-  .case-slide {
-    scroll-snap-align: start;
-    flex: 0 0 clamp(15rem, 26vw, 19rem);
-  }
-
-  /* Card moderno: retrato, número grande, info sobreposta na imagem,
-     zoom na mídia + lift no hover. */
-  .case-card {
-    position: relative;
-    display: block;
-    width: 100%;
-    aspect-ratio: 3 / 4;
-    border-radius: var(--radius-md);
-    overflow: hidden;
+    flex-direction: column;
+    gap: var(--space-4);
     text-decoration: none;
     color: var(--otto-offwhite);
-    border: 1px solid rgb(var(--otto-offwhite-rgb) / 0.12);
-    transition: transform var(--duration-base) var(--ease-out),
-      border-color var(--duration-base) var(--ease-out),
-      box-shadow var(--duration-base) var(--ease-out);
-    will-change: transform;
   }
 
-  .case-card__media {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    background: linear-gradient(155deg, #343434, var(--otto-ink) 78%);
-    transition: transform var(--duration-slow) var(--ease-out);
+  .ccard__media {
+    display: block;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    background-color: var(--otto-ink);
+    border: 1px solid rgb(var(--otto-offwhite-rgb) / 0.1);
+    transition: border-color var(--duration-base) var(--ease-out);
   }
 
-  .case-card__media img {
+  .ccard__media img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
+    transition: transform var(--duration-slow) var(--ease-out);
   }
 
-  .case-card__index {
-    position: absolute;
-    top: var(--space-4);
-    left: var(--space-5);
-    z-index: 2;
-    font-family: var(--font-display);
-    font-weight: 900;
-    font-size: var(--text-2xl);
-    line-height: 1;
-    color: rgb(var(--otto-offwhite-rgb) / 0.92);
-  }
-
-  .case-card__badge {
-    position: absolute;
-    top: var(--space-4);
-    right: var(--space-4);
-    z-index: 2;
-    font-size: var(--text-xs);
-    font-weight: 500;
-    letter-spacing: var(--tracking-wide);
-    text-transform: uppercase;
-    background-color: var(--otto-red);
-    color: var(--otto-offwhite);
-    padding: 0.2em 0.6em;
-    border-radius: var(--radius-full);
-  }
-
-  .case-card__overlay {
-    position: absolute;
-    inset: auto 0 0 0;
-    z-index: 2;
+  .ccard__body {
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
-    padding: var(--space-7) var(--space-5) var(--space-5);
-    background: linear-gradient(
-      to top,
-      rgb(var(--otto-ink-rgb) / 0.94),
-      rgb(var(--otto-ink-rgb) / 0.5) 55%,
-      transparent
-    );
+    gap: var(--space-1);
   }
 
-  .case-card__cat {
+  .ccard__cat {
     font-size: var(--text-xs);
     letter-spacing: var(--tracking-wide);
     text-transform: uppercase;
-    color: rgb(var(--otto-offwhite-rgb) / 0.7);
+    color: var(--otto-red-text-on-dark, #f0575a);
   }
 
-  .case-card__name {
+  .ccard__name {
     font-family: var(--font-display);
     font-size: var(--text-lg);
     letter-spacing: var(--tracking-tight);
     line-height: var(--leading-snug);
   }
 
-  .case-card__cta {
+  .ccard__cta {
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
-    margin-top: var(--space-1);
+    margin-top: var(--space-2);
     font-size: var(--text-sm);
-    font-weight: 500;
-    color: var(--otto-red-text-on-dark, #f0575a);
+    color: rgb(var(--otto-offwhite-rgb) / 0.7);
   }
 
-  .case-card__cta-arrow {
+  .ccard__arrow {
+    color: var(--otto-red-text-on-dark, #f0575a);
     transition: transform var(--duration-base) var(--ease-out);
   }
 
-  .case-card--model:hover,
-  .case-card--model:focus-visible {
-    transform: translateY(-8px);
+  .ccard:hover .ccard__media {
     border-color: var(--otto-red);
-    box-shadow: 0 18px 34px rgb(0 0 0 / 0.45);
   }
 
-  .case-card--model:hover .case-card__media,
-  .case-card--model:focus-visible .case-card__media {
-    transform: scale(1.06);
+  .ccard:hover .ccard__media img {
+    transform: scale(1.04);
   }
 
-  .case-card--model:hover .case-card__cta-arrow,
-  .case-card--model:focus-visible .case-card__cta-arrow {
+  .ccard:hover .ccard__cta {
+    color: var(--otto-offwhite);
+  }
+
+  .ccard:hover .ccard__arrow {
     transform: translateX(5px);
   }
 
-  .case-card--empty {
-    border-style: dashed;
-  }
-
-  .case-card--empty .case-card__media {
-    opacity: 0.5;
-  }
-
-  .case-card--empty .case-card__cta {
-    color: var(--color-text-secondary);
-  }
-
   @media (prefers-reduced-motion: reduce) {
-    .case-card,
-    .case-card__media,
-    .case-card__cta-arrow {
+    .ccard__media img,
+    .ccard__arrow {
       transition: none;
     }
   }
@@ -1137,8 +866,10 @@ const reviews = [
       gap: var(--space-6);
     }
     .sobre__photo {
-      aspect-ratio: 3 / 2;
-      max-height: 22rem;
+      max-width: 22rem;
+    }
+    .cases__grid {
+      grid-template-columns: 1fr 1fr;
     }
   }
 
@@ -1156,9 +887,8 @@ const reviews = [
       margin-left: 0;
       padding: var(--space-5);
     }
-    .cases__head {
-      flex-direction: column;
-      align-items: flex-start;
+    .cases__grid {
+      grid-template-columns: 1fr;
     }
   }
 
