@@ -2,17 +2,41 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Preloader from '../components/Preloader.astro';
+import FloatingActions from '../components/FloatingActions.astro';
+import { organizationSchema, personSchema } from '../data/schema';
 import '../styles/global.css';
 
 interface Props {
   title: string;
   description?: string;
+  /** caminho absoluto da imagem de compartilhamento (ex.: '/og/home.jpg') */
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+  /** blocos JSON-LD da página; organização e Gabriel já entram sempre */
+  schema?: Record<string, unknown>[];
 }
 
 const {
   title,
-  description = 'Otto Branding — estúdio de estratégia e design de marca. Criamos marcas de Otto Patamar.',
+  description = 'Estúdio de branding e identidade visual. Estratégia e posicionamento para marcas que precisam ser escolhidas, não comparadas por preço. Atendimento em todo o Brasil.',
+  ogImage = '/og/default.jpg',
+  ogType = 'website',
+  schema = [],
 } = Astro.props;
+
+// Canônica com barra final, para bater exatamente com o que o @astrojs/sitemap
+// gera (formato de diretório). URL canônica e sitemap divergentes confundem o
+// buscador sobre qual é a página "de verdade".
+const path = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
+const canonical = new URL(path, Astro.site).href;
+const ogImageUrl = new URL(ogImage, Astro.site).href;
+
+// Um único <script type="application/ld+json"> com @graph: as páginas
+// referenciam a organização e o Gabriel por @id sem redeclarar os dados.
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [organizationSchema, personSchema, ...schema],
+};
 ---
 
 <html lang="pt-BR">
@@ -47,9 +71,20 @@ const {
       } catch (e) {}
     </script>
 
+    <link rel="canonical" href={canonical} />
+
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="Otto Branding" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
     <!-- Preload das fontes above-the-fold: corpo (Inter 400) e display (Pogonia).
          As demais (500/700, Black) carregam sob demanda via font-display: swap. -->
@@ -66,6 +101,7 @@ const {
       <slot />
     </main>
     <Footer />
+    <FloatingActions />
 
     <script>
       // Reveal de seções: fade + slide ao entrar na viewport.

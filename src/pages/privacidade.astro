@@ -1,0 +1,66 @@
+---
+import LegalLayout from '../layouts/LegalLayout.astro';
+import { EMAIL } from '../config';
+---
+
+<LegalLayout
+  title="Política de privacidade | Otto Branding"
+  description="Como a Otto Branding coleta, usa e protege os dados de quem visita o site e entra em contato."
+  heading="Política de privacidade"
+  updated="julho de 2026"
+>
+  <p>
+    Esta política explica, em linguagem direta, quais dados a Otto Branding
+    coleta quando você usa este site e o que fazemos com eles. A Otto é um
+    estúdio dirigido por Gabriel Araújo, sediado em Recife, com atendimento em
+    todo o Brasil.
+  </p>
+
+  <h2>Quais dados coletamos</h2>
+  <p>
+    Este site é institucional e estático. Não pedimos cadastro nem senha para
+    navegar. Os dados que passam por aqui se resumem a dois casos:
+  </p>
+  <ul>
+    <li>
+      <strong>Dados de navegação.</strong> Usamos o Google Analytics para
+      entender, de forma agregada, como as páginas são acessadas — páginas mais
+      vistas, origem do acesso e tipo de dispositivo. Esses dados não
+      identificam você pessoalmente.
+    </li>
+    <li>
+      <strong>Dados que você mesmo envia.</strong> Quando você preenche o
+      formulário de diagnóstico ou fala com a gente pelo WhatsApp, recebemos as
+      informações que você decidir compartilhar — como nome, contato e detalhes
+      da sua marca.
+    </li>
+  </ul>
+
+  <h2>Como usamos esses dados</h2>
+  <p>
+    Os dados de navegação servem para melhorar o site. Os dados que você envia
+    servem para responder ao seu contato e conduzir o diagnóstico ou o projeto.
+    Não vendemos, alugamos nem compartilhamos suas informações com terceiros
+    para fins de marketing.
+  </p>
+
+  <h2>Ferramentas de terceiros</h2>
+  <p>
+    O formulário de diagnóstico é hospedado no Respondi, e a análise de acesso
+    usa o Google Analytics. Cada um desses serviços tem a própria política de
+    privacidade, e ao usá-los você também está sujeito a elas.
+  </p>
+
+  <h2>Seus direitos</h2>
+  <p>
+    Você pode pedir, a qualquer momento, acesso aos dados que você nos enviou,
+    correção ou exclusão deles. É só escrever para
+    <a href={`mailto:${EMAIL}`}>{EMAIL}</a> que resolvemos.
+  </p>
+
+  <h2>Contato</h2>
+  <p>
+    Dúvidas sobre esta política? Fale com a gente em
+    <a href={`mailto:${EMAIL}`}>{EMAIL}</a>.
+  </p>
+</LegalLayout>

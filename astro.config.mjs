@@ -1,5 +1,11 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 
-// https://astro.build/config
-export default defineConfig({});
+import sitemap from '@astrojs/sitemap';
+
+// `site` é obrigatório: sem ele o sitemap não é gerado e as URLs canônicas
+// saem relativas.
+export default defineConfig({
+  site: 'https://ottobranding.com',
+  integrations: [sitemap()],
+});

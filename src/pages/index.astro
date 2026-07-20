@@ -3,55 +3,57 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import HeroVideo from '../components/HeroVideo.astro';
 import FluxBand from '../components/FluxBand.astro';
 import { cases } from '../data/cases';
+import { patamares } from '../data/metodo';
 import { WHATSAPP_URL, DIAGNOSTIC_URL } from '../config';
 
-// Soluções — formato da referência (Farda): nome + descrição. Descrições
-// escritas na voz da Otto (direta, estratégica, "território", "patamar").
+// Soluções — nome + descrição. Quatro têm página própria (href): identidade,
+// rebranding, estratégia, diagnóstico. Os satélites (web, motion, redes) não
+// linkam — página fina para termo secundário dilui o domínio (spec, seção 0).
 // Ordem em funil: diagnóstico → estratégia → construção → ativação.
 const solucoes = [
   {
     title: 'Diagnóstico de marca',
+    href: '/diagnostico',
     desc: 'O ponto de partida. Um raio-x do posicionamento que revela onde a marca perde valor e o que precisa mudar — antes de qualquer decisão visual.',
   },
   {
     title: 'Estratégia de marca',
+    href: '/estrategia-de-marca',
     desc: 'Os fundamentos que orientam tudo: mercado, público, diferenciação e o território que a marca vai defender. A base de cada decisão.',
   },
   {
     title: 'Branding',
+    href: null,
     desc: 'A construção da marca do princípio — estratégia, narrativa e identidade conectadas num sistema coeso, pronto para crescer com direção.',
   },
   {
     title: 'Rebranding',
+    href: '/rebranding',
     desc: 'Quando o negócio evolui, a percepção precisa acompanhar. Reposicionamos e reconstruímos a marca para refletir o que ela já é.',
   },
   {
     title: 'Identidade visual',
+    href: '/identidade-visual',
     desc: 'O rosto da marca. Logo, sistema gráfico e diretrizes que traduzem o posicionamento em algo reconhecível e consistente.',
   },
   {
     title: 'Web design',
+    href: null,
     desc: 'O site como experiência de marca. Estrutura, narrativa e design que transformam posicionamento em percepção de valor e em oportunidade.',
   },
   {
     title: 'Motion',
+    href: null,
     desc: 'Movimento a serviço da marca. Animação que amplia a percepção, apresenta conceitos e dá presença em cada canal.',
   },
   {
     title: 'Gestão de redes sociais',
+    href: null,
     desc: 'Presença visual contínua. Direção criativa constante para manter a marca consistente e viva enquanto o negócio cresce.',
   },
 ];
 
-// Método Otto — três patamares (copy real do doc). A numeração aqui É
-// informação: patamar = degrau, e cada um precede o próximo.
-const patamares = [
-  { n: '01', name: 'Clareza', text: 'Quem a marca é, para quem existe, que espaço ela ocupa. Diagnóstico e posicionamento.' },
-  { n: '02', name: 'Direção', text: 'As decisões que guiam tudo: plataforma de marca, estratégia verbal e visual.' },
-  { n: '03', name: 'Sistema', text: 'A marca construída e consistente: identidade e aplicação.' },
-];
-
-// Cases — dados reais em src/data/cases.ts (cada card leva à página do case).
+// Método Otto e cases — fonte única em src/data (metodo.ts, cases.ts).
 
 // Depoimentos — slider central (referência Ashley adaptada). Conteúdo é
 // EXEMPLO na voz da Otto (foco em resultado/percepção). Atribuição fica em
@@ -80,7 +82,7 @@ const reviews = [
 ];
 ---
 
-<BaseLayout title="Otto Branding — Criamos marcas de Otto Patamar">
+<BaseLayout title="Otto Branding | Estúdio de branding, posicionamento e identidade visual">
   <!-- ============================ HERO ============================ -->
   <section class="hero">
     <HeroVideo class="hero__flux" />
@@ -88,14 +90,15 @@ const reviews = [
 
     <div class="container hero__container">
       <div class="hero__content">
-        <p class="eyebrow rise" style="--rise-delay: 60ms">Estratégia · Posicionamento · Identidade</p>
+        <p class="eyebrow rise" style="--rise-delay: 60ms">Estúdio de branding e identidade visual</p>
         <h1 class="hero__headline rise" style="--rise-delay: 140ms">
           <span class="hero__headline-quiet">A maioria das marcas compete por preço.</span>
           <span class="hero__headline-accent">As fortes constroem <em>preferência</em>.</span>
         </h1>
         <p class="hero__descritor rise" style="--rise-delay: 240ms">
-          A Otto une estratégia e design para tirar sua marca do lugar comum e
-          colocá-la em outro patamar de percepção de valor.
+          A Otto é um estúdio de branding que une estratégia e design para tirar
+          sua marca do lugar comum e colocá-la em outro patamar de percepção de
+          valor.
         </p>
         <p class="hero__signature rise" style="--rise-delay: 320ms">Criamos marcas de <em>Otto Patamar</em>.</p>
         <div class="hero__actions rise" style="--rise-delay: 400ms">
@@ -122,10 +125,17 @@ const reviews = [
       <ul class="solucoes__list reveal-group">
         {solucoes.map((item, i) => (
           <li class="solucao reveal" style={`--reveal-index: ${i}`}>
-            <div class="solucao__head">
-              <span class="solucao__arrow" aria-hidden="true">→</span>
-              <h3 class="solucao__name">{item.title}</h3>
-            </div>
+            {item.href ? (
+              <a class="solucao__head solucao__head--link" href={item.href}>
+                <span class="solucao__arrow" aria-hidden="true">→</span>
+                <h3 class="solucao__name">{item.title}</h3>
+              </a>
+            ) : (
+              <div class="solucao__head">
+                <span class="solucao__arrow" aria-hidden="true">→</span>
+                <h3 class="solucao__name">{item.title}</h3>
+              </div>
+            )}
             <p class="solucao__desc">{item.desc}</p>
           </li>
         ))}
@@ -200,7 +210,9 @@ const reviews = [
     <div class="container">
       <div class="section-head">
         <p class="eyebrow reveal">Cases</p>
-        <h2 class="section-title reveal">Marcas de <span class="t-em">Otto Patamar</span>.</h2>
+        <h2 class="section-title reveal">
+          <a class="cases__title-link" href="/cases">Marcas de <span class="t-em">Otto Patamar</span>.</a>
+        </h2>
       </div>
 
       <ul class="cases__grid reveal-group">
@@ -227,6 +239,13 @@ const reviews = [
           </li>
         ))}
       </ul>
+
+      <p class="cases__all reveal">
+        <a class="link-arrow" href="/cases">
+          <span class="link-arrow__icon" aria-hidden="true">→</span>
+          <span class="link-arrow__label">Ver todos os cases</span>
+        </a>
+      </p>
     </div>
   </section>
 
@@ -403,6 +422,16 @@ const reviews = [
     display: flex;
     align-items: baseline;
     gap: var(--space-3);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .solucao__head--link .solucao__name {
+    transition: color var(--duration-fast) var(--ease-standard);
+  }
+
+  .solucao__head--link:hover .solucao__name {
+    color: var(--otto-red-text-on-light);
   }
 
   .solucao__arrow {
@@ -539,6 +568,21 @@ const reviews = [
   .cases {
     background-color: var(--otto-charcoal);
     color: var(--otto-offwhite);
+  }
+
+  .cases__title-link {
+    color: inherit;
+    text-decoration: none;
+    transition: color var(--duration-fast) var(--ease-standard);
+  }
+
+  .cases__title-link:hover {
+    color: var(--otto-red-text-on-dark);
+  }
+
+  .cases__all {
+    margin-top: var(--space-7);
+    font-size: var(--text-md);
   }
 
   /* grade de 3 (só há 3 cases) — imagem em cima, texto embaixo, no estilo

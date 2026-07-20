@@ -1,0 +1,375 @@
+---
+/*
+  Diagnóstico — página de venda da oferta de entrada. Indexa, mas o público
+  aqui não é buscador: é quem já quase decidiu e precisa de um empurrão de
+  clareza. Por isso ela é a página mais direta do site e a única cujo destino
+  é sempre o formulário.
+*/
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE_URL, DIAGNOSTIC_URL, WHATSAPP_URL, FACTS } from '../config';
+import { ORG_ID, breadcrumb, faqSchema, type Faq } from '../data/schema';
+
+const preco = FACTS.precoDiagnostico;
+
+// O que o diagnóstico entrega — nomeado pelo que o cliente leva, não pelo que
+// a Otto faz por dentro.
+const entrega = [
+  'Onde a marca perde valor hoje, ponto a ponto',
+  'Se o problema é de posicionamento, de identidade ou de aplicação',
+  'Como a marca se compara com quem disputa o mesmo cliente',
+  'O que muda de patamar primeiro, na ordem certa',
+  'Um caminho recomendado, com ou sem a Otto',
+];
+
+const faqs: Faq[] = [
+  {
+    q: 'O que entra no diagnóstico de marca?',
+    a: [
+      'O diagnóstico é uma análise do posicionamento da marca que aponta onde ela perde valor e o que precisa mudar antes de qualquer decisão visual.',
+      'Ele cruza como a marca se apresenta hoje, quem ela quer atrair e como os concorrentes ocupam o mesmo espaço.',
+      'A entrega é uma leitura clara do problema e um caminho recomendado — não um manual de marca, e não um logo.',
+    ],
+  },
+  {
+    q: 'Preciso fechar um projeto depois do diagnóstico?',
+    a: [
+      'Não. O diagnóstico é uma etapa completa em si, e o caminho recomendado serve mesmo que você siga sem a Otto.',
+      'Ele foi desenhado para dar clareza antes de compromisso: você sai sabendo o que precisa ser feito e em que ordem.',
+      'Quando faz sentido seguir juntos, o valor do diagnóstico é abatido no projeto.',
+    ],
+  },
+  {
+    q: 'Quanto tempo leva o diagnóstico?',
+    a: [
+      'O diagnóstico é entregue em poucos dias após o preenchimento do formulário e uma conversa inicial.',
+      'É rápido de propósito: a ideia é destravar a decisão, não abrir mais um processo longo.',
+    ],
+  },
+];
+
+const schema = [
+  {
+    '@type': 'Service',
+    name: 'Diagnóstico de marca',
+    serviceType: 'Diagnóstico de marca',
+    description:
+      'Análise do posicionamento que revela onde a marca perde valor e o que precisa mudar antes de qualquer decisão visual.',
+    url: `${SITE_URL}/diagnostico`,
+    provider: { '@id': ORG_ID },
+    areaServed: { '@type': 'Country', name: 'Brasil' },
+    ...(preco ? { offers: { '@type': 'Offer', description: preco, priceCurrency: 'BRL' } } : {}),
+  },
+  faqSchema(faqs),
+  breadcrumb([{ name: 'Diagnóstico', path: '/diagnostico' }]),
+];
+---
+
+<BaseLayout
+  title="Diagnóstico de marca | Otto Branding"
+  description="Um raio-x do posicionamento que revela onde sua marca perde valor e o que precisa mudar, antes de qualquer decisão visual."
+  schema={schema}
+>
+  <section class="dhero">
+    <div class="dhero__glow" aria-hidden="true"></div>
+    <div class="container dhero__inner">
+      <p class="eyebrow rise" style="--rise-delay: 60ms">Diagnóstico de marca</p>
+      <h1 class="dhero__title rise" style="--rise-delay: 140ms">
+        Descubra onde sua marca está <span class="t-em">perdendo dinheiro</span>.
+      </h1>
+      <p class="dhero__lead rise" style="--rise-delay: 240ms">
+        Antes de trocar um logo ou uma cor, é preciso saber o que está errado.
+        O diagnóstico é o raio-x do posicionamento: mostra onde a marca perde
+        valor, por que o cliente compara por preço e o que muda de patamar
+        primeiro.
+      </p>
+      <div class="dhero__actions rise" style="--rise-delay: 340ms">
+        <a class="btn btn-primary" href={DIAGNOSTIC_URL} target="_blank" rel="noopener noreferrer">
+          Fazer meu diagnóstico
+        </a>
+        {preco && <span class="dhero__preco">{preco}</span>}
+      </div>
+    </div>
+  </section>
+
+  <section class="section leva" data-surface="light">
+    <div class="container leva__inner">
+      <h2 class="leva__title reveal">O que você leva</h2>
+      <ul class="leva__list reveal-group">
+        {entrega.map((item, i) => (
+          <li class="leva__item reveal" style={`--reveal-index: ${i}`}>
+            <span class="leva__mark" aria-hidden="true">→</span>
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+      <p class="leva__nota reveal">
+        Sem compromisso de fechar projeto. Se seguirmos juntos, o valor é abatido.
+      </p>
+    </div>
+  </section>
+
+  <section class="section porque">
+    <div class="container porque__inner">
+      <h2 class="porque__title reveal">Por que começar por aqui</h2>
+      <div class="porque__grid reveal-group">
+        <div class="porque__card reveal" style="--reveal-index: 0">
+          <h3>Decisão com critério</h3>
+          <p>
+            Marca bonita sobre posicionamento errado não resolve problema
+            comercial. O diagnóstico define o problema antes de gastar no remédio.
+          </p>
+        </div>
+        <div class="porque__card reveal" style="--reveal-index: 1">
+          <h3>Escopo antes da proposta</h3>
+          <p>
+            Nenhum orçamento sério sai sem saber o tamanho do problema. É o
+            diagnóstico que dimensiona o que precisa ser feito.
+          </p>
+        </div>
+        <div class="porque__card reveal" style="--reveal-index: 2">
+          <h3>Clareza que fica com você</h3>
+          <p>
+            O caminho recomendado é seu, com ou sem a Otto. Você sai sabendo o
+            que fazer e em que ordem.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section dfaq" data-surface="light">
+    <div class="container dfaq__inner">
+      <h2 class="dfaq__title reveal">Perguntas frequentes</h2>
+      <div class="dfaq__list">
+        {faqs.map((f) => (
+          <div class="dfaq__item reveal">
+            <h3 class="dfaq__q">{f.q}</h3>
+            {f.a.map((p) => (
+              <p class="dfaq__a">{p}</p>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section dcta">
+    <div class="container dcta__content">
+      <h2 class="dcta__headline reveal">Leva alguns minutos. Muda a próxima decisão.</h2>
+      <a class="btn btn-primary reveal" href={DIAGNOSTIC_URL} target="_blank" rel="noopener noreferrer">
+        Fazer meu diagnóstico
+      </a>
+      <p class="dcta__whats reveal">
+        <a class="link-arrow" href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+          <span class="link-arrow__icon" aria-hidden="true">→</span>
+          <span class="link-arrow__label">Prefere tirar uma dúvida antes? Fale no WhatsApp</span>
+        </a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .dhero {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--otto-ink);
+    color: var(--otto-offwhite);
+    padding-block: var(--space-9);
+  }
+
+  .dhero__glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(60% 70% at 84% 0%, rgb(var(--otto-red-rgb) / 0.18), transparent 60%);
+  }
+
+  .dhero__inner {
+    position: relative;
+    max-width: 44rem;
+  }
+
+  .dhero__title {
+    margin-top: var(--space-4);
+    font-size: clamp(2.1rem, 3.4vw + 1rem, 3.4rem);
+    letter-spacing: var(--tracking-tighter);
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+
+  .dhero__lead {
+    margin-top: var(--space-5);
+    max-width: 38rem;
+    font-size: var(--text-md);
+    line-height: var(--leading-relaxed);
+    color: rgb(var(--otto-offwhite-rgb) / 0.8);
+  }
+
+  .dhero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4) var(--space-5);
+    margin-top: var(--space-6);
+  }
+
+  .dhero__preco {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    color: rgb(var(--otto-offwhite-rgb) / 0.85);
+  }
+
+  /* ==================== O QUE LEVA ==================== */
+  .leva__inner {
+    max-width: 44rem;
+  }
+
+  .leva__title,
+  .porque__title,
+  .dfaq__title {
+    font-size: var(--text-xl);
+    letter-spacing: var(--tracking-tight);
+    line-height: var(--leading-snug);
+    margin-bottom: var(--space-6);
+  }
+
+  .leva__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .leva__item {
+    display: flex;
+    gap: var(--space-4);
+    align-items: baseline;
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .leva__mark {
+    color: var(--otto-red);
+    flex-shrink: 0;
+  }
+
+  .leva__nota {
+    margin-top: var(--space-6);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  /* ==================== POR QUE ==================== */
+  .porque {
+    background-color: var(--otto-charcoal);
+    color: var(--otto-offwhite);
+  }
+
+  .porque__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-5);
+  }
+
+  .porque__card {
+    padding: var(--space-6);
+    border: 1px solid rgb(var(--otto-offwhite-rgb) / 0.12);
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, rgb(var(--otto-offwhite-rgb) / 0.04), transparent 60%);
+  }
+
+  .porque__card h3 {
+    font-family: var(--font-display);
+    font-size: var(--text-md);
+    letter-spacing: var(--tracking-tight);
+    margin-bottom: var(--space-3);
+  }
+
+  .porque__card p {
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    color: rgb(var(--otto-offwhite-rgb) / 0.72);
+  }
+
+  /* ==================== FAQ ==================== */
+  .dfaq__inner {
+    max-width: 46rem;
+  }
+
+  .dfaq__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-7);
+  }
+
+  .dfaq__item {
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .dfaq__q {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    letter-spacing: var(--tracking-tight);
+    line-height: var(--leading-snug);
+    margin-bottom: var(--space-4);
+  }
+
+  .dfaq__a {
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-secondary);
+    text-wrap: pretty;
+  }
+
+  .dfaq__a:first-of-type {
+    color: var(--color-text);
+  }
+
+  .dfaq__a + .dfaq__a {
+    margin-top: var(--space-4);
+  }
+
+  /* ==================== CTA ==================== */
+  .dcta {
+    background-color: var(--otto-ink);
+    color: var(--otto-offwhite);
+    text-align: center;
+  }
+
+  .dcta__content {
+    max-width: 36rem;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .dcta__headline {
+    font-size: var(--text-2xl);
+    letter-spacing: var(--tracking-tighter);
+    line-height: var(--leading-tight);
+    text-wrap: balance;
+  }
+
+  .dcta :global(.btn-primary) {
+    margin-top: var(--space-6);
+  }
+
+  .dcta__whats {
+    margin-top: var(--space-5);
+    font-size: var(--text-sm);
+    color: rgb(var(--otto-offwhite-rgb) / 0.72);
+  }
+
+  @media (max-width: 52rem) {
+    .porque__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

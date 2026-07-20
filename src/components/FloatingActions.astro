@@ -1,0 +1,157 @@
+---
+/*
+  Ações fixas, presentes em todas as páginas:
+  - WhatsApp: sempre visível. Saiu do header para virar atalho constante,
+    sem competir com o diagnóstico, que segue sendo o CTA primário.
+  - Voltar ao topo: só aparece depois de uma tela de rolagem, porque antes
+    disso não resolve nada e só ocupa espaço.
+
+  Discretos de propósito. O peso visual da marca está no conteúdo.
+*/
+import { WHATSAPP_URL } from '../config';
+---
+
+<div class="fab">
+  <a
+    class="fab__btn fab__btn--whats"
+    href={WHATSAPP_URL}
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Falar no WhatsApp"
+  >
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path
+        d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.86 9.86 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24a8.2 8.2 0 0 1 8.24 8.25c0 4.54-3.7 8.23-8.24 8.23Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.79.97-.14.16-.29.18-.54.06-.25-.13-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.16 0-.43.06-.65.31-.23.25-.86.84-.86 2.05s.88 2.38 1 2.54c.13.17 1.74 2.65 4.2 3.72.59.25 1.05.4 1.4.52.59.18 1.13.16 1.55.1.47-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.17-.48-.29Z"
+      />
+    </svg>
+  </a>
+
+  <a class="fab__btn fab__btn--top" href="#top" aria-label="Voltar ao início" data-fab-top>
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M12 5.5 5.5 12l1.4 1.4L11 9.3V19h2V9.3l4.1 4.1L18.5 12 12 5.5Z" />
+    </svg>
+  </a>
+</div>
+
+<script is:inline>
+  (function () {
+    var btn = document.querySelector('[data-fab-top]');
+    if (!btn) return;
+
+    // Uma tela de rolagem: antes disso o topo ainda está perto o bastante.
+    function sync() {
+      btn.classList.toggle('is-in', window.scrollY > window.innerHeight * 0.9);
+    }
+
+    // rAF para não recalcular a cada evento de scroll.
+    var queued = false;
+    window.addEventListener(
+      'scroll',
+      function () {
+        if (queued) return;
+        queued = true;
+        requestAnimationFrame(function () {
+          queued = false;
+          sync();
+        });
+      },
+      { passive: true }
+    );
+    sync();
+  })();
+</script>
+
+<style>
+  .fab {
+    position: fixed;
+    right: clamp(1rem, 3vw, 2rem);
+    bottom: clamp(1rem, 3vw, 2rem);
+    z-index: 60;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: var(--space-3);
+    /* o container não intercepta cliques; só os botões */
+    pointer-events: none;
+  }
+
+  .fab__btn {
+    pointer-events: auto;
+    display: grid;
+    place-items: center;
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    transition: transform var(--duration-base) var(--ease-out),
+      background-color var(--duration-base) var(--ease-standard),
+      opacity var(--duration-base) var(--ease-out),
+      visibility var(--duration-base);
+  }
+
+  .fab__btn svg {
+    width: 55%;
+    height: 55%;
+    fill: currentColor;
+  }
+
+  .fab__btn:hover {
+    transform: translateY(-2px);
+  }
+
+  /* WhatsApp: o único elemento vermelho fixo na tela, então fica no tamanho
+     do alvo de toque e nada mais. */
+  .fab__btn--whats {
+    width: 3.25rem;
+    height: 3.25rem;
+    background-color: var(--otto-red);
+    color: var(--otto-offwhite);
+    box-shadow: 0 8px 24px rgb(0 0 0 / 0.28);
+  }
+
+  .fab__btn--whats:hover {
+    background-color: color-mix(in srgb, var(--otto-red) 88%, black);
+  }
+
+  /* Voltar ao topo: secundário e translúcido, para não disputar com o
+     WhatsApp. Escondido até passar a primeira tela. */
+  .fab__btn--top {
+    width: 2.6rem;
+    height: 2.6rem;
+    background-color: rgb(var(--otto-charcoal-rgb) / 0.72);
+    color: var(--otto-offwhite);
+    border: 1px solid rgb(var(--otto-offwhite-rgb) / 0.18);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+  }
+
+  .fab__btn--top.is-in {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+
+  .fab__btn--top:hover {
+    background-color: var(--otto-charcoal);
+    border-color: var(--otto-red);
+  }
+
+  .fab__btn:focus-visible {
+    outline: 2px solid var(--otto-offwhite);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fab__btn {
+      transition: opacity var(--duration-fast) linear, visibility var(--duration-fast);
+      transform: none;
+    }
+    .fab__btn:hover {
+      transform: none;
+    }
+    .fab__btn--top {
+      transform: none;
+    }
+  }
+</style>

@@ -1,0 +1,55 @@
+---
+import LegalLayout from '../layouts/LegalLayout.astro';
+import { EMAIL } from '../config';
+---
+
+<LegalLayout
+  title="Termos de uso | Otto Branding"
+  description="Condições de uso do site da Otto Branding e do conteúdo publicado aqui."
+  heading="Termos de uso"
+  updated="julho de 2026"
+>
+  <p>
+    Estes termos valem para o uso do site da Otto Branding. Ao navegar por aqui,
+    você concorda com as condições abaixo.
+  </p>
+
+  <h2>Conteúdo do site</h2>
+  <p>
+    Os textos, marcas, cases e imagens publicados neste site são de propriedade
+    da Otto Branding ou dos respectivos clientes, e estão protegidos por direitos
+    autorais. Os cases são exibidos com autorização e servem para apresentar o
+    trabalho do estúdio.
+  </p>
+  <p>
+    Você pode ler e compartilhar o link das páginas à vontade. O que não pode é
+    copiar, reproduzir ou reutilizar o conteúdo para fins comerciais sem
+    autorização por escrito.
+  </p>
+
+  <h2>Uso das informações</h2>
+  <p>
+    O conteúdo aqui é informativo. As páginas de serviço descrevem como a Otto
+    trabalha, mas não constituem proposta comercial nem contrato. Todo projeto
+    começa por um diagnóstico e é formalizado em proposta própria.
+  </p>
+
+  <h2>Links e serviços externos</h2>
+  <p>
+    O site leva a serviços de terceiros, como o formulário de diagnóstico e o
+    WhatsApp. A Otto não se responsabiliza pelo funcionamento nem pelas políticas
+    desses serviços.
+  </p>
+
+  <h2>Alterações</h2>
+  <p>
+    Estes termos podem ser atualizados a qualquer momento. A versão vigente é
+    sempre a publicada nesta página, com a data de atualização no topo.
+  </p>
+
+  <h2>Contato</h2>
+  <p>
+    Dúvidas sobre estes termos? Fale com a gente em
+    <a href={`mailto:${EMAIL}`}>{EMAIL}</a>.
+  </p>
+</LegalLayout>

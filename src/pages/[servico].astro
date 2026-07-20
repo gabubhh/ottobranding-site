@@ -1,0 +1,572 @@
+---
+/*
+  Template das páginas de serviço (/identidade-visual, /rebranding,
+  /estrategia-de-marca). Rota dinâmica com getStaticPaths: só gera os slugs
+  de servicos.ts, e páginas estáticas (/sobre, /cases) têm prioridade sobre
+  ela no roteamento do Astro.
+
+  Estrutura vem da spec de SEO: promessa → sintoma → entrega → método →
+  prova → preço → dúvida → ação. O bloco de sintomas é o elemento de assinatura
+  destas páginas: são frases que o cliente reconhece como dele, não escopo
+  de projeto. Por isso são as únicas linhas em Pogonia grande da página.
+*/
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { servicos, getServico, type Servico } from '../data/servicos';
+import { cases } from '../data/cases';
+import { patamares } from '../data/metodo';
+import { SITE_URL, WHATSAPP_URL, DIAGNOSTIC_URL, FACTS } from '../config';
+import { ORG_ID, breadcrumb, faqSchema } from '../data/schema';
+
+export function getStaticPaths() {
+  return servicos.map((s) => ({ params: { servico: s.slug }, props: { s } }));
+}
+
+interface Props {
+  s: Servico;
+}
+const { s } = Astro.props;
+
+const provas = s.cases
+  .map((slug) => cases.find((c) => c.slug === slug))
+  .filter((c): c is (typeof cases)[number] => Boolean(c));
+
+// A seção de preço só existe quando há número real em config.ts (FACTS).
+const preco = FACTS[s.precoKey];
+
+// Serviços vizinhos, para o leitor que caiu no termo errado.
+const outros = servicos.filter((o) => o.slug !== s.slug);
+
+const schema = [
+  {
+    '@type': 'Service',
+    name: s.nome,
+    serviceType: s.nome,
+    description: s.metaDescription,
+    url: `${SITE_URL}/${s.slug}`,
+    provider: { '@id': ORG_ID },
+    areaServed: { '@type': 'Country', name: 'Brasil' },
+    ...(preco ? { offers: { '@type': 'Offer', description: preco, priceCurrency: 'BRL' } } : {}),
+  },
+  faqSchema(s.faqs),
+  breadcrumb([{ name: s.nome, path: `/${s.slug}` }]),
+];
+---
+
+<BaseLayout
+  title={s.seoTitle}
+  description={s.metaDescription}
+  schema={schema}
+>
+  <!-- ===================== PROMESSA ===================== -->
+  <section class="shero">
+    <div class="shero__glow" aria-hidden="true"></div>
+    <div class="container shero__inner">
+      <p class="eyebrow rise" style="--rise-delay: 60ms">Serviço</p>
+      <h1 class="shero__title rise" style="--rise-delay: 140ms">{s.h1}</h1>
+      <p class="shero__intro rise" style="--rise-delay: 240ms">{s.intro}</p>
+      <div class="shero__actions rise" style="--rise-delay: 340ms">
+        <a class="btn btn-primary" href={DIAGNOSTIC_URL} target="_blank" rel="noopener noreferrer">
+          Começar pelo diagnóstico
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SINTOMAS ===================== -->
+  <section class="section sintomas" data-surface="light">
+    <div class="container">
+      <h2 class="sec-title reveal">Quando você precisa disso</h2>
+      <ul class="sintomas__list reveal-group">
+        {s.sintomas.map((frase, i) => (
+          <li class="sintoma reveal" style={`--reveal-index: ${i}`}>{frase}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= ENTREGAS + MÉTODO ================= -->
+  <section class="section escopo">
+    <div class="container escopo__grid">
+      <div class="escopo__col">
+        <h2 class="sec-title reveal">O que está incluído</h2>
+        <ul class="entregas reveal">
+          {s.entregas.map((e) => <li>{e}</li>)}
+        </ul>
+      </div>
+
+      <div class="escopo__col">
+        <h2 class="sec-title reveal">Como funciona</h2>
+        <p class="escopo__lead reveal">
+          O Método Otto organiza a construção em três patamares. Cada um resolve
+          uma pergunta antes de passar para o próximo.
+        </p>
+        <ol class="patamares reveal-group">
+          {patamares.map((p, i) => (
+            <li class="patamar reveal" style={`--reveal-index: ${i}`}>
+              <span class="patamar__n">{p.n}</span>
+              <div>
+                <h3 class="patamar__name">{p.name}</h3>
+                <p class="patamar__text">{p.text}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== PROVA ======================= -->
+  <section class="section provas" data-surface="light">
+    <div class="container">
+      <h2 class="sec-title reveal">Cases</h2>
+      <ul class="provas__grid reveal-group">
+        {provas.map((c, i) => (
+          <li class="reveal" style={`--reveal-index: ${i}`}>
+            <a class="prova" href={`/cases/${c.slug}`}>
+              <span class="prova__media">
+                <img src={`/cases/${c.slug}/cover.webp`} alt={`Capa do case ${c.cliente}, ${c.setor.toLowerCase()}`} loading="lazy" decoding="async" />
+              </span>
+              <span class="prova__cat">{c.setor}</span>
+              <span class="prova__name">{c.cliente}</span>
+              <span class="prova__tensao">{c.tensao}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p class="provas__all reveal">
+        <a class="link-arrow" href="/cases">
+          <span class="link-arrow__icon" aria-hidden="true">→</span>
+          <span class="link-arrow__label">Ver todos os cases</span>
+        </a>
+      </p>
+    </div>
+  </section>
+
+  {preco && (
+    <section class="section preco">
+      <div class="container preco__inner">
+        <h2 class="sec-title reveal">Quanto custa</h2>
+        <p class="preco__valor reveal">{preco}</p>
+        <p class="preco__nota reveal">
+          O valor final depende do escopo e do número de aplicações. O diagnóstico
+          define o escopo antes de qualquer proposta.
+        </p>
+      </div>
+    </section>
+  )}
+
+  <!-- ======================= FAQ ======================== -->
+  <section class="section faq" data-surface="light">
+    <div class="container faq__inner">
+      <h2 class="sec-title reveal">Perguntas frequentes</h2>
+      <div class="faq__list">
+        {s.faqs.map((f) => (
+          <div class="faq__item reveal">
+            <h3 class="faq__q">{f.q}</h3>
+            {f.a.map((p) => (
+              <p class="faq__a">{p}</p>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= CTA ======================== -->
+  <section class="section scta">
+    <div class="container scta__content">
+      <h2 class="scta__headline reveal">Sua marca está no patamar do seu trabalho?</h2>
+      <p class="scta__sub reveal">
+        O diagnóstico mostra onde ela perde valor e o que precisa mudar.
+      </p>
+      <a class="btn btn-primary reveal" href={DIAGNOSTIC_URL} target="_blank" rel="noopener noreferrer">
+        Começar pelo diagnóstico
+      </a>
+      <p class="scta__whats reveal">
+        <a class="link-arrow" href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+          <span class="link-arrow__icon" aria-hidden="true">→</span>
+          <span class="link-arrow__label">Falar no WhatsApp</span>
+        </a>
+      </p>
+      <nav class="scta__outros reveal" aria-label="Outros serviços">
+        {outros.map((o) => (
+          <a href={`/${o.slug}`}>{o.nome}</a>
+        ))}
+      </nav>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* ===================== PROMESSA ===================== */
+  .shero {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--otto-ink);
+    color: var(--otto-offwhite);
+    padding-block: var(--space-9) var(--space-9);
+  }
+
+  .shero__glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(58% 68% at 88% 0%, rgb(var(--otto-red-rgb) / 0.15), transparent 62%);
+  }
+
+  .shero__inner {
+    position: relative;
+    max-width: 44rem;
+  }
+
+  .shero__title {
+    margin-top: var(--space-4);
+    font-size: clamp(2rem, 3.2vw + 1rem, 3.2rem);
+    letter-spacing: var(--tracking-tighter);
+    line-height: 1.06;
+    text-wrap: balance;
+  }
+
+  .shero__intro {
+    margin-top: var(--space-5);
+    max-width: 38rem;
+    font-size: var(--text-md);
+    line-height: var(--leading-relaxed);
+    color: rgb(var(--otto-offwhite-rgb) / 0.8);
+  }
+
+  .shero__actions {
+    margin-top: var(--space-6);
+  }
+
+  /* ================ CABEÇALHO DE SEÇÃO ================ */
+  .sec-title {
+    font-size: var(--text-xl);
+    letter-spacing: var(--tracking-tight);
+    line-height: var(--leading-snug);
+    margin-bottom: var(--space-6);
+    text-wrap: balance;
+  }
+
+  /* ===================== SINTOMAS ===================== */
+  /* Assinatura da página: as frases que o cliente já disse em voz alta.
+     Únicas linhas em display grande aqui — todo o resto fica quieto. */
+  .sintomas__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    max-width: 46rem;
+  }
+
+  .sintoma {
+    padding-left: var(--space-5);
+    border-left: 2px solid var(--otto-red);
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-tight);
+    text-wrap: pretty;
+  }
+
+  /* ================ ENTREGAS + MÉTODO ================= */
+  .escopo {
+    background-color: var(--otto-charcoal);
+    color: var(--otto-offwhite);
+  }
+
+  .escopo__grid {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: var(--space-8);
+    align-items: start;
+  }
+
+  .escopo__lead {
+    margin-top: calc(var(--space-6) * -1 + var(--space-1));
+    margin-bottom: var(--space-6);
+    max-width: 34rem;
+    color: rgb(var(--otto-offwhite-rgb) / 0.74);
+  }
+
+  .entregas {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .entregas li {
+    position: relative;
+    padding-left: var(--space-5);
+    color: rgb(var(--otto-offwhite-rgb) / 0.82);
+  }
+
+  .entregas li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--otto-red);
+  }
+
+  .patamares {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .patamar {
+    display: flex;
+    gap: var(--space-5);
+    padding: var(--space-5);
+    border: 1px solid rgb(var(--otto-offwhite-rgb) / 0.12);
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, rgb(var(--otto-offwhite-rgb) / 0.04), transparent 60%);
+    transition: border-color var(--duration-base) var(--ease-out);
+  }
+
+  .patamar:hover {
+    border-color: color-mix(in srgb, var(--otto-red) 55%, transparent);
+  }
+
+  .patamar__n {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: var(--text-lg);
+    line-height: 1.2;
+    color: var(--otto-red);
+    flex-shrink: 0;
+  }
+
+  .patamar__name {
+    font-size: var(--text-md);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .patamar__text {
+    margin-top: var(--space-2);
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    color: rgb(var(--otto-offwhite-rgb) / 0.7);
+  }
+
+  /* ====================== PROVA ======================= */
+  .provas__grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6);
+  }
+
+  .prova {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .prova__media {
+    display: block;
+    aspect-ratio: 4 / 3;
+    margin-bottom: var(--space-2);
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    background-color: rgb(36 36 36 / 0.06);
+  }
+
+  .prova__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform var(--duration-slow) var(--ease-out);
+  }
+
+  .prova:hover .prova__media img {
+    transform: scale(1.04);
+  }
+
+  .prova__cat {
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--otto-red-text-on-light);
+  }
+
+  .prova__name {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .prova__tensao {
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-secondary);
+  }
+
+  .provas__all {
+    margin-top: var(--space-7);
+  }
+
+  /* ====================== PREÇO ======================= */
+  .preco {
+    background-color: var(--otto-charcoal);
+    color: var(--otto-offwhite);
+  }
+
+  .preco__inner {
+    max-width: 40rem;
+  }
+
+  .preco__valor {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: var(--text-2xl);
+    letter-spacing: var(--tracking-tighter);
+    color: var(--otto-red);
+  }
+
+  .preco__nota {
+    margin-top: var(--space-4);
+    color: rgb(var(--otto-offwhite-rgb) / 0.74);
+  }
+
+  /* ======================= FAQ ======================== */
+  .faq__inner {
+    max-width: 46rem;
+  }
+
+  .faq__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-7);
+  }
+
+  .faq__item {
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .faq__q {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    letter-spacing: var(--tracking-tight);
+    line-height: var(--leading-snug);
+    margin-bottom: var(--space-4);
+    text-wrap: balance;
+  }
+
+  .faq__a {
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-secondary);
+    text-wrap: pretty;
+  }
+
+  /* a primeira frase é a resposta; as seguintes são contexto */
+  .faq__a:first-of-type {
+    color: var(--color-text);
+  }
+
+  .faq__a + .faq__a {
+    margin-top: var(--space-4);
+  }
+
+  /* ======================= CTA ======================== */
+  .scta {
+    background-color: var(--otto-ink);
+    color: var(--otto-offwhite);
+    text-align: center;
+  }
+
+  .scta__content {
+    max-width: 36rem;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .scta__headline {
+    font-size: var(--text-2xl);
+    letter-spacing: var(--tracking-tighter);
+    line-height: var(--leading-tight);
+    text-wrap: balance;
+  }
+
+  .scta__sub {
+    margin-top: var(--space-4);
+    color: rgb(var(--otto-offwhite-rgb) / 0.78);
+  }
+
+  .scta :global(.btn-primary) {
+    margin-top: var(--space-6);
+  }
+
+  .scta__whats {
+    margin-top: var(--space-5);
+    font-size: var(--text-sm);
+    color: rgb(var(--otto-offwhite-rgb) / 0.72);
+  }
+
+  .scta__outros {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-2) var(--space-5);
+    margin-top: var(--space-8);
+    padding-top: var(--space-5);
+    border-top: 1px solid rgb(var(--otto-offwhite-rgb) / 0.12);
+    width: 100%;
+    font-size: var(--text-sm);
+  }
+
+  .scta__outros a {
+    color: rgb(var(--otto-offwhite-rgb) / 0.6);
+    text-decoration: none;
+    transition: color var(--duration-fast) var(--ease-standard);
+  }
+
+  .scta__outros a:hover {
+    color: var(--otto-offwhite);
+  }
+
+  /* ==================== RESPONSIVO ==================== */
+  @media (max-width: 60rem) {
+    .escopo__grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
+    .escopo__lead {
+      margin-top: 0;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .provas__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .prova__media img,
+    .patamar {
+      transition: none;
+    }
+    .prova:hover .prova__media img {
+      transform: none;
+    }
+  }
+</style>

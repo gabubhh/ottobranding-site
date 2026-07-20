@@ -1,7 +1,9 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { cases, type CaseStudy } from '../../data/cases';
-import { WHATSAPP_URL, DIAGNOSTIC_URL } from '../../config';
+import { servicos } from '../../data/servicos';
+import { SITE_URL, WHATSAPP_URL, DIAGNOSTIC_URL } from '../../config';
+import { ORG_ID, PERSON_ID, breadcrumb } from '../../data/schema';
 
 export function getStaticPaths() {
   return cases.map((c) => ({ params: { slug: c.slug }, props: { c } }));
@@ -13,24 +15,52 @@ interface Props {
 const { c } = Astro.props;
 const base = `/cases/${c.slug}`;
 const [lead, ...rest] = c.texto;
+
+// Link de saída para o serviço que este case prova — sem isso, todo case é um
+// beco sem saída: o leitor termina convencido e não tem para onde ir.
+const servico = servicos.find((s) => `/${s.slug}` === c.servico);
+
+const schema = [
+  {
+    '@type': 'Article',
+    headline: c.seoTitle,
+    description: c.metaDescription,
+    image: `${SITE_URL}${base}/cover.webp`,
+    datePublished: c.datePublished,
+    author: { '@id': PERSON_ID },
+    publisher: { '@id': ORG_ID },
+    mainEntityOfPage: `${SITE_URL}${base}`,
+    about: [
+      { '@type': 'Thing', name: 'Identidade visual' },
+      { '@type': 'Thing', name: c.setor },
+    ],
+  },
+  breadcrumb([
+    { name: 'Cases', path: '/cases' },
+    { name: c.cliente, path: base },
+  ]),
+];
 ---
 
 <BaseLayout
-  title={`${c.cliente} — Case Otto Branding`}
-  description={c.tensao}
+  title={c.seoTitle}
+  description={c.metaDescription}
+  ogImage={`/og/${c.slug}.jpg`}
+  ogType="article"
+  schema={schema}
 >
   <!-- ===================== HERO ===================== -->
   <section class="chero">
     <div class="chero__glow" aria-hidden="true"></div>
     <div class="container chero__inner">
-      <a class="chero__back link-arrow rise" href="/#cases" style="--rise-delay: 40ms">
+      <a class="chero__back link-arrow rise" href="/cases" style="--rise-delay: 40ms">
         <span class="link-arrow__icon" aria-hidden="true">←</span>
         <span class="link-arrow__label">Cases</span>
       </a>
 
       <div class="chero__body">
         <p class="eyebrow rise" style="--rise-delay: 120ms">{c.setor} · {c.ano}</p>
-        <h1 class="chero__title rise" style="--rise-delay: 200ms">{c.cliente}</h1>
+        <h1 class="chero__title rise" style="--rise-delay: 200ms">{c.h1}</h1>
         <p class="chero__lead rise" style="--rise-delay: 300ms">{c.tensao}</p>
       </div>
     </div>
@@ -38,7 +68,12 @@ const [lead, ...rest] = c.texto;
 
   <!-- ===================== CAPA (full-bleed) ===================== -->
   <figure class="ccover">
-    <img class="ccover__img" src={`${base}/cover.webp`} alt={`Marca ${c.cliente}`} fetchpriority="high" />
+    <img
+      class="ccover__img"
+      src={`${base}/cover.webp`}
+      alt={`Identidade visual da ${c.cliente}, ${c.setor.toLowerCase()}`}
+      fetchpriority="high"
+    />
   </figure>
 
   <!-- ===================== ENTREGAS ===================== -->
@@ -53,6 +88,12 @@ const [lead, ...rest] = c.texto;
         <ul class="centregas">
           {c.entregas.map((e) => <li>{e}</li>)}
         </ul>
+        {servico && (
+          <a class="cintro__servico link-arrow" href={c.servico}>
+            <span class="link-arrow__icon" aria-hidden="true">→</span>
+            <span class="link-arrow__label">Sobre {servico.nome.toLowerCase()}</span>
+          </a>
+        )}
       </aside>
     </div>
 
@@ -81,7 +122,7 @@ const [lead, ...rest] = c.texto;
         <figure class:list={['cfig', 'reveal', img.col === 'half' && 'cfig--half']}>
           <img
             src={`${base}/${img.n}.webp`}
-            alt={`${img.alt} — ${c.cliente}`}
+            alt={img.alt}
             loading={i < 2 ? 'eager' : 'lazy'}
             decoding="async"
           />
@@ -102,7 +143,7 @@ const [lead, ...rest] = c.texto;
           <span class="link-arrow__icon" aria-hidden="true">→</span>
           <span class="link-arrow__label">Falar no WhatsApp</span>
         </a>
-        <a class="ccta__link link-arrow" href="/#cases">
+        <a class="ccta__link link-arrow" href="/cases">
           <span class="link-arrow__icon" aria-hidden="true">→</span>
           <span class="link-arrow__label">Ver outros cases</span>
         </a>
@@ -230,6 +271,13 @@ const [lead, ...rest] = c.texto;
     height: 6px;
     border-radius: 50%;
     background-color: var(--otto-red);
+  }
+
+  .cintro__servico {
+    display: inline-flex;
+    margin-top: var(--space-5);
+    font-size: var(--text-sm);
+    color: var(--otto-red-text-on-light);
   }
 
   .cbody {

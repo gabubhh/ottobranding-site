@@ -6,7 +6,17 @@ const year = new Date().getFullYear();
 
 // Mesma lógica do header: âncoras de seção só existem na home.
 const isHome = Astro.url.pathname === '/';
-const navHref = (href: string) => (isHome ? href : `/${href}`);
+const navHref = (href: string) =>
+  href.startsWith('#') && !isHome ? `/${href}` : href;
+
+// Cada serviço com página própria. Motion, web design e gestão de redes ficam
+// só como bloco na home: página fina para termo satélite dilui o domínio.
+const servicos = [
+  { label: 'Identidade visual', href: '/identidade-visual' },
+  { label: 'Rebranding', href: '/rebranding' },
+  { label: 'Estratégia de marca', href: '/estrategia-de-marca' },
+  { label: 'Diagnóstico de marca', href: '/diagnostico' },
+];
 ---
 
 <footer class="site-footer" id="contato">
@@ -16,15 +26,25 @@ const navHref = (href: string) => (isHome ? href : `/${href}`);
         <Fragment set:html={logoCream} />
       </span>
       <p class="site-footer__tagline">Criamos marcas de Otto Patamar.</p>
+      <p class="site-footer__place">Recife, atendimento em todo o Brasil.</p>
     </div>
 
     <nav class="site-footer__nav" aria-label="Navegação do rodapé">
+      <p class="site-footer__col-title">Navegar</p>
       {NAV_LINKS.map((link) => (
         <a href={navHref(link.href)}>{link.label}</a>
       ))}
     </nav>
 
+    <nav class="site-footer__nav" aria-label="Serviços">
+      <p class="site-footer__col-title">Serviços</p>
+      {servicos.map((s) => (
+        <a href={s.href}>{s.label}</a>
+      ))}
+    </nav>
+
     <div class="site-footer__contact">
+      <p class="site-footer__col-title">Contato</p>
       <a class="link-arrow" href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
         <span class="link-arrow__icon" aria-hidden="true">→</span>
         <span class="link-arrow__label">WhatsApp</span>
@@ -43,8 +63,8 @@ const navHref = (href: string) => (isHome ? href : `/${href}`);
   <div class="container site-footer__legal">
     <p>© {year} Otto Branding. Todos os direitos reservados.</p>
     <div class="site-footer__legal-links">
-      <a href="#privacidade">Privacidade</a>
-      <a href="#termos">Termos</a>
+      <a href="/privacidade">Privacidade</a>
+      <a href="/termos">Termos</a>
     </div>
   </div>
 </footer>
@@ -58,8 +78,8 @@ const navHref = (href: string) => (isHome ? href : `/${href}`);
 
   .site-footer__inner {
     display: grid;
-    grid-template-columns: 1.4fr 1fr 1fr;
-    gap: var(--space-8);
+    grid-template-columns: 1.5fr 1fr 1.1fr 1.2fr;
+    gap: var(--space-7) var(--space-6);
     padding-block: var(--space-9) var(--space-7);
   }
 
@@ -88,11 +108,24 @@ const navHref = (href: string) => (isHome ? href : `/${href}`);
     max-width: 18ch;
   }
 
+  .site-footer__place {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
   .site-footer__nav,
   .site-footer__contact {
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
+  }
+
+  .site-footer__col-title {
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: rgb(var(--otto-offwhite-rgb) / 0.45);
+    margin-bottom: var(--space-1);
   }
 
   .site-footer__nav a {
@@ -131,7 +164,13 @@ const navHref = (href: string) => (isHome ? href : `/${href}`);
     color: var(--otto-offwhite);
   }
 
-  @media (max-width: 52rem) {
+  @media (max-width: 64rem) {
+    .site-footer__inner {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 40rem) {
     .site-footer__inner {
       grid-template-columns: 1fr;
       gap: var(--space-6);
