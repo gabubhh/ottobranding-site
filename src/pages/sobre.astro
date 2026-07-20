@@ -210,23 +210,32 @@ const schema = [
     display: grid;
     grid-template-columns: 0.8fr 1.2fr;
     gap: var(--space-8);
-    align-items: start;
+    /* a foto acompanha a altura do texto e recorta o excedente, em vez de
+       sobrar imagem embaixo com pouco texto ao lado */
+    align-items: stretch;
   }
 
   .quem__photo {
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
   }
 
   .quem__photo img {
     width: 100%;
-    aspect-ratio: 4 / 5;
+    height: 100%;
+    /* mínimo pra não estourar a coluna quando o texto é curto */
+    min-height: 24rem;
     object-fit: cover;
+    object-position: center 32%; /* mantém o rosto ao recortar */
     display: block;
     border-radius: var(--radius-md);
     background-color: rgb(36 36 36 / 0.05);
   }
 
   .quem__photo figcaption {
+    flex-shrink: 0;
     margin-top: var(--space-3);
     font-size: var(--text-xs);
     letter-spacing: var(--tracking-wide);
@@ -387,9 +396,17 @@ const schema = [
     .quem__grid {
       grid-template-columns: 1fr;
       gap: var(--space-6);
+      align-items: start;
     }
+    /* empilhado não há texto ao lado pra igualar: volta à proporção normal */
     .quem__photo {
       max-width: 20rem;
+      height: auto;
+    }
+    .quem__photo img {
+      height: auto;
+      min-height: 0;
+      aspect-ratio: 4 / 5;
     }
   }
 </style>
