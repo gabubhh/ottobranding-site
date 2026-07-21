@@ -47,10 +47,14 @@ export const STATUS_BADGE = 'Agenda aberta';
 /*
   Navegação. `#âncora` só existe na home (Header/Footer prefixam com "/" fora
   dela). Caminhos absolutos funcionam de qualquer página.
+
+  SEMPRE com barra final: o build é em formato de diretório, então `/cases`
+  responde 307 para `/cases/`. Escrever já com a barra evita um redirect a
+  cada clique e bate com a canônica e o sitemap.
 */
 export const NAV_LINKS = [
   { label: 'Soluções', href: '#solucoes' },
   { label: 'Método', href: '#metodo' },
-  { label: 'Cases', href: '/cases' },
-  { label: 'Sobre', href: '/sobre' },
+  { label: 'Cases', href: '/cases/' },
+  { label: 'Sobre', href: '/sobre/' },
 ];

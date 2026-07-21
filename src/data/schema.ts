@@ -14,6 +14,16 @@ import { SITE_URL, EMAIL, WHATSAPP_NUMBER, SAME_AS } from '../config';
 export const ORG_ID = `${SITE_URL}/#organization`;
 export const PERSON_ID = `${SITE_URL}/#gabriel`;
 
+/**
+ * URL absoluta e canônica de uma rota interna — sempre com barra final, igual
+ * ao que o BaseLayout põe na canonical e o sitemap lista. Schema apontando
+ * para uma variante diferente da canônica é entidade duplicada de graça.
+ */
+export function canonicalUrl(path: string): string {
+  if (path === '/') return `${SITE_URL}/`;
+  return `${SITE_URL}${path.endsWith('/') ? path : `${path}/`}`;
+}
+
 export const organizationSchema = {
   '@type': 'ProfessionalService',
   '@id': ORG_ID,
@@ -52,7 +62,7 @@ export const organizationSchema = {
       ['Diagnóstico de marca', '/diagnostico'],
     ].map(([name, path]) => ({
       '@type': 'Offer',
-      itemOffered: { '@type': 'Service', name, url: `${SITE_URL}${path}` },
+      itemOffered: { '@type': 'Service', name, url: canonicalUrl(path) },
     })),
   },
 };
@@ -81,7 +91,7 @@ export function breadcrumb(trail: { name: string; path: string }[]) {
       '@type': 'ListItem',
       position: i + 1,
       name: item.name,
-      item: `${SITE_URL}${item.path}`,
+      item: canonicalUrl(item.path),
     })),
   };
 }

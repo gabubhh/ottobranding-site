@@ -13,12 +13,12 @@ import { WHATSAPP_URL, DIAGNOSTIC_URL } from '../config';
 const solucoes = [
   {
     title: 'Diagnóstico de marca',
-    href: '/diagnostico',
+    href: '/diagnostico/',
     desc: 'O ponto de partida. Um raio-x do posicionamento que revela onde a marca perde valor e o que precisa mudar — antes de qualquer decisão visual.',
   },
   {
     title: 'Estratégia de marca',
-    href: '/estrategia-de-marca',
+    href: '/estrategia-de-marca/',
     desc: 'Os fundamentos que orientam tudo: mercado, público, diferenciação e o território que a marca vai defender. A base de cada decisão.',
   },
   {
@@ -28,12 +28,12 @@ const solucoes = [
   },
   {
     title: 'Rebranding',
-    href: '/rebranding',
+    href: '/rebranding/',
     desc: 'Quando o negócio evolui, a percepção precisa acompanhar. Reposicionamos e reconstruímos a marca para refletir o que ela já é.',
   },
   {
     title: 'Identidade visual',
-    href: '/identidade-visual',
+    href: '/identidade-visual/',
     desc: 'O rosto da marca. Logo, sistema gráfico e diretrizes que traduzem o posicionamento em algo reconhecível e consistente.',
   },
   {
@@ -211,14 +211,14 @@ const reviews = [
       <div class="section-head">
         <p class="eyebrow reveal">Cases</p>
         <h2 class="section-title reveal">
-          <a class="cases__title-link" href="/cases">Marcas de <span class="t-em">Otto Patamar</span>.</a>
+          <a class="cases__title-link" href="/cases/">Marcas de <span class="t-em">Otto Patamar</span>.</a>
         </h2>
       </div>
 
       <ul class="cases__grid reveal-group">
         {cases.map((c, i) => (
           <li class="reveal" style={`--reveal-index: ${i}`}>
-            <a class="ccard" href={`/cases/${c.slug}`}>
+            <a class="ccard" href={`/cases/${c.slug}/`}>
               <span class="ccard__media">
                 <img
                   src={`/cases/${c.slug}/cover.webp`}
@@ -241,7 +241,7 @@ const reviews = [
       </ul>
 
       <p class="cases__all reveal">
-        <a class="link-arrow" href="/cases">
+        <a class="link-arrow" href="/cases/">
           <span class="link-arrow__icon" aria-hidden="true">→</span>
           <span class="link-arrow__label">Ver todos os cases</span>
         </a>

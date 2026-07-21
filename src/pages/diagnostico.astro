@@ -6,8 +6,8 @@
   é sempre o formulário.
 */
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { SITE_URL, DIAGNOSTIC_URL, WHATSAPP_URL, FACTS } from '../config';
-import { ORG_ID, breadcrumb, faqSchema, type Faq } from '../data/schema';
+import { DIAGNOSTIC_URL, WHATSAPP_URL, FACTS } from '../config';
+import { ORG_ID, breadcrumb, faqSchema, canonicalUrl, type Faq } from '../data/schema';
 
 const preco = FACTS.precoDiagnostico;
 
@@ -54,7 +54,7 @@ const schema = [
     serviceType: 'Diagnóstico de marca',
     description:
       'Análise do posicionamento que revela onde a marca perde valor e o que precisa mudar antes de qualquer decisão visual.',
-    url: `${SITE_URL}/diagnostico`,
+    url: canonicalUrl('/diagnostico'),
     provider: { '@id': ORG_ID },
     areaServed: { '@type': 'Country', name: 'Brasil' },
     ...(preco ? { offers: { '@type': 'Offer', description: preco, priceCurrency: 'BRL' } } : {}),

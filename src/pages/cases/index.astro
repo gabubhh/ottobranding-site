@@ -6,18 +6,18 @@
 */
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { cases } from '../../data/cases';
-import { SITE_URL, DIAGNOSTIC_URL } from '../../config';
-import { breadcrumb } from '../../data/schema';
+import { DIAGNOSTIC_URL } from '../../config';
+import { breadcrumb, canonicalUrl } from '../../data/schema';
 
 const schema = [
   {
     '@type': 'CollectionPage',
     name: 'Cases de branding e identidade visual',
-    url: `${SITE_URL}/cases`,
+    url: canonicalUrl('/cases'),
     hasPart: cases.map((c) => ({
       '@type': 'Article',
       headline: c.seoTitle,
-      url: `${SITE_URL}/cases/${c.slug}`,
+      url: canonicalUrl(`/cases/${c.slug}`),
     })),
   },
   breadcrumb([{ name: 'Cases', path: '/cases' }]),
@@ -49,7 +49,7 @@ const schema = [
         {cases.map((c, i) => (
           <li class="reveal" style={`--reveal-index: ${i}`}>
             <article class="icase">
-              <a class="icase__media" href={`/cases/${c.slug}`} tabindex="-1" aria-hidden="true">
+              <a class="icase__media" href={`/cases/${c.slug}/`} tabindex="-1" aria-hidden="true">
                 <img
                   src={`/cases/${c.slug}/cover.webp`}
                   alt=""
@@ -60,7 +60,7 @@ const schema = [
               <div class="icase__body">
                 <p class="icase__meta">{c.setor} · {c.ano}</p>
                 <h2 class="icase__name">
-                  <a href={`/cases/${c.slug}`}>{c.cliente}</a>
+                  <a href={`/cases/${c.slug}/`}>{c.cliente}</a>
                 </h2>
                 <p class="icase__tensao">{c.tensao}</p>
                 <p class="icase__frase">{c.frase}</p>

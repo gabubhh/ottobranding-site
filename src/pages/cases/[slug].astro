@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { cases, type CaseStudy } from '../../data/cases';
 import { servicos } from '../../data/servicos';
 import { SITE_URL, WHATSAPP_URL, DIAGNOSTIC_URL } from '../../config';
-import { ORG_ID, PERSON_ID, breadcrumb } from '../../data/schema';
+import { ORG_ID, PERSON_ID, breadcrumb, canonicalUrl } from '../../data/schema';
 
 export function getStaticPaths() {
   return cases.map((c) => ({ params: { slug: c.slug }, props: { c } }));
@@ -18,7 +18,8 @@ const [lead, ...rest] = c.texto;
 
 // Link de saída para o serviço que este case prova — sem isso, todo case é um
 // beco sem saída: o leitor termina convencido e não tem para onde ir.
-const servico = servicos.find((s) => `/${s.slug}` === c.servico);
+// Compara sem a barra final, que os caminhos em cases.ts carregam.
+const servico = servicos.find((s) => s.slug === c.servico.replace(/^\/|\/$/g, ''));
 
 const schema = [
   {
@@ -29,14 +30,14 @@ const schema = [
     datePublished: c.datePublished,
     author: { '@id': PERSON_ID },
     publisher: { '@id': ORG_ID },
-    mainEntityOfPage: `${SITE_URL}${base}`,
+    mainEntityOfPage: canonicalUrl(base),
     about: [
       { '@type': 'Thing', name: 'Identidade visual' },
       { '@type': 'Thing', name: c.setor },
     ],
   },
   breadcrumb([
-    { name: 'Cases', path: '/cases' },
+    { name: 'Cases', path: '/cases/' },
     { name: c.cliente, path: base },
   ]),
 ];
@@ -53,7 +54,7 @@ const schema = [
   <section class="chero">
     <div class="chero__glow" aria-hidden="true"></div>
     <div class="container chero__inner">
-      <a class="chero__back link-arrow rise" href="/cases" style="--rise-delay: 40ms">
+      <a class="chero__back link-arrow rise" href="/cases/" style="--rise-delay: 40ms">
         <span class="link-arrow__icon" aria-hidden="true">←</span>
         <span class="link-arrow__label">Cases</span>
       </a>
@@ -143,7 +144,7 @@ const schema = [
           <span class="link-arrow__icon" aria-hidden="true">→</span>
           <span class="link-arrow__label">Falar no WhatsApp</span>
         </a>
-        <a class="ccta__link link-arrow" href="/cases">
+        <a class="ccta__link link-arrow" href="/cases/">
           <span class="link-arrow__icon" aria-hidden="true">→</span>
           <span class="link-arrow__label">Ver outros cases</span>
         </a>

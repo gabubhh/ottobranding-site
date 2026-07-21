@@ -10,8 +10,8 @@
 */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { patamares } from '../data/metodo';
-import { SITE_URL, DIAGNOSTIC_URL, INSTAGRAM_URL } from '../config';
-import { PERSON_ID, breadcrumb, faqSchema, type Faq } from '../data/schema';
+import { DIAGNOSTIC_URL, INSTAGRAM_URL } from '../config';
+import { PERSON_ID, breadcrumb, faqSchema, canonicalUrl, type Faq } from '../data/schema';
 
 const faqs: Faq[] = [
   {
@@ -44,7 +44,7 @@ const schema = [
   {
     '@type': 'AboutPage',
     name: 'Sobre a Otto Branding',
-    url: `${SITE_URL}/sobre`,
+    url: canonicalUrl('/sobre'),
     mainEntity: { '@id': PERSON_ID },
   },
   faqSchema(faqs),

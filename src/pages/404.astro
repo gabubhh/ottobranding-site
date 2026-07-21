@@ -1,0 +1,188 @@
+---
+/*
+  404. A Cloudflare servia um corpo vazio, então quem caísse num link antigo
+  (ex.: /case-modelo, removido) via uma tela em branco sem marca e sem saída.
+
+  Regra de escrita aplicada aqui: erro não pede desculpa e não é vago. Diz o
+  que aconteceu, por que pode ter acontecido, e entrega o caminho de volta —
+  os mesmos destinos que importam no resto do site.
+*/
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { DIAGNOSTIC_URL } from '../config';
+
+const destinos = [
+  { label: 'Início', href: '/', desc: 'A página principal da Otto' },
+  { label: 'Cases', href: '/cases/', desc: 'Os três projetos publicados' },
+  { label: 'Identidade visual', href: '/identidade-visual/', desc: 'O serviço carro-chefe' },
+  { label: 'Sobre', href: '/sobre/', desc: 'Quem conduz o estúdio' },
+];
+---
+
+<BaseLayout
+  title="Página não encontrada | Otto Branding"
+  description="A página que você procura não existe ou mudou de endereço."
+>
+  <section class="e404">
+    <div class="e404__glow" aria-hidden="true"></div>
+    <div class="container e404__inner">
+      <p class="eyebrow rise" style="--rise-delay: 60ms">Erro 404</p>
+
+      <h1 class="e404__title rise" style="--rise-delay: 140ms">
+        <span class="e404__quiet">Esta página</span>
+        <span class="e404__accent">não existe.</span>
+      </h1>
+
+      <p class="e404__lead rise" style="--rise-delay: 240ms">
+        O endereço pode ter mudado ou o link que te trouxe até aqui está
+        desatualizado. Os caminhos abaixo continuam de pé.
+      </p>
+
+      <ul class="e404__list rise" style="--rise-delay: 320ms">
+        {destinos.map((d) => (
+          <li>
+            <a class="e404__link" href={d.href}>
+              <span class="e404__link-arrow" aria-hidden="true">→</span>
+              <span class="e404__link-body">
+                <span class="e404__link-label">{d.label}</span>
+                <span class="e404__link-desc">{d.desc}</span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <a
+        class="btn btn-primary e404__btn rise"
+        style="--rise-delay: 400ms"
+        href={DIAGNOSTIC_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Começar pelo diagnóstico
+      </a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .e404 {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--otto-ink);
+    color: var(--otto-offwhite);
+    /* ocupa a tela sem depender do conteúdo, descontando header e rodapé */
+    min-height: 68vh;
+    display: flex;
+    align-items: center;
+    padding-block: var(--space-9);
+  }
+
+  .e404__glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(58% 68% at 85% 0%, rgb(var(--otto-red-rgb) / 0.15), transparent 62%);
+  }
+
+  .e404__inner {
+    position: relative;
+    max-width: 44rem;
+  }
+
+  /* mesma diagramação do hero: problema em peso leve, resposta em Black */
+  .e404__title {
+    margin-top: var(--space-4);
+    font-size: clamp(2.1rem, 3.4vw + 1rem, 3.4rem);
+    letter-spacing: var(--tracking-tighter);
+    line-height: 1.05;
+  }
+
+  .e404__quiet {
+    display: block;
+    font-weight: 400;
+    color: rgb(var(--otto-offwhite-rgb) / 0.72);
+  }
+
+  .e404__accent {
+    display: block;
+    font-weight: 900;
+    color: var(--otto-offwhite);
+  }
+
+  .e404__lead {
+    margin-top: var(--space-5);
+    max-width: 34rem;
+    font-size: var(--text-md);
+    line-height: var(--leading-relaxed);
+    color: rgb(var(--otto-offwhite-rgb) / 0.8);
+  }
+
+  .e404__list {
+    list-style: none;
+    margin: var(--space-7) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-1) var(--space-6);
+    max-width: 38rem;
+  }
+
+  .e404__link {
+    display: flex;
+    gap: var(--space-3);
+    align-items: baseline;
+    padding-block: var(--space-4);
+    border-bottom: 1px solid rgb(var(--otto-offwhite-rgb) / 0.12);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .e404__link-arrow {
+    color: var(--otto-red);
+    flex-shrink: 0;
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+
+  .e404__link-body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .e404__link-label {
+    font-family: var(--font-display);
+    font-size: var(--text-md);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .e404__link-desc {
+    font-size: var(--text-sm);
+    color: rgb(var(--otto-offwhite-rgb) / 0.6);
+  }
+
+  .e404__link:hover .e404__link-arrow {
+    transform: translateX(5px);
+  }
+
+  .e404__link:hover .e404__link-label {
+    color: var(--otto-red-text-on-dark);
+  }
+
+  .e404__btn {
+    margin-top: var(--space-7);
+  }
+
+  @media (max-width: 40rem) {
+    .e404__list {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .e404__link-arrow {
+      transition: none;
+    }
+    .e404__link:hover .e404__link-arrow {
+      transform: none;
+    }
+  }
+</style>

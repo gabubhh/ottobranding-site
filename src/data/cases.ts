@@ -60,7 +60,7 @@ export const cases: CaseStudy[] = [
     metaDescription:
       'Identidade visual e posicionamento para uma escola de formação em beleza que precisava sair da comparação por preço e carga horária. Case Otto Branding.',
     datePublished: '2026-07-15',
-    servico: '/identidade-visual',
+    servico: '/identidade-visual/',
     tensao: 'A Tatiana já era referência técnica. A Academy não.',
     frase: 'A Academy não vende técnica. Vende a saída do anonimato profissional.',
     entregas: [
@@ -108,7 +108,7 @@ export const cases: CaseStudy[] = [
     metaDescription:
       'Identidade visual e posicionamento para barbearia. Como a Astros deixou de ser mais uma na esquina. Case Otto Branding, estúdio de branding.',
     datePublished: '2026-07-15',
-    servico: '/identidade-visual',
+    servico: '/identidade-visual/',
     tensao: 'A Astros cuidava do homem. A marca vendia corte.',
     frase: 'A Astros não vende corte. Vende o homem que sai dali diferente de como entrou.',
     entregas: [
@@ -148,7 +148,7 @@ export const cases: CaseStudy[] = [
     metaDescription:
       'Identidade visual e posicionamento para agência de turismo. Case Otto Branding, estúdio de branding e reposicionamento de marca.',
     datePublished: '2026-07-15',
-    servico: '/rebranding',
+    servico: '/rebranding/',
     tensao: 'Qualquer um compra passagem sozinho. A Barreto precisava dizer por que ainda existe.',
     frase: 'A Barreto não vende passagem. Vende ter alguém do seu lado quando o voo atrasa.',
     entregas: [

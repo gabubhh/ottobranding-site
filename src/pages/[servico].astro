@@ -14,8 +14,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { servicos, getServico, type Servico } from '../data/servicos';
 import { cases } from '../data/cases';
 import { patamares } from '../data/metodo';
-import { SITE_URL, WHATSAPP_URL, DIAGNOSTIC_URL, FACTS } from '../config';
-import { ORG_ID, breadcrumb, faqSchema } from '../data/schema';
+import { WHATSAPP_URL, DIAGNOSTIC_URL, FACTS } from '../config';
+import { ORG_ID, breadcrumb, faqSchema, canonicalUrl } from '../data/schema';
 
 export function getStaticPaths() {
   return servicos.map((s) => ({ params: { servico: s.slug }, props: { s } }));
@@ -42,7 +42,7 @@ const schema = [
     name: s.nome,
     serviceType: s.nome,
     description: s.metaDescription,
-    url: `${SITE_URL}/${s.slug}`,
+    url: canonicalUrl(`/${s.slug}`),
     provider: { '@id': ORG_ID },
     areaServed: { '@type': 'Country', name: 'Brasil' },
     ...(preco ? { offers: { '@type': 'Offer', description: preco, priceCurrency: 'BRL' } } : {}),
@@ -122,7 +122,7 @@ const schema = [
       <ul class="provas__grid reveal-group">
         {provas.map((c, i) => (
           <li class="reveal" style={`--reveal-index: ${i}`}>
-            <a class="prova" href={`/cases/${c.slug}`}>
+            <a class="prova" href={`/cases/${c.slug}/`}>
               <span class="prova__media">
                 <img src={`/cases/${c.slug}/cover.webp`} alt={`Capa do case ${c.cliente}, ${c.setor.toLowerCase()}`} loading="lazy" decoding="async" />
               </span>
@@ -134,7 +134,7 @@ const schema = [
         ))}
       </ul>
       <p class="provas__all reveal">
-        <a class="link-arrow" href="/cases">
+        <a class="link-arrow" href="/cases/">
           <span class="link-arrow__icon" aria-hidden="true">→</span>
           <span class="link-arrow__label">Ver todos os cases</span>
         </a>
@@ -190,7 +190,7 @@ const schema = [
       </p>
       <nav class="scta__outros reveal" aria-label="Outros serviços">
         {outros.map((o) => (
-          <a href={`/${o.slug}`}>{o.nome}</a>
+          <a href={`/${o.slug}/`}>{o.nome}</a>
         ))}
       </nav>
     </div>
