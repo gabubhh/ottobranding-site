@@ -18,7 +18,7 @@ interface Props {
 
 const {
   title,
-  description = 'Estúdio de branding e identidade visual. Estratégia e posicionamento para marcas que precisam ser escolhidas, não comparadas por preço. Atendimento em todo o Brasil.',
+  description = 'Estúdio de branding e identidade visual. Estratégia e posicionamento para marcas que precisam ser escolhidas, não comparadas por preço. Atendimento nacional.',
   ogImage = '/og/default.jpg',
   ogType = 'website',
   schema = [],
@@ -92,6 +92,19 @@ const jsonLd = {
     <link rel="preload" href="/fonts/pogonia/Pogonia-Black.woff2" as="font" type="font/woff2" crossorigin />
 
     <title>{title}</title>
+
+    <!-- Rede de segurança: as entradas de seção partem de opacity 0 e só
+         aparecem quando o observer marca .is-visible. Sem JS, isso deixaria a
+         página praticamente em branco (33 elementos só na home). Conteúdo não
+         pode depender de script para existir. -->
+    <noscript>
+      <style>
+        .reveal {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      </style>
+    </noscript>
   </head>
   <body>
     <Preloader />

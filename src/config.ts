@@ -13,15 +13,20 @@ export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURICo
 export const DIAGNOSTIC_URL = 'https://form.respondi.app/Bv58wGh2';
 
 export const INSTAGRAM_URL = 'https://instagram.com/otto.branding';
-// TODO: e-mail real de contato (aparece no rodapé E no schema da organização).
+export const BEHANCE_URL = 'https://www.behance.net/gabrielaraujodesign';
+export const LINKEDIN_URL = 'https://www.linkedin.com/in/araujoogabriel/';
 export const EMAIL = 'contato@ottobranding.com';
 
 /*
-  Perfis externos que entram em `sameAs` no schema. Só liste o que existe:
-  URL quebrada em sameAs enfraquece a entidade em vez de reforçar.
-  TODO: criar LinkedIn da empresa e Behance e adicionar aqui (seção 7 da spec).
+  Perfis externos para `sameAs`. Separados por entidade de propósito: o
+  Instagram é da Otto, o LinkedIn é do Gabriel, e o Behance é o portfólio que
+  serve às duas. Misturar tudo num array só faz o buscador tratar estúdio e
+  pessoa como a mesma coisa — que é o oposto do que o schema tenta afirmar.
+
+  Só liste perfil que existe: URL quebrada em sameAs enfraquece a entidade.
 */
-export const SAME_AS: string[] = [INSTAGRAM_URL];
+export const ORG_SAME_AS: string[] = [INSTAGRAM_URL, BEHANCE_URL];
+export const PERSON_SAME_AS: string[] = [LINKEDIN_URL, BEHANCE_URL];
 
 /*
   Fatos comerciais. Ficam `null` até o Gabriel definir — e o site se adapta:

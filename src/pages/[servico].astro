@@ -16,6 +16,7 @@ import { cases } from '../data/cases';
 import { patamares } from '../data/metodo';
 import { WHATSAPP_URL, DIAGNOSTIC_URL, FACTS } from '../config';
 import { ORG_ID, breadcrumb, faqSchema, canonicalUrl } from '../data/schema';
+import { imgSize } from '../data/image-dimensions';
 
 export function getStaticPaths() {
   return servicos.map((s) => ({ params: { servico: s.slug }, props: { s } }));
@@ -124,7 +125,13 @@ const schema = [
           <li class="reveal" style={`--reveal-index: ${i}`}>
             <a class="prova" href={`/cases/${c.slug}/`}>
               <span class="prova__media">
-                <img src={`/cases/${c.slug}/cover.webp`} alt={`Capa do case ${c.cliente}, ${c.setor.toLowerCase()}`} loading="lazy" decoding="async" />
+                <img
+                  src={`/cases/${c.slug}/cover.webp`}
+                  alt={`Capa do case ${c.cliente}, ${c.setor.toLowerCase()}`}
+                  loading="lazy"
+                  decoding="async"
+                  {...imgSize(`/cases/${c.slug}/cover.webp`)}
+                />
               </span>
               <span class="prova__cat">{c.setor}</span>
               <span class="prova__name">{c.cliente}</span>

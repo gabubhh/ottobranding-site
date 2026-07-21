@@ -4,6 +4,7 @@ import HeroVideo from '../components/HeroVideo.astro';
 import FluxBand from '../components/FluxBand.astro';
 import { cases } from '../data/cases';
 import { patamares } from '../data/metodo';
+import { imgSize } from '../data/image-dimensions';
 import { WHATSAPP_URL, DIAGNOSTIC_URL } from '../config';
 
 // Soluções — nome + descrição. Quatro têm página própria (href): identidade,
@@ -82,7 +83,7 @@ const reviews = [
 ];
 ---
 
-<BaseLayout title="Otto Branding | Estúdio de branding, posicionamento e identidade visual">
+<BaseLayout title="Otto Branding | Estúdio de branding e identidade visual">
   <!-- ============================ HERO ============================ -->
   <section class="hero">
     <HeroVideo class="hero__flux" />
@@ -222,9 +223,10 @@ const reviews = [
               <span class="ccard__media">
                 <img
                   src={`/cases/${c.slug}/cover.webp`}
-                  alt={`Marca ${c.cliente}`}
+                  alt={`Identidade visual da ${c.cliente}, ${c.setor.toLowerCase()}`}
                   loading="lazy"
                   decoding="async"
+                  {...imgSize(`/cases/${c.slug}/cover.webp`)}
                 />
               </span>
               <span class="ccard__body">
@@ -929,16 +931,6 @@ const reviews = [
     }
     .cases__grid {
       grid-template-columns: 1fr;
-    }
-  }
-
-  /* Movimento reduzido: para a esteira e deixa rolar manualmente */
-  @media (prefers-reduced-motion: reduce) {
-    .marquee__track {
-      animation: none;
-    }
-    .marquee {
-      overflow-x: auto;
     }
   }
 </style>

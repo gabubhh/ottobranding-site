@@ -55,7 +55,7 @@ export const cases: CaseStudy[] = [
     cliente: 'Tatiana Brito Academy',
     setor: 'Formação em beleza',
     ano: 2025,
-    seoTitle: 'Identidade visual para escola de beleza: case Tatiana Brito Academy',
+    seoTitle: 'Identidade visual para escola de beleza: Tatiana Brito Academy',
     h1: 'Tatiana Brito Academy: identidade visual para formação em beleza',
     metaDescription:
       'Identidade visual e posicionamento para uma escola de formação em beleza que precisava sair da comparação por preço e carga horária. Case Otto Branding.',
@@ -103,7 +103,7 @@ export const cases: CaseStudy[] = [
     cliente: 'Astros Barbearia',
     setor: 'Barbearia',
     ano: 2025,
-    seoTitle: 'Identidade visual para barbearia: case Astros Barbearia',
+    seoTitle: 'Identidade visual para barbearia: Astros Barbearia',
     h1: 'Astros Barbearia: identidade visual para uma barbearia que cuida do homem',
     metaDescription:
       'Identidade visual e posicionamento para barbearia. Como a Astros deixou de ser mais uma na esquina. Case Otto Branding, estúdio de branding.',
@@ -143,7 +143,7 @@ export const cases: CaseStudy[] = [
     cliente: 'Barreto Tour',
     setor: 'Viagens e turismo',
     ano: 2025,
-    seoTitle: 'Identidade visual para agência de turismo: case Barreto Tour',
+    seoTitle: 'Identidade visual para agência de turismo: Barreto Tour',
     h1: 'Barreto Tour: identidade visual para agência de viagens',
     metaDescription:
       'Identidade visual e posicionamento para agência de turismo. Case Otto Branding, estúdio de branding e reposicionamento de marca.',

@@ -4,6 +4,7 @@ import { cases, type CaseStudy } from '../../data/cases';
 import { servicos } from '../../data/servicos';
 import { SITE_URL, WHATSAPP_URL, DIAGNOSTIC_URL } from '../../config';
 import { ORG_ID, PERSON_ID, breadcrumb, canonicalUrl } from '../../data/schema';
+import { imgSize } from '../../data/image-dimensions';
 
 export function getStaticPaths() {
   return cases.map((c) => ({ params: { slug: c.slug }, props: { c } }));
@@ -74,6 +75,7 @@ const schema = [
       src={`${base}/cover.webp`}
       alt={`Identidade visual da ${c.cliente}, ${c.setor.toLowerCase()}`}
       fetchpriority="high"
+      {...imgSize(`${base}/cover.webp`)}
     />
   </figure>
 
@@ -126,6 +128,7 @@ const schema = [
             alt={img.alt}
             loading={i < 2 ? 'eager' : 'lazy'}
             decoding="async"
+            {...imgSize(`${base}/${img.n}.webp`)}
           />
         </figure>
       ))}

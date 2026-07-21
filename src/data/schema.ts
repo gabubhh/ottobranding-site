@@ -9,7 +9,7 @@
   sem cidade (spec, seção 9).
 */
 
-import { SITE_URL, EMAIL, WHATSAPP_NUMBER, SAME_AS } from '../config';
+import { SITE_URL, EMAIL, WHATSAPP_NUMBER, ORG_SAME_AS, PERSON_SAME_AS } from '../config';
 
 export const ORG_ID = `${SITE_URL}/#organization`;
 export const PERSON_ID = `${SITE_URL}/#gabriel`;
@@ -43,7 +43,7 @@ export const organizationSchema = {
     { '@type': 'Country', name: 'Brasil' },
   ],
   founder: { '@id': PERSON_ID },
-  sameAs: SAME_AS,
+  sameAs: ORG_SAME_AS,
   knowsAbout: [
     'Branding',
     'Identidade visual',
@@ -80,7 +80,7 @@ export const personSchema = {
     'Identidade visual',
     'Direção de arte',
   ],
-  sameAs: SAME_AS,
+  sameAs: PERSON_SAME_AS,
 };
 
 /** Início > … — o último item é a página atual. */
